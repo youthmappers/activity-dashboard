@@ -1,0 +1,93 @@
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Realtime OSM Edit Tracking</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <script src="/assets/js/site.js"></script>
+
+  <!-- Bootstrap 4.3 -->
+  <link rel="stylesheet" href="/assets/lib/bootstrap.min.css">
+  <!-- <script src="/assets/lib/bootstrap.min.js"></script> -->
+
+  <!-- My customs -->
+  <link href="/assets/css/site.css" rel='stylesheet' type='text/css'/>
+
+</head>
+<body>
+
+<div class='page-wrapper'>
+
+  <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <div class="container-fluid">
+            <a href="/index.html"><img class='image float-right img-fluid mr-2' width="40" src='/assets/img/ym_logo_dark.jpg'></a>
+            <a class="navbar-brand" href="/index.html">YouthMappers Activity</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
+              <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
+                <li class="nav-item mr-2">
+                  <a class="nav-link" aria-current="page" href="/index.html">Map</a>
+                </li>
+                <li class="nav-item mr-2">
+                  <a class="nav-link" href="numbers.html">Numbers</a>
+                </li>
+                <li class="nav-item mr-2">
+                  <a class="nav-link active" href="/live.html">Live Tracker</a>
+                </li>
+                <li class="nav-item mr-2">
+                  <a class="nav-link" href="about.html">About</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+  <div id='content' class='container mt-5 pt-5'>
+
+    <h3 class='pt-3'>Track edits to OSM in Real Time</h3>
+
+    <p>These ESRI dashboards update with new OSM feature every 5 minutes, creating real-time maps of how OSM is changing.</p>
+
+    <ul class='list-group list-group-horizontal text-center'>
+      <li class='list-group-item'>
+        <a target="_blank" href="https://openstreetmap.maps.arcgis.com/apps/dashboards/cb819da865794bd1a357407c6eebfb4d">
+          <img class='image img-fluid' src='assets/img/africa-dashboard.png'><h5>Africa</h5></a>
+      </li>
+      <li class='list-group-item'>
+        <a target="_blank" href="https://openstreetmap.maps.arcgis.com/apps/dashboards/35ee1aaad8a64c22a43cdc877981cfd5">
+          <img class='image img-fluid' src='assets/img/asia-dashboard.png'><h5>Asia</h5></a>
+      </li>
+      <li class='list-group-item'>
+        <a target="_blank" href="https://openstreetmap.maps.arcgis.com/apps/dashboards/fc1c08ce404c48e0ad23ba73da59dfe4">
+          <img class='image img-fluid' src='assets/img/central-america-dashboard.png'><h5>Central America</h5></a>
+      </li>
+      <li class='list-group-item'>
+        <a target="_blank" href="https://openstreetmap.maps.arcgis.com/apps/dashboards/cafa3e4a4bf04e9e97df2cb644d2deda">
+          <img class='image img-fluid' src='assets/img/north-america-dashboard.png'><h5>North America</h5></a>
+      </li>
+      <li class='list-group-item'>
+        <a target="_blank" href="https://openstreetmap.maps.arcgis.com/apps/dashboards/096e906118ff41c8a1ae3c7fe556f28d">
+        <img class='image img-fluid' src='assets/img/south-america-dashboard.png'><h5>South America</h5></a>
+      </li>
+    </ul>
+
+    <h4 class='mt-5'>Mapathon Directions</h4>
+
+    <ol>
+      <li><p class='mt-3'>Choose your continent and zoom to the extents of your mapping task.</p></li>
+      <li><p>Watch your progress as the counts for Amenities, Buildings, Paths, and Roads update every five minutes.</p></li>
+    </ol>
+
+    <p class='small mt-5'>Thanks to ESRI for hosting these dashboards.</p>
+
+  </div>
+</div>
+
+
+</body>
+</html>

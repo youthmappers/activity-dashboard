@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="YouthMappers | Dashboard by Jennings Anderson, YetiGeoLabs">
+    <title>YouthMappers Mapping Activity Tracker</title>
+
+    <script src="/assets/js/site.js"></script>
+
+    <!-- MapLibre -->
+    <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
+
+    <!-- PMTiles -->
+    <script src="https://unpkg.com/pmtiles@2.5.0/dist/index.js"></script>
+
+    <!-- D3 & JQuery? -->
+    <script src="/assets/lib/d3.v4.min.js"></script>
+    <script src="/assets/lib/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap -->    
+    <link href="/assets/lib/bootstrap.min.css" rel="stylesheet">
+    <script src="/assets/lib/popper.min.js"></script>
+    <script src="/assets/lib/bootstrap.min.js"></script>
+
+    <!-- Add the bootstrap select -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <link href="/assets/css/map.css" rel="stylesheet">
+    <script src="data/chapters_and_uids.jsonp"></script>
+
+    <style>
+      header nav{height: 5vh;min-height: 52px;}
+      #map{margin-top: 5vh;width: 100%;height: 85vh !important;}
+
+      footer{width: 100%;height:10vh;}
+
+      .area {
+        fill: steelblue;
+        fill-opacity: 0.7;
+        clip-path: url(#clip);
+        stroke: steelblue;
+        stroke-width: 2;
+      }
+
+      .zoom {
+        cursor: move;
+        fill: none;
+        pointer-events: all;
+      }
+
+    </style>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a href="/index.html"><img class='image float-right img-fluid mr-2' width="40" src='/assets/img/ym_logo_dark.jpg'></a>
+          <a class="navbar-brand" href="/index.html">YouthMappers Activity</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
+              <li class="nav-item mr-2">
+                <a class="nav-link active" aria-current="page" href="/index.html">Map</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="numbers.html">Numbers</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="/live.html">Live Tracker</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+            </ul>
+
+            <div class='d-flex p1'>
+              <div class="container">
+                <div class="row-fluid">
+                  <select id='dropdown' class="selectpicker form-control me-2" data-show-subtext="true" 
+                          data-live-search="true" onChange=dropDownSelect()>
+                    <option data-subtext="Choose A Chapter..."></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <h6 class='text-light'>Don't see your edits or your chapter on this map? 
+            <a target="_blank" class='text-light' href="https://forms.gle/bDDr9T5D58PvDcZTA">Add your OSM username here.</a></h6>
+
+          </div>
+          <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+        </div>
+      </nav>
+    </header>
+
+    <ul id='selected-chapters'></ul>
+
+    <main class="">
+      <div id='map'></div>
+      <div id='timeline-span' class='bg-light' style='position:fixed; left: 10px; bottom: 11vh;z-index:1000;'>
+        <p class='small' style='border: 1px solid #eee;margin-bottom:0;padding-bottom:1px;'>Showing Edits Between:<br><span id='datestring'></span> </p>
+      </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">  
+      <div id='timeline' style='width:100%;'>
+      </div>
+    </footer>
+
+    <!-- Our Map -->
+    <script src="/assets/js/map_libre.js"></script>
+
+    <!-- Our Map & Timeline-->
+    <script src="/assets/js/timeline.js"></script>
+
+    <!-- Fill the dropdown menu -->
+    <script src="/assets/js/dropdown.js"></script>
+    
+    <!-- Bootstrap & Bootstrap Select -->
+    <!-- <script src="/assets/lib/bootstrap.min.js"></script> -->
+    <script src="/assets/lib/bootstrap-select.min.js"></script>
+
+  </body>
+</html>

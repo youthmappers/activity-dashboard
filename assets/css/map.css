@@ -1,0 +1,18 @@
+ul#selected-chapters{
+	position: fixed; 
+	top: 60px;
+	left: 5px;
+	z-index: 1000;
+	list-style-type: none;
+	background-color: rgba(255,255,255,0.9);
+	border-radius:  10px;
+	padding: 5px;
+}
+
+ul#selected-chapters a{
+	cursor: pointer;
+}
+
+div.custom-map-button{
+	padding:  2px;
+}
