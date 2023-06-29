@@ -1,0 +1,243 @@
+<html>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZRRFMR4RBM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZRRFMR4RBM');
+  </script>
+  <meta charset='utf-8' />
+  <title>About the YouthMappers Activity Tracker</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- use JQuery -->
+  <script src="lib/jquery-3.3.1.slim.min.js"></script>
+  <script src="lib/popper.min.js"></script>
+
+  <!-- Bootstrap 4.3 -->
+  <link rel="stylesheet" href="lib/bootstrap.min.css">
+  <script src="assets/lib/bootstrap.min.js"></script>
+
+  <!-- My customs -->
+  <link href="/assets/css/site.css" rel='stylesheet' type='text/css'/>
+
+</head>
+<body class="d-flex flex-column h-100">
+
+
+<div class='page-wrapper'>
+  <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a href="/index.html"><img class='image float-right img-fluid mr-2' width="40" src='/assets/img/ym_logo_dark.jpg'></a>
+          <a class="navbar-brand" href="/index.html">YouthMappers Activity</a>
+          <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
+              <li class="nav-item mr-2">
+                <a class="nav-link" aria-current="page" href="/index.html">Map</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="/numbers.html">Numbers</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="/live.html">Live Tracker</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link active" href="/about.html">About</a>
+              </li>
+            </ul>
+          </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+  <div id='content' class='container mt-5 pt-5'>
+
+    <div>
+
+      <img class='image img-fluid float-right' width='400' src='/assets/img/dashboard_screenshot.png'>
+
+      <h1>YouthMappers Activity Tracker</h1>
+
+      <p>This dashboard quantifies the OpenStreetMap editing activity by mappers associated with YouthMappers chapters around the globe. There are over over <strong>290</strong> chapters in more than <strong>60</strong> countries around the world. This dashboard shows edits from more than <strong><span id='distinct_uids'>2,300</span></strong> mappers in <strong><span id='chapter_count'>210</span></strong> chapters.</p>    
+
+
+      <h4 class='pt-2'>Don't see your edits or your chapter?</h4>
+      <p>We can only track edits by mappers that are registered or listed in an official YouthMappers chapter on OSM Teams. <a href="#osmteams">Please see the instructions to join your chapter on OSM Teams!</a></p>
+    </div>
+
+
+    <div style="clear:both;">
+
+      <h4 class='pt-3'>Using The Map</h4>
+      <img class='image float-right img-fluid' width='500' src='/assets/img/pokhara_bboxes.png'>
+
+        <h6>Filtering by Time</h6>
+        <p>
+          The timeline along the bottom shows the relative number of chapters active each day in OSM. By <code>clicking and dragging</code> across the timeline, the map will filter to only show changesets submitted in that time range.
+        </p>
+        
+        <h6>Changeset Information</h6>
+        <p>
+          <code>Click</code> <em>Show Bounding Boxes</em> to show the bounding box of changesets performed that day. The bounding boxes appear unstraight because they can also be viewed in 3d!
+        </p>
+        <p>
+          Tilt the map with <code>Control + Click &amp; Drag</code> to see the actual terrain. The numbers inside the bounding boxes represent the number of features edited in that box on any given day. Hovering over this number will give more information.
+        </p>
+    </div>
+
+    <img class='image img-fluid m-2' src='/assets/img/terrain.jpg'>
+    
+
+    <h6>Filtering by Chapter</h6>
+    <p>
+      Choosing a chapter from the Dropdown menu labeled <code>Choose A Chapter</code> will show only edits from mappers associated with that chapter. Multiple chapters can be chosen consecutively. Chapters can be unselected by clicking the<code>[X]</code> button next to their name.
+    </p>
+
+    <div class='mt-4' id='how'>
+      <h4 class='mt'>How are these numbers calculated?</h4>
+    </div>
+
+    <p>Did you know that the entire editing history of OpenStreetMap is available in a queryable database part of Amazon's <a target="_blank" href="https://registry.opendata.aws/osm/">Open Data Program</a>? We search the full history to count all of the edits to highways, buildings, amenities, or other objects by OSM users known to be in, or have been part of a YouthMappers chapter.</p>
+    <p>The numbers presented here are just a subset of all edits from YouthMappers chapters because there many mappers associated with YouthMappers chapters that are not yet registered on OSM Teams. If you are part of a YouthMappers chapter and not registered on OSM Teams, <a href="#osmteams">please see the instructions to join your chapter on OSM Teams!</a></p>
+
+
+    <h4>Can I download the data?</h4>
+    <p>You can download the processed data behind the map as a <a target="_blank" href="data/daily_chapter_activity.geojson">GeoJSON file here</a> (~20MB). This data is aggregated at the zoom-level 8 map tile, per chapter, per day.</p>
+
+    <code>{<br>
+      <span style='padding-left:16px;'>"type" : "Feature",<br>
+       <span style='padding-left:16px;'>"properties" : {<br>
+         <span style='padding-left:32px;'>"date"     </span>: Date of the changesets in YYYY-MM-DD format<br>
+         <span style='padding-left:32px;'>"chapter"  </span>: Name of the chapter<br>
+         <span style='padding-left:32px;'>"buildings"</span>: # buildings created or edited by mappers in this chapter on this day<br>
+         <span style='padding-left:32px;'>"amenities"</span>: # amenities created or edited by mappers in this chapter on this day<br>
+         <span style='padding-left:32px;'>"highways" </span>: # of highway objects created or edited (not length)<br>
+         <span style='padding-left:32px;'>"other"    </span>: # of other objects (not highways, amenities, or buildings) created or edited by mappers in this chapter on this day<br>
+         <span style='padding-left:32px;'>"mappers"  </span>: # of distinct mappers in this chapter active this day<br>
+       <span style='padding-left:16px;'>},<br>
+       <span style='padding-left:16px;'>"geometry" : A Point Geometry representing the centroid of changesets submitted by mappers in this chapter on this day.<br>
+      }
+    </code>
+
+  </div>
+  <hr id='osmteams' class='mb-4'>
+  <div class='pt-4 container'>
+
+      <div>
+        <img class='image img-fluid float-right' width='400' src='/assets/img/osm_teams/osm_teams_org_page.png'></a>
+
+        <h1 class='pt-4' id="">OSM Teams</h1>
+      
+        <p>YouthMappers funded the development this improved platform that allows OpenStreetMap users to organize themselves into <em>teams</em>. This allows more convenient tracking of membership among groups of mappers, which enables easier collection of mapping metrics and statistics.</p>
+
+        <h2 class='pt-4'>YouthMappers on OSM Teams</h2>
+        <p>The <a href="https://mapping.team/organizations/1" target="_blank">YouthMappers Organization</a> on OSM Teams consists of 1,000+ mappers across 260+ teams. Each team represents an active YouthMappers chapter. Edits from mappers that are members of these teams are counted on the <a href="https://activity.youthmappers.org">Activity Tracker</a>.</p>
+
+      </div>
+      
+      <hr>
+
+      <div>
+        <h4>How do I join my YouthMappers chapter on OSM Teams?</h4>
+        <p>You need a specific invite link to join a chapter. You can get this link from your chapter moderator, or simply send Jennings a message on OSM with the name of your chapter, and he will reply with an invite link. <a href="https://www.openstreetmap.org/message/new/Jennings%20Anderson">Click here to send Jennings a message on OSM.</a></p>
+
+        <p>Even if you already graduated, please register for OSM Teams so that we may count you among one of the thousands of successful YouthMappers alumni!</p>
+      </div>
+
+      <br>
+      <h4 id='how-to-log-into-osmteams'>Logging into OSM Teams using your OpenStreetMap account</h4>
+
+      <p>When you follow your invite link, you may be prompted to log into both OSM Teams and OpenStreetMap. Follow these instructions to connect these accounts:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>1. Click "Sign In"</th>
+            <th>2. Click "Login with OSM"</th>
+            <th>3. Sign into OpenStreetMap</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>If you are not already logged in, OSM Teams will ask you to sign in.</td>
+          <td>OSM Teams uses your OpenStreetMap account.</td>
+          <td>Enter your OpenStreetMap credentials if prompted.</td>
+        </tr>
+
+        <tr>
+          <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.001.png"></td>
+          <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.002.png"></td>
+          <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.003.png"></td>
+        </tr>
+        <tr>
+
+        </tbody>
+        <thead>
+          <tr>
+            <th>4. Grant Access to your OpenStreetMap account</th>
+            <th>5. Allow OSM Teams Access to your OpenStreetMap Account</th>
+            <th>6. Success!</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+          <tr>
+            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.004.png"></td>
+            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png"></td>
+            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.006.png"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>After successfully accepting your invitation, you will be automatically redirected to your team profile page. Here you can fill out your OSM Teams profile. <strong>This is the most important part!</strong></p>
+      
+      <table>
+      <thead>
+          <tr>
+            <th>Edit Profile Page</th>
+            <th>Complete your profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          <tr>
+            <td><img width="500" src="assets/img/osm_teams/edit_profile_hires_2.png"></td>
+            <td><img width="500" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.007.png"></td>
+          </tr>
+          <td>
+              YouthMapper profiles include demographic questions such as age and gender,and ask what you are studying, and when you plan on graduating. <br><br><em>If you have already graduated, please put the date of your graduation so we know you are one of the many YouthMapper alumni.</em>
+            </td>
+            <td>
+              Once you fill out all of the questions on your profile page, please read the YouthMappers Privacy Policy for OSM Teams. <br><br><em>Only after you consent to your data being used in YouthMappers research can you click "Submit" to complete your profile.</em>
+            </td>
+        </tbody>
+      </table>
+
+      <br>
+
+      <p>Thank you for joining YouthMappers on OSM Teams! We use the information submitted to better track the membership of YouthMappers chapters all around the world. As the platform continues to develop, new features will become available.</p>
+    </div>
+  </div>
+
+  <footer class='container'>
+    <hr>
+    <p class='text-muted small'>Website and metrics created and maintained by 
+    <a target="_blank" href="//youthmappers.org/">YouthMappers</a>
+     and  
+    <a target="_blank" href="//jenningsanderson.com">Jennings Anderson</a> with hosting support from Mapbox.
+    Built on open source tools from 
+    <a target="_blank" href="https://mapbox.com">Mapbox</a>, 
+    <a target="_blank" href="https://d3js.org">d3.js</a>, 
+    and more. Map data &copy;
+    <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors.</p>
+  </footer>
+</body>
+</html>
