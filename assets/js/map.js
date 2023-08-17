@@ -303,9 +303,14 @@ map.on('style.load', function(){
   popup.remove();
   });
 
-
   //Fire the first brush action to set the time.
-  brushed(true);
+  if (xDomainSet){
+    brushed(true);
+  }else{
+    setTimeout(function(){
+      brushed(true);
+    },2000)
+  }
 });
 
 var mapFilters = []
