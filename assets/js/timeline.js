@@ -3,6 +3,8 @@ var $container = document.getElementById('timeline'),
 	height = $container.offsetHeight;
 	height=100
 
+var xDomainSet = false
+
 var options = {year: 'numeric', month: 'short', day: 'numeric' };
 
 var svg = d3.select('#timeline').append("svg")
@@ -17,8 +19,6 @@ var parseDate = d3.timeParse("%Y-%m-%d")
     margin = {top: 10, right: 0, bottom: 30, left: 20}
     width  = width - margin.left - margin.right,
     height = height - margin.top - margin.bottom
-
-// console.log(width, height)
 
 var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]);
@@ -51,6 +51,8 @@ d3.csv("data/daily_editing.csv", function(error, data) {
   x.domain(d3.extent(data, function(d) { return d.day; }));
   y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
+  xDomainSet = true;
+
   context.append("path")
       .datum(data)
       .attr("class", "area")
@@ -81,10 +83,16 @@ function brushed(start=false) {
   	s = x.range()
   }
 
+
+  
+
+
   var start = Math.round(+x.invert(s[0])/1000)
   var end   = Math.round(+x.invert(s[1])/1000)
 
   document.getElementById('datestring').innerHTML = x.invert(s[0]).toLocaleDateString("en-US", options) + " - " + x.invert(s[1]).toLocaleDateString("en-US", options)
+
+  console.log("Setting filters: " + start + " | "+  end)
 
   setTemporalFilters(
   	 [['>=','timestamp',start],
