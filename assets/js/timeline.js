@@ -43,6 +43,8 @@ var context = svg.append("g")
 d3.csv("data/daily_editing.csv", function(error, data) {
 	data.forEach(function(d){
 	  d.day = parseDate(d.day);
+      console.log(d.day, d.chapter)
+      
 	  d.value = +d.chapter;
 	})
 

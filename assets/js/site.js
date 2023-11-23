@@ -3,9 +3,9 @@ var site = {
 	monthly_activity_last_year: 'data/monthly_activity_last_year.json',
 	monthly_activity_last_1200_days: 'data/monthly_activity_last_1200_days.json',
 	top_edited_countries: 'data/top_edited_countries.json',
-	// mapbox_tileset_id: 'jenningsanderson.ym_changesets',
+	mapbox_tileset_id: 'jenningsanderson.ym_changesets',
 	// mapbox_tileset_id: 'jenningsanderson.442aud42',
-	mapbox_tileset_id: 'jenningsanderson.0nzzv7oh',
+	// mapbox_tileset_id: 'jenningsanderson.0nzzv7oh',
 	// mapbox_tileset_id: 'jenningsanderson.0n6avag4',
 	// LOCAL_PORT: 3001
 }
