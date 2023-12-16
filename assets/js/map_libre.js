@@ -95,18 +95,18 @@ document.getElementById('toggleTheme').addEventListener('click',function(){
   }
 })
 
-document.getElementById('toggleGlobe').addEventListener('click',function(){
+// document.getElementById('toggleGlobe').addEventListener('click',function(){
 
-  var curr_projection = map.getProjection().name
+//   var curr_projection = map.getProjection().name
 
-  if (curr_projection == 'globe'){
-    map.setProjection('mercator')
-  }
+//   if (curr_projection == 'globe'){
+//     map.setProjection('mercator')
+//   }
 
-  if (curr_projection == 'mercator'){
-   map.setProjection('globe') 
-  }
-})
+//   if (curr_projection == 'mercator'){
+//    map.setProjection('globe') 
+//   }
+// })
 
 var tileSource = {
     type: 'vector',
@@ -120,7 +120,7 @@ var tileSource = {
 
 map.on('style.load', function(){
 
-  map.setFog({});
+  // map.setFog({});
 
   map.addSource('ym_changesets.mbtiles', tileSource);
   
