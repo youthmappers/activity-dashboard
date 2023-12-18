@@ -40,12 +40,10 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("data/daily_editing.csv", function(error, data) {
+d3.csv("data/daily_activity.csv", function(error, data) {
 	data.forEach(function(d){
 	  d.day = parseDate(d.day);
-    //   console.log(d.day, d.chapter)
-      
-	  d.value = +d.chapter;
+	  d.value = +d.chapters_rolling_avg;
 	})
 
   if (error) throw error;
