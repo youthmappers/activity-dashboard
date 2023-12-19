@@ -102,6 +102,7 @@ class ChapterSearchBox {
         dropdown.classList.add("chapter-dropdown-menu")
         dropdown.setAttribute('data-show-subtext', true);
         dropdown.setAttribute('data-live-search', true);
+        dropdown.setAttribute('data-size', 15);
 
     // Populate the dropdown and search menu
     var group = document.createElement('optgroup')
@@ -136,7 +137,7 @@ class ChapterSearchBox {
 
     // Choose a chapter from the dropdown list
     dropdown.addEventListener('change',function(e){
-      var chap = dropdown.value
+      var chap = Number(dropdown.value)
 
       console.log(chap)
     
