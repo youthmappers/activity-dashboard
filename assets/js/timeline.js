@@ -1,7 +1,6 @@
 var $container = document.getElementById('timeline'),
     width  = $container.offsetWidth
-	height = $container.offsetHeight;
-	height=100
+	height = 50
 
 var xDomainSet = false
 
@@ -9,14 +8,14 @@ var options = {year: 'numeric', month: 'short', day: 'numeric' };
 
 var svg = d3.select('#timeline').append("svg")
     .attr("width", '100%')
-    .attr("height", '100%')
+    .attr("height", height)
     .attr('viewBox','0 0 '+width+' '+height)
     .attr('preserveAspectRatio','xMinYMin')
     .append("g")
 
 var parseDate = d3.timeParse("%Y-%m-%d")
 
-    margin = {top: 10, right: 0, bottom: 30, left: 20}
+    margin = {top: 10, right: 0, bottom: 0, left: 15}
     width  = width - margin.left - margin.right,
     height = height - margin.top - margin.bottom
 
@@ -58,10 +57,10 @@ d3.csv("data/daily_activity.csv", function(error, data) {
       .attr("class", "area")
       .attr("d", area);
 
-  context.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+//   context.append("g")
+//       .attr("class", "axis axis--x")
+//       .attr("transform", "translate(0," + height + ")")
+//       .call(xAxis);
 
   context.append("g")
       .attr("class", "axis axis--x axis--top")

@@ -1,3 +1,60 @@
+/*
+  Main Map & Timeline
+*/
+
+/* Navbar overrides */
+.navbar{
+	padding-top:0px;
+	padding-bottom:0px;
+}
+
+main{
+	margin-top: 50px;
+}
+
+#map{
+	position: fixed;
+	top: 48px;
+	left: 0px;
+	height: calc(100vh - 100px);
+	width: 100%;
+}
+
+footer{
+	height: 50px;
+	width: 100%;
+}
+
+/* Chapter Dropdown */
+.chapter-dropdown-menu{
+	background-color: white;
+}
+
+/* Timeline Interior */
+.axis--top text{
+	color: #EEE;
+	fill: #EEE;
+}
+
+.area {
+fill: steelblue;
+fill-opacity: 0.7;
+clip-path: url(#clip);
+stroke: steelblue;
+stroke-width: 2;
+}
+
+.zoom {
+cursor: move;
+fill: none;
+pointer-events: all;
+}
+
+  
+li.nav-item{
+	margin-right: 10px;
+}
+
 ul#selected-chapters{
 	position: fixed; 
 	top: 60px;
