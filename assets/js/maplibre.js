@@ -1,6 +1,6 @@
 // YetiGeoLabs 2023
 
-const ALL_LAYERS = ['z8','z10','z15','centroids'] //'z15_bbox_outline']
+const ALL_LAYERS = ['z8','z10','z15','centroids','z15_bbox_outline']
 
 // const STYLES = {
 //   'YMDashboard Dark': 'mapbox://styles/jenningsanderson/cl1wc8nhb008015ozetrf0sfb',
@@ -235,21 +235,21 @@ map.on('style.load', function(){
     }
   });//, 'settlement-minor-label');
 
-  // map.addLayer({
-  //   'id': 'z15_bbox_outline',
-  //   'type': 'line',
-  //   'source': 'ym_changesets.mbtiles',
-  //   'source-layer': 'z15agg_bbox',
-  //   'minzoom':11.0,
-  //   'maxzoom':18,
-  //   'paint': {
-  //     'line-color': 'orange',
-  //     'line-width': 5
-  //   },
-  //   'layout':{
-  //     'visibility':'none'
-  //   }
-  // });
+  map.addLayer({
+    'id': 'z15_bbox_outline',
+    'type': 'line',
+    'source': 'ym_changesets',
+    'source-layer': 'z15agg_bbox',
+    'minzoom':11.0,
+    'maxzoom':18,
+    'paint': {
+      'line-color': 'orange',
+      'line-width': 5
+    },
+    'layout':{
+      'visibility':'none'
+    }
+  });
 
   map.addLayer({
     'id': 'centroids',
@@ -260,8 +260,7 @@ map.on('style.load', function(){
     'maxzoom':18.1,
     'layout': {
       'text-field' : ['get','all_feats'],
-      'text-size'  : 15,
-      'icon-image' : 'circle-white-4',
+      'text-size'  : 15
     },
     'paint':{
       'text-opacity': 1,
