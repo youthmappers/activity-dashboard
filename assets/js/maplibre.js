@@ -2,6 +2,24 @@
 
 const ALL_LAYERS = ['z8','z10','z15','centroids','z15_bbox_outline']
 
+function updateFiltersFromChaptersList(){
+
+	chapterFilters = ['any']
+	site.selectedChapters.forEach(function(chap){
+		chapterFilters.push(['==','chapter_id',chap])
+	})
+
+	mapFilters = mapFilters.slice(0,2)
+	
+	if (site.selectedChapters.size>0){
+		mapFilters.push(chapterFilters)
+	}
+	
+	setFilters();
+}
+
+
+
 // const STYLES = {
 //   'YMDashboard Dark': 'mapbox://styles/jenningsanderson/cl1wc8nhb008015ozetrf0sfb',
 //   'YouthMappers Dashboard' : 'mapbox://styles/jenningsanderson/ckv1l2bdr2v7d14o3y5a7l6rv'
@@ -35,6 +53,171 @@ const ALL_LAYERS = ['z8','z10','z15','centroids','z15_bbox_outline']
 //   this._map = undefined;
 // };
 
+// Controls
+class ToggleBoundingBox {
+  constructor(options) {
+    this._options = {...options};
+    this._container = document.createElement("div");
+    // this._container.classList.add("maplibregl-ctrl-group");
+    this._container.style.width = '50;';
+
+    var button = document.createElement("button")
+    button.type = "button"
+    button.textContent = "Show Bounding Boxes"
+    button.classList.add("button")
+
+    button.addEventListener('click',function(e){
+      console.log(e)
+      if (map.getLayoutProperty('z15_bbox_outline','visibility') != 'visible'){
+        map.setLayoutProperty('z15_bbox_outline','visibility','visible')
+        button.textContent = "Hide Bounding Boxes"
+      }else{
+        map.setLayoutProperty('z15_bbox_outline','visibility','none')
+        button.textContent = "Show Bounding Boxes"
+      }
+    })
+
+    this._container.appendChild(button)
+  }
+
+  onAdd(map) {
+    this._map = map;
+    return this._container;
+  }
+
+  onRemove(){
+    this._container.parentNode?.removeChild(this._container);
+    delete this._map;
+  }
+}
+
+// Put the chapter search box in a control inside the actual map
+class ChapterSearchBox {
+  constructor(options) {
+    this._options = {...options};
+    this._container = document.createElement("div");
+    this._container.className = 'maplibregl-ctrl';
+
+    var dropdown = document.createElement("select")
+        dropdown.classList.add("selectpicker")
+        dropdown.classList.add("chapter-dropdown-menu")
+        dropdown.setAttribute('data-show-subtext', true);
+        dropdown.setAttribute('data-live-search', true);
+
+    // Populate the dropdown and search menu
+    var group = document.createElement('optgroup')
+        group.innerHTML = "YouthMappers Chapters"
+    
+    var defaultOption = document.createElement('option')
+        defaultOption.setAttribute('data-subtext','Choose A Chapter...')
+        group.appendChild(defaultOption)
+    
+    chapters.forEach(function(chap){
+	    var option = document.createElement('option')
+	        option.value = chap.chapter_id
+	        option.text = chap['Chapter Name']
+	        option.setAttribute('data-subtext', chap.university + ', ' + chap.city + ', ' + chap.country);
+
+	    site.chapterIndexMap[chap.chapter_id] = chap['Chapter Name']
+
+  	  if (chap.chapter!=''){
+	  	  group.appendChild(option)
+	    }
+    })
+
+    dropdown.appendChild(group);
+    this._container.appendChild(dropdown)
+    
+    // Create the list to add chapters to
+    var selectedChapterList = document.createElement('ul')
+    selectedChapterList.setAttribute('id','selectedChapters')
+
+    // Add it to this container (underneath, I hope)
+    this._container.appendChild(selectedChapterList)
+
+    // Choose a chapter from the dropdown list
+    dropdown.addEventListener('change',function(e){
+      var chap = dropdown.value
+
+      console.log(chap)
+    
+      // If it exists, we remove it
+      if (site.selectedChapters.has(chap)){
+        site.selectedChapters.delete(chap)
+        updateFiltersFromChaptersList();
+    
+      // Else, we add it
+      }else{
+        
+        site.selectedChapters.add(chap)
+        
+        var thisChapLi = document.createElement('li')
+        thisChapLi.classList.add('selected-chapter')
+    
+        var remove = document.createElement('a')
+        remove.text = '[X] '
+    
+        var text = document.createElement('p')
+        text.style.display = 'inline-block'
+        text.innerHTML = site.chapterIndexMap[chap]
+    
+        thisChapLi.appendChild(remove)
+        thisChapLi.appendChild(text)
+        thisChapLi.id = chap
+        
+        remove.addEventListener('click',function(){
+          document.getElementById(chap).remove();
+          site.selectedChapters.delete(chap)
+          updateFiltersFromChaptersList()
+        })
+        
+        selectedChapterList.appendChild(thisChapLi)
+        updateFiltersFromChaptersList()
+      }
+    })
+  }
+
+  onAdd(map) {
+    this._map = map;
+    return this._container;
+  }
+
+  onRemove(){
+    this._container.parentNode?.removeChild(this._container);
+    delete this._map;
+  }
+}
+
+// Controls
+class TimelineSpan {
+  constructor(options) {
+    this._options = {...options};
+    this._container = document.createElement("div");
+    this._container.className = 'maplibregl-ctrl maplibregl-ctrl-attrib';
+
+    var timelineSpan = document.createElement('p')
+        timelineSpan.textContent = ""
+        // timelineSpan.appendChild(document.createElement('br'))
+        timelineSpan.style['margin-bottom'] = '0px';
+    var dateString = document.createElement('span');
+        dateString.setAttribute('id','datestring')
+        timelineSpan.appendChild(dateString)
+
+    this._container.appendChild(timelineSpan)
+  }
+
+  onAdd(map) {
+    this._map = map;
+    return this._container;
+  }
+
+  onRemove(){
+    this._container.parentNode?.removeChild(this._container);
+    delete this._map;
+  }
+}
+
+
 let protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles",protocol.tile);
 
@@ -48,17 +231,22 @@ var map = new maplibregl.Map({
   maxZoom:18,
 
 });
-// map.addControl(new ToggleBoundingBoxes());
+map.addControl(new ToggleBoundingBox());
 // map.addControl(new ToggleStyle());
 map.addControl(new maplibregl.NavigationControl({
   visualizePitch: true
 }));
+
 map.addControl(
   new maplibregl.TerrainControl({
       source: 'maptiler3D',
       exaggeration: 1
   })
 );
+
+map.addControl(new ChapterSearchBox(), 'top-left');
+
+map.addControl(new TimelineSpan(), 'bottom-left');
 
 
 // document.getElementById('toggleBoundingBoxes').addEventListener('click',function(){
@@ -322,7 +510,7 @@ function setFilters(){
 // function buildPopUp(p){
 //   d = new Date(p.timestamp * 1000)
 //   return `<h5>${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</h5>
-//   <h6>${chapterIndexMap[p.chapter_id]}</h6>
+//   <h6>${site.chapterIndexMap[p.chapter_id]}</h6>
 //   <table>
 //   <tr><td>${p.buildings}</td><td>Buildings</td></tr>
 //   <tr><td>${p.amenities}</td><td>Amenities</td></tr>
