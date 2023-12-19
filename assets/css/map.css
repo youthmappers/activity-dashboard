@@ -30,6 +30,17 @@ footer{
 	background-color: white;
 }
 
+/* Chapter List */
+ul#selectedChapters{
+	list-style-type:none;
+	margin: 2px;
+	padding: 2px;
+}
+ul#selectedChapters li.selected-chapter p{
+	font-size: 1.2em;
+	margin: 2px;
+}
+
 /* Timeline Interior */
 .axis--top text{
 	color: #EEE;
