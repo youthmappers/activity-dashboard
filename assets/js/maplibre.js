@@ -58,8 +58,7 @@ class ToggleBoundingBox {
   constructor(options) {
     this._options = {...options};
     this._container = document.createElement("div");
-    // this._container.classList.add("maplibregl-ctrl-group");
-    this._container.style.width = '50;';
+    this._container.classList.add("maplibregl-ctrl");
 
     var button = document.createElement("button")
     button.type = "button"
