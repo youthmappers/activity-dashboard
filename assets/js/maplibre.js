@@ -110,6 +110,7 @@ class ChapterSearchBox {
     
     var defaultOption = document.createElement('option')
         defaultOption.setAttribute('data-subtext','Choose A Chapter...')
+        defaultOption.setAttribute('value','-1')
         group.appendChild(defaultOption)
     
     chapters.forEach(function(chap){
@@ -139,7 +140,7 @@ class ChapterSearchBox {
     dropdown.addEventListener('change',function(e){
       var chap = Number(dropdown.value)
 
-      console.log(chap)
+      if (chap < 0){return}
     
       // If it exists, we remove it
       if (site.selectedChapters.has(chap)){
@@ -155,7 +156,8 @@ class ChapterSearchBox {
         thisChapLi.classList.add('selected-chapter')
     
         var remove = document.createElement('a')
-        remove.text = '[X] '
+            remove.style.cursor = 'pointer';
+            remove.innerHTML = '&#10062; '
     
         var text = document.createElement('p')
         text.style.display = 'inline-block'

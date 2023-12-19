@@ -82,16 +82,10 @@ function brushed(start=false) {
   	s = x.range()
   }
 
-
-  
-
-
   var start = Math.round(+x.invert(s[0])/1000)
   var end   = Math.round(+x.invert(s[1])/1000)
 
   document.getElementById('datestring').innerHTML = x.invert(s[0]).toLocaleDateString("en-US", options) + " - " + x.invert(s[1]).toLocaleDateString("en-US", options)
-
-  console.log("Setting filters: " + start + " | "+  end)
 
   setTemporalFilters(
   	 [['>=','timestamp',start],
