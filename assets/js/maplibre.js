@@ -1,69 +1,64 @@
 // YetiGeoLabs 2023
+// YouthMappers
 
+// Variables and map constants
 const ALL_LAYERS = ['z8','z10','z15','centroids','z15_bbox_outline']
+var mapFilters = []
+
+// Imports, Protocols
+let protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles",protocol.tile);
+
+// Initialize the map
+var map = new maplibregl.Map({
+  container: 'map',
+  style: 'https://api.maptiler.com/maps/67271b54-3f5f-480c-b7d2-b99f551113fa/style.json?key=lKNWNcFzZ8CaRdTSSYvy',
+  center: [0,15],
+  zoom: 2.1,
+  hash: true,
+  minZoom:2.01,
+  maxZoom:14.99,
+});
+
+// Map Functions and Classes
+function setTemporalFilters(filters){
+  mapFilters[0] = filters[0]
+  mapFilters[1] = filters[1]
+}
+
+function setFilters(){
+  ALL_LAYERS.forEach(function(layerID){
+    map.setFilter(layerID,
+      ['all'].concat(mapFilters)
+    )
+  })
+}
 
 function updateFiltersFromChaptersList(){
-
 	chapterFilters = ['any']
 	site.selectedChapters.forEach(function(chap){
 		chapterFilters.push(['==','chapter_id',chap])
 	})
-
 	mapFilters = mapFilters.slice(0,2)
-	
 	if (site.selectedChapters.size>0){
 		mapFilters.push(chapterFilters)
 	}
-	
 	setFilters();
 }
 
-
-
-// const STYLES = {
-//   'YMDashboard Dark': 'mapbox://styles/jenningsanderson/cl1wc8nhb008015ozetrf0sfb',
-//   'YouthMappers Dashboard' : 'mapbox://styles/jenningsanderson/ckv1l2bdr2v7d14o3y5a7l6rv'
-// }
-
-// Control implemented as ES5 prototypical class
-// function ToggleStyle() { }
-//  ToggleStyle.prototype.onAdd = function(map) {
-//   this._map = map;
-//   this._container = document.createElement('div');
-//   this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group custom-map-button';
-//   this._container.innerHTML = '<a id="toggleTheme" type="button" class="button">Toggle Theme</a>';
-//   return this._container;
-// };
-// ToggleStyle.prototype.onRemove = function () {
-//   this._container.parentNode.removeChild(this._container);
-//   this._map = undefined;
-// };
-
-// // Control implemented as ES5 prototypical class
-// function ToggleBoundingBoxes() { }
-//  ToggleBoundingBoxes.prototype.onAdd = function(map) {
-//   this._map = map;
-//   this._container = document.createElement('div');
-//   this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group custom-map-button';
-//   this._container.innerHTML = '<a id="toggleBoundingBoxes" type="button" class="button">Show Bounding Boxes</a>';
-//   return this._container;
-// };
-// ToggleBoundingBoxes.prototype.onRemove = function () {
-//   this._container.parentNode.removeChild(this._container);
-//   this._map = undefined;
-// };
-
-// Controls
-class ToggleBoundingBox {
+// IControls
+class BoundingBoxToggle {
   constructor(options) {
     this._options = {...options};
     this._container = document.createElement("div");
     this._container.classList.add("maplibregl-ctrl");
+    this._container.style.backgroundColor = 'white'
 
     var button = document.createElement("button")
-    button.type = "button"
-    button.textContent = "Show Bounding Boxes"
-    button.classList.add("button")
+        button.classList.add("btn");
+        button.classList.add("btn-light")
+        button.classList.add("btn-sm")
+        button.textContent = "Show Bounding Boxes"
 
     button.addEventListener('click',function(e){
       console.log(e)
@@ -90,7 +85,6 @@ class ToggleBoundingBox {
   }
 }
 
-// Put the chapter search box in a control inside the actual map
 class ChapterSearchBox {
   constructor(options) {
     this._options = {...options};
@@ -131,7 +125,8 @@ class ChapterSearchBox {
     
     // Create the list to add chapters to
     var selectedChapterList = document.createElement('ul')
-    selectedChapterList.setAttribute('id','selectedChapters')
+        selectedChapterList.classList.add('bg-light')
+        selectedChapterList.setAttribute('id','selectedChapters')
 
     // Add it to this container (underneath, I hope)
     this._container.appendChild(selectedChapterList)
@@ -190,7 +185,6 @@ class ChapterSearchBox {
   }
 }
 
-// Controls
 class TimelineSpan {
   constructor(options) {
     this._options = {...options};
@@ -219,99 +213,99 @@ class TimelineSpan {
   }
 }
 
+class StyleToggle {
+  constructor(options) {
+    this._options = {...options};
+    this._container = document.createElement("div");
+    this._container.classList.add("maplibregl-ctrl");
+    this._container.style.backgroundColor = 'white'
 
-let protocol = new pmtiles.Protocol();
-maplibregl.addProtocol("pmtiles",protocol.tile);
+    var button = document.createElement("button")
+        button.classList.add("btn");
+        button.classList.add("btn-light")
+        button.classList.add("btn-sm")
+        button.textContent = "Dark Style"
+    
+    var style='light'
 
-var map = new maplibregl.Map({
-  container: 'map',
-  style: 'https://api.maptiler.com/maps/67271b54-3f5f-480c-b7d2-b99f551113fa/style.json?key=lKNWNcFzZ8CaRdTSSYvy',
-  center: [0,15],
-  zoom: 2.1,
-  hash: true,
-  minZoom:2.01,
-  maxZoom:18,
+    button.addEventListener('click',function(e){
+      if (style=='light'){
+        button.textContent = "Light Style"
+        // Activate dark mode
+        map.setStyle('https://api.maptiler.com/maps/a075bd9b-8334-4046-bc04-fb3e9027ea4d/style.json?key=lKNWNcFzZ8CaRdTSSYvy',{diff:false})
+        style = 'dark'
+      }else{
+        button.textContent = "Dark Style"
+        style='light'
+        map.setStyle('https://api.maptiler.com/maps/67271b54-3f5f-480c-b7d2-b99f551113fa/style.json?key=lKNWNcFzZ8CaRdTSSYvy',{diff:false})
+        // Activate light mode
+      }
+    })
 
-});
-map.addControl(new ToggleBoundingBox());
-// map.addControl(new ToggleStyle());
+    this._container.appendChild(button)
+  }
+
+  onAdd(map) {
+    this._map = map;
+    return this._container;
+  }
+
+  onRemove(){
+    this._container.parentNode?.removeChild(this._container);
+    delete this._map;
+  }
+}
+
+
+// Add controls to the map
+map.addControl(new BoundingBoxToggle());
+map.addControl(new StyleToggle());
 map.addControl(new maplibregl.NavigationControl({
   visualizePitch: true
 }));
-
+// Terrain Control
 map.addControl(
   new maplibregl.TerrainControl({
       source: 'maptiler3D',
       exaggeration: 1
   })
 );
-
+// Chapter Search Box
 map.addControl(new ChapterSearchBox(), 'top-left');
-
+// Updating Timeline
 map.addControl(new TimelineSpan(), 'bottom-left');
-
-
-// document.getElementById('toggleBoundingBoxes').addEventListener('click',function(){
-  
-//   curr_vis = map.getLayoutProperty('z15_bbox_outline','visibility')
-//   if (curr_vis == 'visible'){
-//     map.setLayoutProperty('z15_bbox_outline','visibility','none')
-//     this.text = 'Show Bounding Boxes'
-//   }else{
-//     map.setLayoutProperty('z15_bbox_outline','visibility','visible')
-//     this.text = 'Hide Bounding Boxes'
-//   }
-// })
-
-// document.getElementById('toggleTheme').addEventListener('click',function(){
-
-//   var curr_theme = map.getStyle().name
-
-//   if (curr_theme == 'YouthMappers Dashboard'){
-//     map.setStyle(STYLES['YMDashboard Dark'])
-//     // this.text = 'Dark Style'
-//   }
-
-//   if (curr_theme == 'YMDashboard Dark'){
-//    map.setStyle(STYLES['YouthMappers Dashboard']) 
-//    // this.text = 'Light Style'
-//   }
-// })
-
-// document.getElementById('toggleGlobe').addEventListener('click',function(){
-
-//   var curr_projection = map.getProjection().name
-
-//   if (curr_projection == 'globe'){
-//     map.setProjection('mercator')
-//   }
-
-//   if (curr_projection == 'mercator'){
-//    map.setProjection('globe') 
-//   }
-// })
 
 map.on('style.load', function(){
 
+  // 3D terrain
   map.addSource("maptiler3D", {
     "type": "raster-dem",
     "url": "https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=lKNWNcFzZ8CaRdTSSYvy",
   });
 
-  // map.setTerrain({
-  //   source: "maptiler3D",
-  //   exaggeration: 2.5
-  // });
-
-  map.addSource('ym_changesets', {
+  // Add tilesets
+  map.addSource('z15_pmtiles', {
       type: "vector",
-      url: "pmtiles://data/ym_changesets.pmtiles"
+      url: "pmtiles://data/z15.pmtiles"
   })
+  map.addSource('z15_polygons_pmtiles', {
+    type: "vector",
+    url: "pmtiles://data/z15_polygons.pmtiles"
+})
+map.addSource('z10_pmtiles', {
+  type: "vector",
+  url: "pmtiles://data/z10.pmtiles"
+})
+map.addSource('z8_pmtiles', {
+  type: "vector",
+  url: "pmtiles://data/z8.pmtiles"
+})
   
+  // Weekly aggregation for heatmap at low zooms
   map.addLayer({
     'id': 'z8',
     'type': 'heatmap',
-    'source': 'ym_changesets',
+    'source': 'z8_pmtiles',
     'source-layer': 'z8agg',
     'minzoom':2,
     'maxzoom':3,
@@ -339,15 +333,13 @@ map.on('style.load', function(){
         3, 4
       ]
     }
-  // },);  
-  },
-  // 'settlement-minor-label'
-  );
+  }, 'Village labels');
 
+  // Daily aggregation at zoom 10
   map.addLayer({
     'id': 'z10',
     'type': 'heatmap',
-    'source': 'ym_changesets',
+    'source': 'z10_pmtiles',
     'source-layer': 'z10agg',
     'minzoom':3,
     'maxzoom':6,
@@ -375,13 +367,13 @@ map.on('style.load', function(){
         5, 6
       ]
     }
-  },);  
-  // },'settlement-minor-label');
+  }, 'Village labels');
 
+  // Daily aggregation at zoom 15
   map.addLayer({
     'id': 'z15',
     'type': 'heatmap',
-    'source': 'ym_changesets',
+    'source': 'z15_pmtiles',
     'source-layer': 'z15agg',
     'minzoom':5,
     'maxzoom':15,
@@ -423,102 +415,123 @@ map.on('style.load', function(){
         15, 0.01
       ]
     }
-  });//, 'settlement-minor-label');
+  }, 'Village labels');
 
+  // Daily Bounding boxes
   map.addLayer({
     'id': 'z15_bbox_outline',
     'type': 'line',
-    'source': 'ym_changesets',
+    'source': 'z15_polygons_pmtiles',
     'source-layer': 'z15agg_bbox',
-    'minzoom':11.0,
-    'maxzoom':18,
+    'minzoom':6,
     'paint': {
       'line-color': 'orange',
-      'line-width': 5
+      'line-width': 1
     },
     'layout':{
       'visibility':'none'
     }
   });
 
+  map.loadImage(
+    'assets/img/ym_logo_transparent_small.png',
+    (error, image) => {
+        if (error) throw error;
+        map.addImage('ym_logo', image);
+    })
+
+  // Centroids to display number of features
   map.addLayer({
     'id': 'centroids',
     'type': 'symbol',
-    'source': 'ym_changesets',
+    'source': 'z15_pmtiles',
     'source-layer': 'z15agg',
     'minzoom':13.0,
-    'maxzoom':18.1,
+    // 'maxzoom':15,
     'layout': {
       'text-field' : ['get','all_feats'],
-      'text-size'  : 15
+      'text-size'  : 15,
+      'icon-image': 'ym_logo'
     },
     'paint':{
       'text-opacity': 1,
-      'text-color': 'black',
+      'text-color': 'black'
+      
     }
   });
-  
-  // Create a popup, but don't add it to the map yet.
-  // const popup = new mapboxgl.Popup({
-  //   closeButton: false,
-  //   closeOnClick: false
-  // });
-   
-  // map.on('mouseenter', 'centroids', (e) => {
-  //   // Change the cursor style as a UI indicator.
-  //   map.getCanvas().style.cursor = 'pointer';
-   
-  //   // Copy coordinates array.
-  //   const coordinates = e.features[0].geometry.coordinates.slice();
-  //   const description = buildPopUp(e.features[0].properties)
-   
-  //   // Ensure that if the map is zoomed out such that multiple
-  //   // copies of the feature are visible, the popup appears
-  //   // over the copy being pointed to.
-  //   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-  //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-  //   }
-   
-  //   // Populate the popup and set its coordinates
-  //   // based on the feature found.
-  //   popup.setLngLat(coordinates).setHTML(description).addTo(map);
-  // });
-   
-  // map.on('mouseleave', 'centroids', () => {
-  //   map.getCanvas().style.cursor = '';
-  // popup.remove();
-  // });
 
+
+  // Create a popup, but don't add it to the map yet.
+  const popup = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+   
+  map.on('mouseenter', 'centroids', (e) => {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+   
+    // Copy coordinates array.
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const description = buildPopUp(e.features[0].properties)
+
+    popup.setLngLat(coordinates).setHTML(description).addTo(map);
+  });
+   
+  map.on('mouseleave', 'centroids', () => {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
 
   //Fire the first brush action to set the time.
   brushed(true);
 });
 
-var mapFilters = []
 
-function setTemporalFilters(filters){
-  mapFilters[0] = filters[0]
-  mapFilters[1] = filters[1]
+function buildPopUp(p){
+  d = new Date(p.timestamp * 1000)
+  return `<h5>${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</h5>
+  <h6>${site.chapterIndexMap[p.chapter_id]}</h6>
+  <table>
+  <tr><td>${p.buildings}</td><td>Buildings</td></tr>
+  <tr><td>${p.amenities}</td><td>Amenities</td></tr>
+  <tr><td>${p.highways}</td><td>Highways</td></tr>
+  <tr><td>${p.all_feats - p.highways - p.amenities - p.buildings}</td><td>Other features</td></tr>
+  </table>`
 }
 
-function setFilters(){
-  ALL_LAYERS.forEach(function(layerID){
-    map.setFilter(layerID,
-      ['all'].concat(mapFilters)
-    )
-  })
-}
 
-// function buildPopUp(p){
-//   d = new Date(p.timestamp * 1000)
-//   return `<h5>${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</h5>
-//   <h6>${site.chapterIndexMap[p.chapter_id]}</h6>
-//   <table>
-//   <tr><td>${p.buildings}</td><td>Buildings</td></tr>
-//   <tr><td>${p.amenities}</td><td>Amenities</td></tr>
-//   <tr><td>${p.highways}</td><td>Highways</td></tr>
-//   <tr><td>${p.all_feats - p.highways - p.amenities - p.buildings}</td><td>Other features</td></tr>
-//   </table>
 
-//   `
+
+// const STYLES = {
+//   'YMDashboard Dark': 'mapbox://styles/jenningsanderson/cl1wc8nhb008015ozetrf0sfb',
+//   'YouthMappers Dashboard' : 'mapbox://styles/jenningsanderson/ckv1l2bdr2v7d14o3y5a7l6rv'
 // }
+
+// Control implemented as ES5 prototypical class
+// function ToggleStyle() { }
+//  ToggleStyle.prototype.onAdd = function(map) {
+//   this._map = map;
+//   this._container = document.createElement('div');
+//   this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group custom-map-button';
+//   this._container.innerHTML = '<a id="toggleTheme" type="button" class="button">Toggle Theme</a>';
+//   return this._container;
+// };
+// ToggleStyle.prototype.onRemove = function () {
+//   this._container.parentNode.removeChild(this._container);
+//   this._map = undefined;
+// };
+
+// // Control implemented as ES5 prototypical class
+// function ToggleBoundingBoxes() { }
+//  ToggleBoundingBoxes.prototype.onAdd = function(map) {
+//   this._map = map;
+//   this._container = document.createElement('div');
+//   this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group custom-map-button';
+//   this._container.innerHTML = '<a id="toggleBoundingBoxes" type="button" class="button">Show Bounding Boxes</a>';
+//   return this._container;
+// };
+// ToggleBoundingBoxes.prototype.onRemove = function () {
+//   this._container.parentNode.removeChild(this._container);
+//   this._map = undefined;
+// };
