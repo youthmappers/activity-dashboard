@@ -8,11 +8,9 @@ var site = {
 }
 
 var prettyFormat = function(bigInt){
-
 	if (bigInt > 1000000){
 		return (bigInt / 1000000).toFixed(2)+'M'
 	}
-
 	if (bigInt > 1000){
 		return (bigInt / 1000).toFixed(2)+'K'
 	}
@@ -23,5 +21,17 @@ function numberWithCommas(x) {
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const MONTHS = ['January','February','March','April','May','June',
-                'July','August','September','October','November','December']
+const MONTHS = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December'
+]
