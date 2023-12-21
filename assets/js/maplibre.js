@@ -61,7 +61,6 @@ class BoundingBoxToggle {
         button.textContent = "Show Bounding Boxes"
 
     button.addEventListener('click',function(e){
-      console.log(e)
       if (map.getLayoutProperty('z15_bbox_outline','visibility') != 'visible'){
         map.setLayoutProperty('z15_bbox_outline','visibility','visible')
         button.textContent = "Hide Bounding Boxes"
