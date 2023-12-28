@@ -1,16 +1,6 @@
 YouthMappers Activity Dashboard
 ===
 
-This repository contains the static files behind [activity.youthmappers.org](https://activity.youthmappers.org), deployed via Github Pages: 
-[![Deploy static content to Pages](https://github.com/youthmappers/activity-dashboard/actions/workflows/static.yml/badge.svg)](https://github.com/youthmappers/activity-dashboard/actions/workflows/static.yml)
-
-
-
-
-### Local Development
-YouthMappers Activity Dashboard
-===
-
 This repository contains the static files behind [activity.youthmappers.org](https://activity.youthmappers.org), deployed via Github Pages.
 
 The main map is powered by [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) with by [PMTiles](https://docs.protomaps.com/pmtiles/) created with [tippecanoe](https://github.com/felt/tippecanoe). 
