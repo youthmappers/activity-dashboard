@@ -1,13 +1,13 @@
 import duckdb
 
 cursor = duckdb.connect()
-cursor.execute("INSTALL azure;")
-cursor.execute("LOAD azure;")
-cursor.execute("SET azure_storage_connection_string = 'DefaultEndpointsProtocol=https;AccountName=overturemapswestus2;AccountKey=;EndpointSuffix=core.windows.net';")
+cursor.execute("INSTALL httpfs;")
+cursor.execute("LOAD httpfs;")
+cursor.execute("SET s3_region='us-west-2';")
 res = cursor.execute("""
 SELECT
   *
-FROM read_parquet('azure://release/2024-06-13-beta.0/theme=buildings/type=building/*', filename=true, hive_partitioning=1)
+FROM read_parquet('s3a://overturemaps-us-west-2/release/2024-06-13-beta.0/theme=places/type=place/*', filename=true, hive_partitioning=1)
 LIMIT 1;
 """).fetchall()
 
