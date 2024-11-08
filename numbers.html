@@ -260,7 +260,7 @@
     
 
     monthly_activity.forEach(function(d){
-      var month = new Date(d.month)
+      var month = new Date(d.month * 1000)
       
       Object.keys(site.past_year).forEach(function(k){
         site.all_time[k] += +d[k]

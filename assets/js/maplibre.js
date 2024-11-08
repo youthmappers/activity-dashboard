@@ -109,10 +109,10 @@ class ChapterSearchBox {
     chapters.forEach(function(chap){
 	    var option = document.createElement('option')
 	        option.value = chap.chapter_id
-	        option.text = chap['Chapter Name']
+	        option.text = chap.chapter
 	        option.setAttribute('data-subtext', chap.university + ', ' + chap.city + ', ' + chap.country);
 
-	    site.chapterIndexMap[chap.chapter_id] = chap['Chapter Name']
+	    site.chapterIndexMap[chap.chapter_id] = chap.chapter
 
   	  if (chap.chapter!=''){
 	  	  group.appendChild(option)
