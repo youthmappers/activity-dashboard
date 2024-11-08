@@ -19,12 +19,12 @@ function buildLineGraph(opts){
       .ticks(10);
 
   var line = d3.line()
-      .x(function(d) { return x(d[opts.date]); })
+      .x(function(d) { return x(d[opts.date]  * 1000); })
       .y(function(d) { return y(d[opts.values[0]]); })
       .curve(d3.curveMonotoneX)
 
   var line2 = d3.line()
-      .x(function(d) { return x(d[opts.date]); })
+      .x(function(d) { return x(d[opts.date]* 1000); })
       .y(function(d) { return y(d[opts.values[1]]); })
       .curve(d3.curveMonotoneX)
 
@@ -37,7 +37,7 @@ function buildLineGraph(opts){
   d3.json(opts.data, function(error, data) {
 
       data.forEach(function(d) {
-        d.date  = new Date(d[opts.date]);
+        d.date  = new Date(d[opts.date] * 1000);
       });
 
     x.domain( d3.extent(data.map(function(d) { return d.date; }))),

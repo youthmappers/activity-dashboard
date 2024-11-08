@@ -30,7 +30,7 @@ function buildBarChart(opts){
   d3.json(opts.data, function(error, data) {
 
       data.forEach(function(d) {
-          d.date  = new Date(d[opts.date]);
+          d.date  = new Date(d[opts.date] * 1000 );
           d.value = +d[opts.value];
       });
 
