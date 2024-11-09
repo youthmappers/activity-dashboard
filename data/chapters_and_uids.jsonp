@@ -660,9 +660,9 @@ var chapters = [
   {
     "chapter": "Meta_GWU",
     "chapter_id": 1482,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": "Washington DC",
+    "country": "United States",
+    "university": "The George Washington University"
   },
   {
     "chapter": "Muni University YouthMappers Chapter",
