@@ -1015,6 +1015,13 @@ var chapters = [
     "university": "University of Pre\u0161ov"
   },
   {
+    "chapter": "UNJ YouthMappers",
+    "chapter_id": 1524,
+    "city": "East Jakarta",
+    "country": "Indonesia",
+    "university": "Universitas Negeri Jakarta"
+  },
+  {
     "chapter": "UP Tacloban YouthMappers",
     "chapter_id": 168,
     "city": "Tacloban",
