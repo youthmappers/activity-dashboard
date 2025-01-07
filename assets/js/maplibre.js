@@ -306,7 +306,7 @@ map.addSource('r4agg', {
     'type': 'heatmap',
     'source': 'r4agg',
     'source-layer': 'r4agg',
-    'minzoom':1,
+    'minzoom':2,
     'maxzoom':4.01,
     'paint': {
       "heatmap-weight": [
