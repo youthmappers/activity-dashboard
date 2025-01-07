@@ -35,4 +35,4 @@ jobs:
           aws-region: us-east-1
       
       - name: Copy Activity Dashbaord website to S3 bucket
-        run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete --acl public-read
+        run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete
