@@ -1,0 +1,16 @@
+name: Validate YouthMappers PR
+
+on: 
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: anishathalye/proof-html@v2
+        with:
+          directory: '.'
