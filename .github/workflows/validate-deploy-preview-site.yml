@@ -1,4 +1,4 @@
-name: Validate YouthMappers PR
+name: Validate YouthMappers PR & Stage on AWS
 
 on: 
   pull_request:
