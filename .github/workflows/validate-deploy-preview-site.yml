@@ -1,0 +1,32 @@
+name: Validate YouthMappers PR
+
+on: 
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: anishathalye/proof-html@v2
+        with:
+          directory: '.'
+          
+  stage:
+    environment:
+      name: staging
+      url: http://youthmappers-usw2.s3-website.us-west-2.amazonaws.com/staging/pr/${{github.event.number}}/
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Fetch AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::812718984223:role/YouthMappersGithubAssumeRole
+          aws-region: us-east-1
+      - name: Copy Activity Dashbaord website to S3 bucket
+         run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete --acl public-read
