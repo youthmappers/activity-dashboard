@@ -9,9 +9,9 @@ var chapters = [
   {
     "chapter": "2024 Leadership Fellows",
     "chapter_id": 1484,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": null,
+    "country": null,
+    "university": null
   },
   {
     "chapter": "ABU Geomappers",
@@ -455,6 +455,13 @@ var chapters = [
     "university": "Institute of Rural Development Planning - Lake Zone Centre, Mwanza"
   },
   {
+    "chapter": "IFMG YouthMappers",
+    "chapter_id": 1530,
+    "city": "Betim",
+    "country": "Brazil",
+    "university": "Instituto Federal de Minas Gerais"
+  },
+  {
     "chapter": "IRDP YouthMappers Dodoma",
     "chapter_id": 72,
     "city": "Dodoma",
@@ -688,9 +695,9 @@ var chapters = [
   {
     "chapter": "NISGS Bells University YouthMappers",
     "chapter_id": 1292,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": null,
+    "country": null,
+    "university": null
   },
   {
     "chapter": "NM-AIST Mappers Association",
@@ -954,7 +961,7 @@ var chapters = [
   {
     "chapter": "UBIDS Mappers Society",
     "chapter_id": 1115,
-    "city": "Washington",
+    "city": "Wa, Upper East Region ",
     "country": "Ghana",
     "university": "University of Business and Intergrated Development Studies, Ghana"
   },
@@ -975,9 +982,9 @@ var chapters = [
   {
     "chapter": "UFPImappers",
     "chapter_id": 1312,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": null,
+    "country": null,
+    "university": null
   },
   {
     "chapter": "UFU Mappers",
@@ -1178,9 +1185,9 @@ var chapters = [
   {
     "chapter": "YouthMappers ESALQ/USP",
     "chapter_id": 1313,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": null,
+    "country": null,
+    "university": null
   },
   {
     "chapter": "YouthMappers FHG",
@@ -1472,9 +1479,9 @@ var chapters = [
   {
     "chapter": "YouthMappers at South Eastern University of Sri Lanka",
     "chapter_id": 1422,
-    "city": "",
-    "country": "",
-    "university": ""
+    "city": null,
+    "country": null,
+    "university": null
   },
   {
     "chapter": "YouthMappers at TU Munich",
