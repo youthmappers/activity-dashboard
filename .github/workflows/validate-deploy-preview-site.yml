@@ -23,10 +23,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+    
       - name: Fetch AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::812718984223:role/YouthMappersGithubAssumeRole
           aws-region: us-east-1
+      
       - name: Copy Activity Dashbaord website to S3 bucket
-         run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete --acl public-read
+        run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete --acl public-read
