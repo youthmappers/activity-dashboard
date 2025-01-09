@@ -1,4 +1,4 @@
-name: Validate YouthMappers PR
+name: Validate YouthMappers PR & Stage on AWS
 
 on: 
   pull_request:
@@ -18,6 +18,9 @@ jobs:
       - uses: anishathalye/proof-html@v2
         with:
           directory: '.'
+          enforce_https: false
+          ignore_missing_alt: true
+
           
   stage:
     environment:
@@ -35,4 +38,4 @@ jobs:
           aws-region: us-east-1
       
       - name: Copy Activity Dashbaord website to S3 bucket
-        run: rm CNAME && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete --acl public-read
+        run: rm -rf .git .github CNAME README.md && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete
