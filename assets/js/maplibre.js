@@ -1,8 +1,8 @@
-// YetiGeoLabs 2023
+// YetiGeoLabs 2025
 // YouthMappers
 
 // Variables and map constants
-const ALL_LAYERS = ['z8','z10','z15','centroids','z15_bbox_outline']
+const ALL_LAYERS = ['r4agg', 'r6agg', 'r8agg', 'r8agg_bboxes', 'centroids']
 var mapFilters = []
 
 // Imports, Protocols
@@ -61,11 +61,11 @@ class BoundingBoxToggle {
         button.textContent = "Show Bounding Boxes"
 
     button.addEventListener('click',function(e){
-      if (map.getLayoutProperty('z15_bbox_outline','visibility') != 'visible'){
-        map.setLayoutProperty('z15_bbox_outline','visibility','visible')
+      if (map.getLayoutProperty('r8agg_bboxes','visibility') != 'visible'){
+        map.setLayoutProperty('r8agg_bboxes','visibility','visible')
         button.textContent = "Hide Bounding Boxes"
       }else{
-        map.setLayoutProperty('z15_bbox_outline','visibility','none')
+        map.setLayoutProperty('r8agg_bboxes','visibility','none')
         button.textContent = "Show Bounding Boxes"
       }
     })
@@ -283,31 +283,31 @@ map.on('style.load', function(){
   });
 
   // Add tilesets
-  map.addSource('z15_pmtiles', {
+  map.addSource('r8agg', {
       type: "vector",
-      url: "pmtiles://data/z15.pmtiles"
+      url: "pmtiles://data/res8.pmtiles"
   })
-  map.addSource('z15_polygons_pmtiles', {
+  map.addSource('r8agg_bboxes', {
     type: "vector",
-    url: "pmtiles://data/z15_polygons.pmtiles"
+    url: "pmtiles://data/res8_bboxes.pmtiles"
 })
-map.addSource('z10_pmtiles', {
+map.addSource('r6agg', {
   type: "vector",
-  url: "pmtiles://data/z10.pmtiles"
+  url: "pmtiles://data/res6.pmtiles"
 })
-map.addSource('z8_pmtiles', {
+map.addSource('r4agg', {
   type: "vector",
-  url: "pmtiles://data/z8.pmtiles"
+  url: "pmtiles://data/res4.pmtiles"
 })
   
   // Weekly aggregation for heatmap at low zooms
   map.addLayer({
-    'id': 'z8',
+    'id': 'r4agg',
     'type': 'heatmap',
-    'source': 'z8_pmtiles',
-    'source-layer': 'z8agg',
+    'source': 'r4agg',
+    'source-layer': 'r4agg',
     'minzoom':2,
-    'maxzoom':3,
+    'maxzoom':4.01,
     'paint': {
       "heatmap-weight": [
         "interpolate",
@@ -336,12 +336,12 @@ map.addSource('z8_pmtiles', {
 
   // Daily aggregation at zoom 10
   map.addLayer({
-    'id': 'z10',
+    'id': 'r6agg',
     'type': 'heatmap',
-    'source': 'z10_pmtiles',
-    'source-layer': 'z10agg',
-    'minzoom':3,
-    'maxzoom':6,
+    'source': 'r6agg',
+    'source-layer': 'r6agg',
+    'minzoom':4,
+    'maxzoom':6.01,
     'paint': {
       "heatmap-weight": [
         "interpolate",
@@ -370,11 +370,11 @@ map.addSource('z8_pmtiles', {
 
   // Daily aggregation at zoom 15
   map.addLayer({
-    'id': 'z15',
+    'id': 'r8agg',
     'type': 'heatmap',
-    'source': 'z15_pmtiles',
-    'source-layer': 'z15agg',
-    'minzoom':5,
+    'source': 'r8agg',
+    'source-layer': 'daily',
+    'minzoom':6,
     'maxzoom':15,
     'paint': {
       "heatmap-weight": [
@@ -418,10 +418,10 @@ map.addSource('z8_pmtiles', {
 
   // Daily Bounding boxes
   map.addLayer({
-    'id': 'z15_bbox_outline',
+    'id': 'r8agg_bboxes',
     'type': 'line',
-    'source': 'z15_polygons_pmtiles',
-    'source-layer': 'z15agg_bbox',
+    'source': 'r8agg_bboxes',
+    'source-layer': 'daily_bbox',
     'minzoom':6,
     'paint': {
       'line-color': 'orange',
@@ -443,8 +443,8 @@ map.addSource('z8_pmtiles', {
   map.addLayer({
     'id': 'centroids',
     'type': 'symbol',
-    'source': 'z15_pmtiles',
-    'source-layer': 'z15agg',
+    'source': 'r8agg',
+    'source-layer': 'daily',
     'minzoom':13.0,
     // 'maxzoom':15,
     'layout': {
@@ -492,10 +492,10 @@ function buildPopUp(p){
   return `<h5>${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</h5>
   <h6>${site.chapterIndexMap[p.chapter_id]}</h6>
   <table>
-  <tr><td>${p.buildings}</td><td>Buildings</td></tr>
-  <tr><td>${p.amenities}</td><td>Amenities</td></tr>
-  <tr><td>${p.highways}</td><td>Highways</td></tr>
-  <tr><td>${p.all_feats - p.highways - p.amenities - p.buildings}</td><td>Other features</td></tr>
+  <tr><td>${p.buildings || 0}</td><td>Buildings</td></tr>
+  <tr><td>${p.amenities || 0}</td><td>Amenities</td></tr>
+  <tr><td>${p.highways || 0}</td><td>Highways</td></tr>
+  <tr><td>${p.all_feats - (p.highways  || 0)- (p.amenities || 0) - (p.buildings || 0)}</td><td>Other features</td></tr>
   </table>`
 }
 
