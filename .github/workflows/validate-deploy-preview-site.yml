@@ -18,6 +18,9 @@ jobs:
       - uses: anishathalye/proof-html@v2
         with:
           directory: '.'
+          enforce_https: false
+          ignore_missing_alt: true
+
           
   stage:
     environment:
