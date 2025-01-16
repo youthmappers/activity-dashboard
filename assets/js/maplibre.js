@@ -421,7 +421,7 @@ map.addSource('r4agg', {
     'id': 'r8agg_bboxes',
     'type': 'line',
     'source': 'r8agg_bboxes',
-    'source-layer': 'daily_bbox',
+    'source-layer': 'daily',
     'minzoom':6,
     'paint': {
       'line-color': 'orange',
