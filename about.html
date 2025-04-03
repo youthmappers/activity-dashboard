@@ -6,10 +6,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name='viewport' content='width=device-width, initial-scale=1' />
 
-  <link href="https://unpkg.com/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- My customs -->
-  <link href="assets/css/site.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
 
 </head>
 <body class="d-flex flex-column h-100">
@@ -17,54 +14,51 @@
 
 <div class='page-wrapper'>
   <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-          <a href="index.html"><img class='image float-right img-fluid mr-2' width="40" src='assets/img/ym_logo_transparent.png' alt="youthmappers-logo"></a>
-          <a class="navbar-brand" href="index.html">YouthMappers Activity</a>
-          <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
-              <li class="nav-item mr-2">
-                <a class="nav-link" aria-current="page" href="index.html">Map</a>
-              </li>
-              <li class="nav-item mr-2">
-                <a class="nav-link" href="numbers.html">Numbers</a>
-              </li>
-              <li class="nav-item mr-2">
-                <a class="nav-link" href="live.html">Live Tracker</a>
-              </li>
-              <li class="nav-item mr-2">
-                <a class="nav-link active" href="about.html">About</a>
-              </li>
-            </ul>
-          </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a href="index.html"><img class='image float-right img-fluid mr-2' width="40" src='assets/img/ym_logo_transparent.png' alt="youthmappers-logo"></a>
+        <a class="navbar-brand" href="index.html">YouthMappers Activity</a>
+        <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
+            <li class="nav-item mr-2">
+              <a class="nav-link" aria-current="page" href="index.html">Map</a>
+            </li>
+            <li class="nav-item mr-2">
+              <a class="nav-link" href="numbers.html">Numbers</a>
+            </li>
+            <li class="nav-item mr-2">
+              <a class="nav-link" href="live.html">Live Tracker</a>
+            </li>
+            <li class="nav-item mr-2">
+              <a class="nav-link active" href="about.html">About</a>
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
 
-  <div id='content' class='container mt-5 pt-5'>
+  <section class='container mt-5 pt-5'>
+    <div class="row">
+      <div class="col-8">
+        <h1>YouthMappers Activity Tracker</h1>
+        <p>This dashboard quantifies the OpenStreetMap editing activity by mappers associated with YouthMappers chapters around the globe. There are over <strong>400</strong> chapters in more than <strong>75</strong> countries around the world. This dashboard shows edits from <strong><span id='distinct_uids'>thousands</span></strong> of mappers in these chapters.</p>    
 
-    <div>
+        <h4 class='pt-2'>Don't see your edits or your chapter?</h4>
+        <p>We can only track edits by mappers that are registered or listed in an official YouthMappers chapter on OSM Teams. <a href="#osmteams">Please see the instructions to join your chapter on OSM Teams!</a></p>
+      </div>
 
-      <img class='image img-fluid float-right' width='400' src='assets/img/dashboard_screenshot.png' alt='Screenshot of the YouthMappers Activity Tracker dashboard'>
-
-      <h1>YouthMappers Activity Tracker</h1>
-
-      <p>This dashboard quantifies the OpenStreetMap editing activity by mappers associated with YouthMappers chapters around the globe. There are over <strong>400</strong> chapters in more than <strong>75</strong> countries around the world. This dashboard shows edits from <strong><span id='distinct_uids'>thousands</span></strong> of mappers in these chapters.</p>    
-
-
-      <h4 class='pt-2'>Don't see your edits or your chapter?</h4>
-      <p>We can only track edits by mappers that are registered or listed in an official YouthMappers chapter on OSM Teams. <a href="#osmteams">Please see the instructions to join your chapter on OSM Teams!</a></p>
+      <div class="col text-end">
+        <img class="img-fluid" src='assets/img/dashboard_screenshot.png' alt='Screenshot of the YouthMappers Activity Tracker dashboard'>
+      </div>
     </div>
 
-
-    <div style="clear:both;">
-
-      <h4 class='pt-3'>Using The Map</h4>
-      <img class='image float-right img-fluid' width='500' src='assets/img/pokhara_bboxes.png' alt='Map showing bounding boxes in Pokhara'>
-
+    <div class="row">
+      <div class="col-8">
+        <h4 class='pt-3'>Using The Map</h4>
         <h6>Filtering by Time</h6>
         <p>
           The timeline along the bottom shows the relative number of chapters active each day in OSM. By <code>clicking and dragging</code> across the timeline, the map will filter to only show changesets submitted in that time range.
@@ -74,143 +68,167 @@
         <p>
           <code>Click</code> <em>Show Bounding Boxes</em> to show the bounding box of changesets performed that day. The bounding boxes appear unstraight because they can also be viewed in 3d!
         </p>
+      </div>
+      <div class="col text-end">
+        <img class="img-fluid" src='assets/img/pokhara_bboxes.png' alt='Map showing bounding boxes in Pokhara'>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <p>
           Tilt the map with <code>Control + Click &amp; Drag</code> to see the actual terrain. The numbers inside the bounding boxes represent the number of features edited in that box on any given day. Hovering over this number will give more information.
         </p>
+      </div>
     </div>
 
-    <img class='image img-fluid m-2' src='assets/img/terrain.jpg' alt='A terrain visualization image'>
-    
-
-    <h6>Filtering by Chapter</h6>
-    <p>
-      Choosing a chapter from the Dropdown menu labeled <code>Choose A Chapter</code> will show only edits from mappers associated with that chapter. Multiple chapters can be chosen consecutively. Chapters can be unselected by clicking the<code>[X]</code> button next to their name.
-    </p>
-
-    <div class='mt-4' id='how'>
-      <h4 class='mt'>How are these numbers calculated?</h4>
+    <div class="row">
+      <div class="col">
+        <img class="img-fluid" src='assets/img/terrain.jpg' alt='A terrain visualization image'>
+      </div>
     </div>
 
-    <p>Did you know that the entire editing history of OpenStreetMap is available in a queryable database part of Amazon's <a target="_blank" href="https://registry.opendata.aws/osm/">Open Data Program</a>? We search the full history to count all of the edits to highways, buildings, amenities, or other objects by OSM users known to be in, or have been part of a YouthMappers chapter.</p>
-    <p>The numbers presented here are just a subset of all edits from YouthMappers chapters because there many mappers associated with YouthMappers chapters that are not yet registered on OSM Teams. If you are part of a YouthMappers chapter and not registered on OSM Teams, <a href="#osmteams">please see the instructions to join your chapter on OSM Teams!</a></p>
+    <div class="row">
+      <div class="col">
+        <h6>Filtering by Chapter</h6>
+        <p>
+          Choosing a chapter from the Dropdown menu labeled <code>Choose A Chapter</code> will show only edits from mappers associated with that chapter. Multiple chapters can be chosen consecutively. Chapters can be unselected by clicking the<code>[X]</code> button next to their name.
+        </p>
 
-    <br id="geoparquet" />
-    <h3 id="analysis-example">How can I download the data for use in my own analysis?</h3>
-    <p>All of the data that powers the map on this website is available as GeoParquet here: <code>s3://youthmappers-usw2/activity/daily_rollup.parquet</code> 
+        <div class='mt-4' id='how'>
+          <h4 class='mt'>How are these numbers calculated?</h4>
+        </div>
+
+        <p>Did you know that the entire editing history of OpenStreetMap is available in a queryable database part of Amazon's <a target="_blank" href="https://registry.opendata.aws/osm/">Open Data Program</a>? We search the full history to count all of the edits to highways, buildings, amenities, or other objects by OSM users known to be in, or have been part of a YouthMappers chapter.</p>
+        <p>The numbers presented here are just a subset of all edits from YouthMappers chapters because there many mappers associated with YouthMappers chapters that are not yet registered on OSM Teams. If you are part of a YouthMappers chapter and not registered on OSM Teams, <a href="#osmteams">please see the instructions to join your chapter on OSM Teams!</a></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h3 id="analysis-example">Can I download the data for use in my own analysis?</h3>
+        <p>All of the data that powers the map on this website is available as GeoParquet here: <code>s3://youthmappers-usw2/activity/daily_rollup.parquet</code> 
+        
+        <p>You can download the it here: <code>https://youthmappers-usw2.s3.us-west-2.amazonaws.com/activity/daily_rollup.parquet</code> and read it with an analysis tool like GeoPandas.</p>
     
-    <p>You can download the it here: <code>https://youthmappers-usw2.s3.us-west-2.amazonaws.com/activity/daily_rollup.parquet</code> and read it with an analysis tool like GeoPandas.</p>
+        <p>You can also access the data directly on S3 with <a href="https://duckdb.org/">DuckDB</a>:</p>
+        <pre>
+SELECT 
+  sum(buildings.new), sum(buildings.edited)
+FROM 
+  read_parquet('s3://youthmappers-usw2/activity/daily_rollup.parquet');
+        </pre>
+        <p>You should see something similar to this: </p>
+        <pre>
+┌──────────────────────┬───────────────────────┐
+│ sum(buildings."new") │ sum(buildings.edited) │
+│        int128        │        int128         │
+├──────────────────────┼───────────────────────┤
+│           25,174,061 │             2,051,233 │
+└──────────────────────┴───────────────────────┘
+        </pre>
+      </div>
+    </div>
 
-    <p>You can also access the data directly on S3 with <a href="https://duckdb.org/">DuckDB</a>:</p>
-    <pre>
-  SELECT 
-    sum(buildings.new), sum(buildings.edited)
-  FROM 
-    read_parquet('s3://youthmappers-usw2/activity/daily_rollup.parquet');
-    </pre>
-    <p>You should see something similar to this: </p>
-    <pre>
-  ┌──────────────────────┬───────────────────────┐
-  │ sum(buildings."new") │ sum(buildings.edited) │
-  │        int128        │        int128         │
-  ├──────────────────────┼───────────────────────┤
-  │           25,174,061 │             2,051,233 │
-  └──────────────────────┴───────────────────────┘
-    </pre>
+    <hr id='osmteams' class='mt-4 pt-4'>
 
-
-  </div>
-  <hr id='osmteams' class='mb-4'>
-  <div class='pt-4 container'>
-
-      <div>
-        <img class='image img-fluid float-right' width='400' src='assets/img/osm_teams/osm_teams_org_page.png' alt='Screenshot of the OSM Teams organization page'>
-
-        <h1 class='pt-4' id="osm-teams">OSM Teams</h1>
-      
+    <div class="row mt-4 pt-4">
+      <div class="col-7">  
+        <h1>OSM Teams</h1>
+        
         <p>OSM Teams is a platform that allows OpenStreetMap users to organize themselves into <em>teams</em>. This allows more convenient tracking of membership among groups of mappers, which enables easier collection of mapping metrics and statistics.</p>
-
+  
         <h2 class='pt-4'>YouthMappers on OSM Teams</h2>
         <p>The <a href="https://mapping.team/organizations/1" target="_blank">YouthMappers Organization</a> on OSM Teams consists of more than 2,200 mappers across more than 300 teams. Each team represents an active YouthMappers chapter. Edits from mappers that are members of these teams are counted on the <a href="https://activity.youthmappers.org">Activity Tracker</a>.</p>
-
+  
       </div>
-      
-      <hr>
+      <div class="col text-end">
+        <img class="img-fluid" width='400' src='assets/img/osm_teams/osm_teams_org_page.png' alt='Screenshot of the OSM Teams organization page'>
+      </div>
 
-      <div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
         <h4>How do I join my YouthMappers chapter on OSM Teams?</h4>
         <p>You need a specific invite link to join a chapter. You can get this link from your chapter moderator, or simply send Jennings a message on OSM with the name of your chapter, and he will reply with an invite link. <a href="https://www.openstreetmap.org/message/new/Jennings%20Anderson">Click here to send Jennings a message on OSM.</a></p>
 
         <p>Even if you already graduated, please register for OSM Teams so that we may count you among one of the thousands of successful YouthMappers alumni!</p>
       </div>
-
-      <br>
-      <h4 id='how-to-log-into-osmteams'>Logging into OSM Teams using your OpenStreetMap account</h4>
-
-      <p>When you follow your invite link, you may be prompted to log into both OSM Teams and OpenStreetMap. Follow these instructions to connect these accounts:</p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>1. Click "Sign In"</th>
-            <th>2. Click "Login with OSM"</th>
-            <th>3. Sign into OpenStreetMap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>If you are not already logged in, OSM Teams will ask you to sign in.</td>
-            <td>OSM Teams uses your OpenStreetMap account.</td>
-            <td>Enter your OpenStreetMap credentials if prompted.</td>
-          </tr>
-          <tr>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.001.png" alt="Step 1: Click 'Sign In' on OSM Teams"></td>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.002.png" alt="Step 2: Click 'Login with OSM' on OSM Teams"></td>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.003.png" alt="Step 3: Sign into OpenStreetMap"></td>
-          </tr>
-          <tr>
-            <th><strong>4. Grant Access to your OpenStreetMap account</strong></th>
-            <th><strong>5. Allow OSM Teams Access to your OpenStreetMap Account</strong></th>
-            <th><strong>6. Success!</strong></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.004.png" alt="Step 4: Grant Access to your OpenStreetMap account"></td>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png" alt="Step 5: Allow OSM Teams Access to your OpenStreetMap Account"></td>
-            <td><img width="400" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.006.png" alt="Step 6: Success message displayed after completing the OSM Teams login process"></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>After successfully accepting your invitation, you will be automatically redirected to your team profile page. Here you can fill out your OSM Teams profile. <strong>This is the most important part!</strong></p>
-      
-      <table>
-      <thead>
-          <tr>
-            <th>Edit Profile Page</th>
-            <th>Complete your profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><img width="500" src="assets/img/osm_teams/edit_profile_hires_2.png" alt="Edit profile page screenshot"></td>
-            <td><img width="500" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.007.png" alt="Step showing the completion of the OSM Teams profile setup"></td>
-          </tr>
-          <tr>
-            <td>
-              YouthMapper profiles include demographic questions such as age and gender,and ask what you are studying, and when you plan on graduating. <br><br><em>If you have already graduated, please put the date of your graduation so we know you are one of the many YouthMapper alumni.</em>
-            </td>
-            <td>
-              Once you fill out all of the questions on your profile page, please read the YouthMappers Privacy Policy for OSM Teams. <br><br><em>Only after you consent to your data being used in YouthMappers research can you click "Submit" to complete your profile.</em>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <br>
-
-      <p>Thank you for joining YouthMappers on OSM Teams! We use the information submitted to better track the membership of YouthMappers chapters all around the world. As the platform continues to develop, new features will become available.</p>
     </div>
+    <hr>
+    
+    <div class="row">
+      <div class="col">
+        <h4 id='how-to-log-into-osmteams'>Logging into OSM Teams using your OpenStreetMap account</h4>
+        <p>When you follow your invite link, you may be prompted to log into both OSM Teams and OpenStreetMap. Follow these instructions to connect these accounts:</p>
+      </div>
+
+    </div>
+    
+    
+    <div class="row">
+      <div class="col-4">
+        <h5>1. Click "Sign In"</h5>
+        <p>If you are not already logged in, OSM Teams will ask you to sign in.</p>
+        <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.001.png" alt="Step 1: Click 'Sign In' on OSM Teams">
+      </div>
+      <div class="col-4">
+        <h5>2. Click "Login with OSM"</h5>
+        <p>OSM Teams uses your OpenStreetMap account.</p>
+        <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.002.png" alt="Step 2: Click 'Login with OSM' on OSM Teams">
+      </div>
+      <div class="col-4">
+        <h5>3. Sign into OpenStreetMap</h5>
+        <p>Enter your OpenStreetMap username and password</p>
+        <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.003.png" alt="Step 3: Sign into OpenStreetMap">
+      </div>
+        
+    </div>
+    <div class="row">
+      <div class="col-4">
+      <h5>4. Grant Access to your OpenStreetMap account</h5>
+      <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.004.png" alt="Step 4: Grant Access to your OpenStreetMap account">
+      </div>
+      <div class="col-4">
+      <h5>5. Click "Allow Access"</h5>
+      <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png" alt="Step 5: Allow OSM Teams Access to your OpenStreetMap Account">
+      </div>
+      <div class="col-4">
+      <h5>6. Success!</h5>
+      <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.006.png" alt="Step 6: Success message displayed after completing the OSM Teams login process">
+      </div>
+    </div>
+
+    <div class="row"></div>
+      <div class="col">
+        <p>After successfully accepting your invitation, you will be automatically redirected to your team profile page. Here you can fill out your OSM Teams profile. <strong>This is the most important part!</strong></p>
+      </div>
+      
+      <div class="row">
+        <div class="col-5">
+          <h5>Edit Profile Page</h5>
+          <img class="img-fluid" src="assets/img/osm_teams/edit_profile_hires_2.png" alt="Edit profile page screenshot">
+          <p>
+            YouthMapper profiles include demographic questions such as age and gender, and ask what you are studying, and when you plan on graduating. <br><br>
+            <em>If you have already graduated, please put the date of your graduation so we know you are one of the many YouthMapper alumni.</em>
+          </p>
+        </div>
+        <div class="col-5">
+          <h5>Complete your profile</h5>
+          <img class="img-fluid" src="assets/img/osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.007.png" alt="Step showing the completion of the OSM Teams profile setup">
+          <p>
+            Once you fill out all of the questions on your profile page, please read the YouthMappers Privacy Policy for OSM Teams. <br><br>
+            <em>Only after you consent to your data being used in YouthMappers research can you click "Submit" to complete your profile.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p>Thank you for joining YouthMappers on OSM Teams! We use the information submitted to better track the membership of YouthMappers chapters all around the world. As the platform continues to develop, new features will become available.</p>
+        </div>
+      </div>
+    </section>
   </div>
 
   <footer class='container'>
