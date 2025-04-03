@@ -6,8 +6,8 @@ const ALL_LAYERS = ['r4agg', 'r6agg', 'r8agg', 'r8agg_bboxes', 'centroids']
 var mapFilters = []
 
 // Imports, Protocols
-let protocol = new pmtiles.Protocol();
-maplibregl.addProtocol("pmtiles",protocol.tile);
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", protocol.tile);
 
 // Initialize the map
 var map = new maplibregl.Map({

@@ -8,17 +8,15 @@
   <title>YouthMappers Mapping Activity Tracker</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <script src="assets/js/site.js"></script>
-
   <!-- Bootstrap -->    
-  <link href="assets/lib/bootstrap.min.css" rel="stylesheet">
-  <!-- <script src="/assets/lib/popper.min.js"></script> -->
+  <link href="https://unpkg.com/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- D3 -->
+  <script src="https://unpkg.com/d3@4.13.0/build/d3.min.js"></script>
+
+  <!-- Customs -->
+  <script src="assets/js/site.js"></script>
   <link href="assets/css/site.css" rel="stylesheet">
-
-  <!-- D3 & JQuery? -->
-  <script src="assets/lib/d3.v4.min.js"></script>
-  <!-- <script src="/assets/lib/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 
   <!-- <link href="/assets/css/map.css" rel="stylesheet"> -->
   <script src="data/chapters_and_uids.jsonp"></script>
@@ -98,7 +96,7 @@
     <div class='mb-4' id='edit-count-badges'>
       <p>Mappers with YouthMappers have edited the following existing features in OpenStreetMap:</p>
       <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h2 class='pb-2'>Edited Buildings Overview</h2>
+        <h2 class='pb-2'>Edited Buildings</h2>
         <h2 class='card-title' id="badge-edited_buildings_past_year">Loading...</h2>
         <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
 
@@ -114,7 +112,7 @@
         <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
       </div>
       <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h2 class='pb-2'>Edited Amenities Overview</h2>
+        <h2 class='pb-2'>Edited Amenities</h2>
         <h2 class='card-title' id="badge-edited_amenities_past_year">Loading...</h2>
         <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
 
