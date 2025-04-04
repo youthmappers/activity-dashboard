@@ -4,7 +4,6 @@
 // Variables and map constants
 const ALL_LAYERS = ['r4agg', 'r6agg', 'r8agg', 'r8agg_bboxes', 'centroids']
 var mapFilters = []
-
 // Imports, Protocols
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
@@ -19,6 +18,11 @@ var map = new maplibregl.Map({
   minZoom:2.01,
   maxZoom:14.99,
 });
+
+let ymlogo;
+(async () => {
+  ymlogo = await map.loadImage('assets/img/ym_logo_transparent_small.png');
+})();
 
 // Map Functions and Classes
 function setTemporalFilters(filters){
@@ -90,37 +94,35 @@ class ChapterSearchBox {
     this._container = document.createElement("div");
     this._container.className = 'maplibregl-ctrl';
 
-    var dropdown = document.createElement("select")
-        dropdown.classList.add("selectpicker")
-        dropdown.classList.add("chapter-dropdown-menu")
-        dropdown.setAttribute('data-show-subtext', true);
-        dropdown.setAttribute('data-live-search', true);
-        dropdown.setAttribute('data-size', 15);
+    var dataListInput = document.createElement("input")
+        dataListInput.classList.add("form-control") 
+        dataListInput.setAttribute("list", "datalistOptions")
+        dataListInput.setAttribute("placeholder", "Filter by Chapter...")
 
-    // Populate the dropdown and search menu
-    var group = document.createElement('optgroup')
-        group.innerHTML = "YouthMappers Chapters"
-    
-    var defaultOption = document.createElement('option')
-        defaultOption.setAttribute('data-subtext','Choose A Chapter...')
-        defaultOption.setAttribute('value','-1')
-        group.appendChild(defaultOption)
+    var dataList = document.createElement("datalist")
+        dataList.id = "datalistOptions"
+
+        dataListInput.appendChild(dataList)
+
+    var dropdown = document.createElement("select")
+        dropdown.classList.add("form-select")
+        dropdown.classList.add("chapter-dropdown-menu")
     
     chapters.forEach(function(chap){
-	    var option = document.createElement('option')
-	        option.value = chap.chapter_id
-	        option.text = chap.chapter
-	        option.setAttribute('data-subtext', chap.university + ', ' + chap.city + ', ' + chap.country);
+
+      var dataListItem = document.createElement('option')
+          dataListItem.value = chap.chapter
+          dataListItem.text = chap.university + ', ' + chap.city + ', ' + chap.country
+          dataListItem.setAttribute("chapter_id", chap.chapter_id)
 
 	    site.chapterIndexMap[chap.chapter_id] = chap.chapter
 
   	  if (chap.chapter!=''){
-	  	  group.appendChild(option)
+        dataList.appendChild(dataListItem)
 	    }
     })
 
-    dropdown.appendChild(group);
-    this._container.appendChild(dropdown)
+    this._container.appendChild(dataListInput)
     
     // Create the list to add chapters to
     var selectedChapterList = document.createElement('ul')
@@ -130,11 +132,27 @@ class ChapterSearchBox {
     // Add it to this container (underneath, I hope)
     this._container.appendChild(selectedChapterList)
 
-    // Choose a chapter from the dropdown list
-    dropdown.addEventListener('change',function(e){
-      var chap = Number(dropdown.value)
+    // Choose a chapter from the datalist
+    dataListInput.addEventListener('change', function(e) {
+      const selectedOption = Array.from(dataList.options).find(option => option.value === e.target.value);
 
-      if (chap < 0){return}
+      selectedOption.disabled = true;
+
+      if (!selectedOption) {
+      console.log("No matching chapter found");
+      return;
+      }
+
+      const chapterName = selectedOption.value;
+      const chap = Number(selectedOption.getAttribute("chapter_id"));
+
+      if (chap < 0) {
+      return;
+      }
+
+      e.target.value = '';
+
+      // Proceed with the rest of the logic
     
       // If it exists, we remove it
       if (site.selectedChapters.has(chap)){
@@ -432,12 +450,7 @@ map.addSource('r4agg', {
     }
   });
 
-  map.loadImage(
-    'assets/img/ym_logo_transparent_small.png',
-    (error, image) => {
-        if (error) throw error;
-        map.addImage('ym_logo', image);
-    })
+  map.addImage('ym_logo', ymlogo.data);
 
   // Centroids to display number of features
   map.addLayer({
@@ -460,10 +473,16 @@ map.addSource('r4agg', {
   });
 
 
+  
+
   // Create a popup, but don't add it to the map yet.
   const popup = new maplibregl.Popup({
     closeButton: false,
     closeOnClick: false
+  });
+
+  map.on('styleimagemissing', (e) => {
+    
   });
    
   map.on('mouseenter', 'centroids', (e) => {
