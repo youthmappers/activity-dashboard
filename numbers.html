@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,19 +8,16 @@
   <title>YouthMappers Mapping Activity Tracker</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <script src="assets/js/site.js"></script>
-
   <!-- Bootstrap -->    
-  <link href="assets/lib/bootstrap.min.css" rel="stylesheet">
-  <!-- <script src="/assets/lib/popper.min.js"></script> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
 
+  <!-- D3 -->
+  <script src="https://unpkg.com/d3@4.13.0/build/d3.min.js"></script>
+
+  <!-- Customs -->
+  <script src="assets/js/site.js"></script>
   <link href="assets/css/site.css" rel="stylesheet">
 
-  <!-- D3 & JQuery? -->
-  <script src="assets/lib/d3.v4.min.js"></script>
-  <!-- <script src="/assets/lib/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-
-  <!-- <link href="/assets/css/map.css" rel="stylesheet"> -->
   <script src="data/chapters_and_uids.jsonp"></script>
 
   <script src="assets/js/bar_graphs.js"></script>
@@ -28,306 +26,302 @@
 <body class="d-flex flex-column h-100">
 
   <div class='page-wrapper'>
-
     <header>
-        <!-- Fixed navbar -->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <div class="container-fluid">
-            <a href="index.html"><img class='image float-right img-fluid mr-2' width="40" src='assets/img/ym_logo_transparent.png'></a>
-            <a class="navbar-brand" href="/index.html">YouthMappers Activity</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
-              <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
-                <li class="nav-item mr-2">
-                  <a class="nav-link" aria-current="page" href="index.html">Map</a>
-                </li>
-                <li class="nav-item mr-2">
-                  <a class="nav-link active" href="numbers.html">Numbers</a>
-                </li>
-                <li class="nav-item mr-2">
-                  <a class="nav-link" href="live.html">Live Tracker</a>
-                </li>
-                <li class="nav-item mr-2">
-                  <a class="nav-link" href="about.html">About</a>
-                </li>
-              </ul>
-            </div>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a href="index.html"><img class='image float-right img-fluid mr-2' width="40" src='assets/img/ym_logo_transparent.png' alt="YouthMappers Logo"></a>
+          <a class="navbar-brand" href="/index.html">YouthMappers Activity</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse bg-dark" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0 p-1">
+              <li class="nav-item mr-2">
+                <a class="nav-link" aria-current="page" href="index.html">Map</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link active" href="numbers.html">Numbers</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="live.html">Live Tracker</a>
+              </li>
+              <li class="nav-item mr-2">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+            </ul>
           </div>
-        </nav>
-      </header>
+        </div>
+      </nav>
+    </header>
 
-    <div id='content' class='container mt-5'>
-
+    <section id='content' class='container mt-5'>
     
-    <h4 class='pt-5'>YouthMappers Edit Counts
-      <small class="text-muted"><span id='total-edits'></span></small>
-    </h4>
-    <br>
-
-    <div class='mb-4' id='object-count-badges'>  
-     <p>Mappers with YouthMappers have added the following features to OpenStreetMap:</p>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h1 class='pb-2'>New Buildings</h1>
-        <h2 class='card-title' id="badge-new_buildings_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-new_buildings_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h1 class='pb-2'>New Roads</h1>
-        <h2 class='card-title' id="badge-new_highways_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-new_highways_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h1 class='pb-2'>New Amenities</h1>
-        <h2 class='card-title' id="badge-new_amenities_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-new_amenities_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-    </div>
-
-    <div class='mb-4' id='object-count-badges'>
-      <p>Mappers with YouthMappers have edited the following existing features in OpenStreetMap:</p>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h2 class='pb-2'>Edited Buildings</h2>
-        <h2 class='card-title' id="badge-edited_buildings_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-edited_buildings_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h2 class='pb-2'>Edited Roads</h2>
-        <h2 class='card-title' id="badge-edited_highways_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-edited_highways_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-      <div class='card p-2' style='width:18rem; display:inline-block;'>
-        <h2 class='pb-2'>Edited Amenities</h2>
-        <h2 class='card-title' id="badge-edited_amenities_past_year"></h2>
-        <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
-
-        <h4 class='pt-2 card-title' id="badge-edited_amenities_all_time"></h4>
-        <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
-      </div>
-    </div>
-
-    <p><em>Note that many of these objects have been subsequently edited or deleted. See <a href='/about.html#how'>how these numbers were calculated.</a></em></p>
-
-    <h2 class='mt-5'>Mapper Counts<small class='text-muted'> in the last 3 years</small></h2>
-    <div class='pt-2' id='monthly-chapter-activity'>
-      <h4>Chapter Activity
-        <small class='text-muted'>Number of YouthMappers Chapters active each month</small>
+      <h4 class='pt-5'>YouthMappers Edit Counts
+        <small class="text-muted"><span id='total-edits'></span></small>
       </h4>
-      <svg width="800" height="200" id='monthly-chapter-activity-svg'></svg>
-      <script type='text/javascript'>
-        buildBarChart({
-          'svgID' : 'monthly-chapter-activity-svg',
-          'data'  : site.monthly_activity_last_1200_days,
-          'value' : 'chapters',
-          'date'  : 'month',
-          'barColor' : '#EF5F67',
-          'w' : 800, 'h': 200
-        })
-      </script>
-    </div>
+      <br>
 
-    <div class='mt-5 pt-2' id='monthly-mapper-activity'>
-      <h4>Mapper Activity
-        <small class='text-muted'>Number of Mappers active each month</small>
-      </h4>
-      <svg width="800" height="200" id='monthly-mapper-activity-svg'></svg>
-      <script type='text/javascript'>
-        buildBarChart({
-          'svgID' : 'monthly-mapper-activity-svg',
-          'data'  : site.monthly_activity_last_1200_days,
-          'value' : 'users',
-          'date'  : 'month',
-          'barColor' : 'steelblue',
-          'w' : 800, 'h': 200
-        })
-      </script>
-    </div>
+      <div class='row mb-4' id='added-count-badges'>  
+      <p>Mappers with YouthMappers have added the following features to OpenStreetMap:</p>
+        <div class='col-3 card p-2 m-2'>
+          <h1 class='pb-2'>New Buildings</h1>
+          <h2 class='card-title' id="badge-new_buildings_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-new_buildings_all_time">All Time Data Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+        <div class='col-3 card p-2 m-2'>
+          <h1 class='pb-2'>New Roads</h1>
+          <h2 class='card-title' id="badge-new_highways_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-new_highways_all_time">Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+        <div class='col-3 card p-2 m-2'>
+          <h1 class='pb-2'>New Amenities</h1>
+          <h2 class='card-title' id="badge-new_amenities_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-new_amenities_all_time">Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+      </div>
+
+      <div class='row mb-4' id='edit-count-badges'>
+        <p>Mappers with YouthMappers have edited the following existing features in OpenStreetMap:</p>
+        <div class='col-3 card p-2 m-2'>
+          <h2 class='pb-2'>Edited Buildings</h2>
+          <h2 class='card-title' id="badge-edited_buildings_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-edited_buildings_all_time">Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+        <div class='col-3 card p-2 m-2'>
+          <h2 class='pb-2'>Edited Roads</h2>
+          <h2 class='card-title' id="badge-edited_highways_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-edited_highways_all_time">Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+        <div class='col-3 card p-2 m-2'>
+          <h2 class='pb-2'>Edited Amenities</h2>
+          <h2 class='card-title' id="badge-edited_amenities_past_year">Loading...</h2>
+          <h4 class='card-subtitle mb-2 text-muted'>Last Year</h4>
+
+          <h4 class='pt-2 card-title' id="badge-edited_amenities_all_time">Loading...</h4>
+          <h5 class='card-subtitle mb-2 text-muted'>All Time</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <p><em>Note that many of these objects have been subsequently edited or deleted. See <a href='/about.html#how'>how these numbers were calculated.</a></em></p>
+      </div>
+
+      <h2 class='mt-5'>Mapper Counts<small class='text-muted'> in the last 3 years</small></h2>
+      <div class='pt-2' id='monthly-chapter-activity'>
+        <h4>Chapter Activity
+          <small class='text-muted'>Number of YouthMappers Chapters active each month</small>
+        </h4>
+        <svg width="800" height="200" id='monthly-chapter-activity-svg'></svg>
+        <script type='text/javascript'>
+          buildBarChart({
+            'svgID' : 'monthly-chapter-activity-svg',
+            'data'  : site.monthly_activity_last_1200_days,
+            'value' : 'chapters',
+            'date'  : 'month',
+            'barColor' : '#EF5F67',
+            'w' : 800, 'h': 200
+          })
+        </script>
+      </div>
+
+      <div class='mt-5 pt-2' id='monthly-mapper-activity'>
+        <h4>Mapper Activity
+          <small class='text-muted'>Number of Mappers active each month</small>
+        </h4>
+        <svg width="800" height="200" id='monthly-mapper-activity-svg'></svg>
+        <script type='text/javascript'>
+          buildBarChart({
+            'svgID' : 'monthly-mapper-activity-svg',
+            'data'  : site.monthly_activity_last_1200_days,
+            'value' : 'users',
+            'date'  : 'month',
+            'barColor' : 'steelblue',
+            'w' : 800, 'h': 200
+          })
+        </script>
+      </div>
+      
+      <hr>
+
+      <h2 class='mt-5'>Mapping Activity <small class='text-muted'>all time </small></h2>
     
-    <hr>
+      <div class='pt-2' id='monthly-building-activity'>
+        <h4>New Buildings
+          <small class='text-muted'>added each month</small>
+        </h4>
+        <svg width="800" height="200" id='monthly-buildings-svg'></svg>
+        <script type='text/javascript'>
+          buildLineGraph({
+            'svgID' : 'monthly-buildings-svg',
+            'data'  : site.monthly_activity_all_time,
+            'values' : ['new_buildings','edited_buildings'],
+            'date'  : 'month',
+            'w' : 800, 'h': 200,
+          })
+        </script>
+      </div>
 
-    <h2 class='mt-5'>Mapping Activity <small class='text-muted'>all time </small></h2>
+      <div class='pt-2' id='monthly-highway-activity'>
+        <h4>New Highways
+          <small class='text-muted'>added each month</small>
+        </h4>
+        <svg width="800" height="200" id='monthly-highways-svg'></svg>
+        <script type='text/javascript'>
+          buildLineGraph({
+            'svgID' : 'monthly-highways-svg',
+            'data'  : site.monthly_activity_all_time,
+            'values' : ['new_highways','edited_highways'],
+            'date'  : 'month',
+            'lineClass' : 'line2',
+            'w' : 800, 'h': 200,
+          })
+        </script>
+      </div>
+
+      <div class='pt-2' id='monthly-amenity-activity'>
+        <h4>New Amenities
+          <small class='text-muted'>added each month</small>
+        </h4>
+        <svg width="800" height="200" id='monthly-amenities-svg'></svg>
+        <script type='text/javascript'>
+          buildLineGraph({
+            'svgID' : 'monthly-amenities-svg',
+            'data'  : site.monthly_activity_all_time,
+            'values' : ['new_amenities','edited_amenities'],
+            'date'  : 'month',
+            'lineClass' : 'line3',
+            'w' : 800, 'h': 200,
+          })
+        </script>
+      </div>
+
+      <div>
+        <h2 class='mt-5'>Top Edited Countries<small class='text-muted'> in the past months</small></h2>
+        <div id='top_countries' class='row'>
+        </div>
+      </div>
     
-    <div class='pt-2' id='monthly-building-activity'>
-      <h4>New Buildings
-        <small class='text-muted'>added each month</small>
-      </h4>
-      <svg width="800" height="200" id='monthly-buildings-svg'></svg>
-      <script type='text/javascript'>
-        buildLineGraph({
-          'svgID' : 'monthly-buildings-svg',
-          'data'  : site.monthly_activity_all_time,
-          'values' : ['new_buildings','edited_buildings'],
-          'date'  : 'month',
-          'w' : 800, 'h': 200,
-        })
-      </script>
-    </div>
-
-    <div class='pt-2' id='monthly-highway-activity'>
-      <h4>New Highways
-        <small class='text-muted'>added each month</small>
-      </h4>
-      <svg width="800" height="200" id='monthly-highways-svg'></svg>
-      <script type='text/javascript'>
-        buildLineGraph({
-          'svgID' : 'monthly-highways-svg',
-          'data'  : site.monthly_activity_all_time,
-          'values' : ['new_highways','edited_highways'],
-          'date'  : 'month',
-          'lineClass' : 'line2',
-          'w' : 800, 'h': 200,
-        })
-      </script>
-    </div>
-
-    <div class='pt-2' id='monthly-amenity-activity'>
-      <h4>New Amenities
-        <small class='text-muted'>added each month</small>
-      </h4>
-      <svg width="800" height="200" id='monthly-amenities-svg'></svg>
-      <script type='text/javascript'>
-        buildLineGraph({
-          'svgID' : 'monthly-amenities-svg',
-          'data'  : site.monthly_activity_all_time,
-          'values' : ['new_amenities','edited_amenities'],
-          'date'  : 'month',
-          'lineClass' : 'line3',
-          'w' : 800, 'h': 200,
-        })
-      </script>
-    </div>
-
-    <h2 class='mt-5'>Top Edited Countries<small class='text-muted'> in the past months</small></h2>
-    <div id='top_countries' class='row'>
-
-    </div>
-
-
-    <div class='mt-5'>
-      <h6>Want to use this data in your own analysis?</h6>
-      <p>Download: <a href="data/monthly_activity_all_time.json">monthly_activity_all_time.json</a>
-        <small class='text-muted'>Note that <code>month</code> is stored in milliseconds since epoch.</small>
-      </p>
-    </div>
-
-    <hr>
-
+      <div class='mt-5'>
+        <h6>Want to use this data in your own analysis?</h6>
+        <p>Download: <a href="data/monthly_activity_all_time.json">monthly_activity_all_time.json</a>
+          <small class='text-muted'>Note that <code>month</code> is stored in milliseconds since epoch.</small>
+        </p>
+      </div>
+    </section>
   </div>
 
-</div>
+  <script type='text/javascript'>
 
-<script type='text/javascript'>
+    //Just the basic sums
+    d3.json(site.monthly_activity_all_time,function(err,monthly_activity){
+      if (err){throw err}
 
-  //Just the basic sums
-  d3.json(site.monthly_activity_all_time,function(err,monthly_activity){
-    if (err){throw err}
+      site.past_year = {
+        new_buildings: 0,
+        new_amenities: 0,
+        new_highways:  0,
+        edited_buildings: 0,
+        edited_highways : 0,
+        edited_amenities: 0 
+      }
 
-    site.past_year = {
-      new_buildings: 0,
-      new_amenities: 0,
-      new_highways:  0,
-      edited_buildings: 0,
-      edited_highways : 0,
-      edited_amenities: 0 
-    }
+      site.all_time = {
+        new_buildings: 0,
+        new_amenities: 0,
+        new_highways:  0,
+        edited_buildings: 0,
+        edited_highways : 0,
+        edited_amenities: 0 
+      }
 
-    site.all_time = {
-      new_buildings: 0,
-      new_amenities: 0,
-      new_highways:  0,
-      edited_buildings: 0,
-      edited_highways : 0,
-      edited_amenities: 0 
-    }
-
-    var today      = new Date()
-    var oneYearAgo = new Date( +today - (1000 * 3600 * 24 * 365) )
-    
-
-    monthly_activity.forEach(function(d){
-      var month = new Date(d.month * 1000)
+      var today      = new Date()
+      var oneYearAgo = new Date( +today - (1000 * 3600 * 24 * 365) )
       
-      Object.keys(site.past_year).forEach(function(k){
-        site.all_time[k] += +d[k]
 
-        if (month > oneYearAgo){
-          site.past_year[k] += +d[k]
-        }
+      monthly_activity.forEach(function(d){
+        var month = new Date(d.month * 1000)
+        
+        Object.keys(site.past_year).forEach(function(k){
+          site.all_time[k] += +d[k]
 
-      })
-    })
+          if (month > oneYearAgo){
+            site.past_year[k] += +d[k]
+          }
 
-    document.getElementById('badge-new_buildings_past_year').innerHTML = numberWithCommas(site.past_year.new_buildings)
-    document.getElementById('badge-new_amenities_past_year').innerHTML = numberWithCommas(site.past_year.new_amenities)
-    document.getElementById('badge-new_highways_past_year').innerHTML = numberWithCommas(site.past_year.new_highways)
-    document.getElementById('badge-new_buildings_all_time').innerHTML = numberWithCommas(site.all_time.new_buildings)
-    document.getElementById('badge-new_amenities_all_time').innerHTML = numberWithCommas(site.all_time.new_amenities)
-    document.getElementById('badge-new_highways_all_time').innerHTML = numberWithCommas(site.all_time.new_highways)
-
-    document.getElementById('badge-edited_buildings_past_year').innerHTML = numberWithCommas(site.past_year.edited_buildings)
-    document.getElementById('badge-edited_amenities_past_year').innerHTML = numberWithCommas(site.past_year.edited_amenities)
-    document.getElementById('badge-edited_highways_past_year').innerHTML = numberWithCommas(site.past_year.edited_highways)
-    document.getElementById('badge-edited_buildings_all_time').innerHTML = numberWithCommas(site.all_time.edited_buildings)
-    document.getElementById('badge-edited_amenities_all_time').innerHTML = numberWithCommas(site.all_time.edited_amenities)
-    document.getElementById('badge-edited_highways_all_time').innerHTML = numberWithCommas(site.all_time.edited_highways)
-
-  });
-
-  d3.json(site.top_edited_countries,function(err, top_edited_countries){
-    console.log(top_edited_countries)
-
-    top_edited_countries.forEach(function(data){
-
-      var d = document.createElement('div')
-      d.classList+= 'col-2'
-      d.style.margin=0;
-
-      var m = new Date(data.month)
-
-      var title = document.createElement('h5')
-      title.innerHTML = MONTHS[m.getMonth()] + " " + m.getFullYear() 
-      d.appendChild(title)
-
-      var t = document.createElement('table')
-      t.classList += 'table table-sm table-bordered'
-      var thead = t.createTHead()
-      thead.classList += 'h6 table-dark'
-      thead.innerHTML = "<td>Country</td><td>Features</td>"
-
-      data.top_countries.forEach(function(country){
-        var row = document.createElement('tr')
-        row.innerHTML = '<td>'+country[0]+'</td><td>'+numberWithCommas(country[1])+'</td>'
-
-        t.appendChild(row)
+        })
       })
 
-      d.appendChild(t)
+      document.getElementById('badge-new_buildings_past_year').innerHTML = numberWithCommas(site.past_year.new_buildings)
+      document.getElementById('badge-new_amenities_past_year').innerHTML = numberWithCommas(site.past_year.new_amenities)
+      document.getElementById('badge-new_highways_past_year').innerHTML = numberWithCommas(site.past_year.new_highways)
+      document.getElementById('badge-new_buildings_all_time').innerHTML = numberWithCommas(site.all_time.new_buildings)
+      document.getElementById('badge-new_amenities_all_time').innerHTML = numberWithCommas(site.all_time.new_amenities)
+      document.getElementById('badge-new_highways_all_time').innerHTML = numberWithCommas(site.all_time.new_highways)
 
-      document.getElementById('top_countries').appendChild(d)
+      document.getElementById('badge-edited_buildings_past_year').innerHTML = numberWithCommas(site.past_year.edited_buildings)
+      document.getElementById('badge-edited_amenities_past_year').innerHTML = numberWithCommas(site.past_year.edited_amenities)
+      document.getElementById('badge-edited_highways_past_year').innerHTML = numberWithCommas(site.past_year.edited_highways)
+      document.getElementById('badge-edited_buildings_all_time').innerHTML = numberWithCommas(site.all_time.edited_buildings)
+      document.getElementById('badge-edited_amenities_all_time').innerHTML = numberWithCommas(site.all_time.edited_amenities)
+      document.getElementById('badge-edited_highways_all_time').innerHTML = numberWithCommas(site.all_time.edited_highways)
+
+    });
+
+    d3.json(site.top_edited_countries,function(err, top_edited_countries){
+      console.log(top_edited_countries)
+
+      top_edited_countries.forEach(function(data){
+
+        var d = document.createElement('div')
+        d.classList+= 'col-2 card p-2 m-2'
+        d.style.margin=0;
+
+        var m = new Date(data.month)
+
+        var title = document.createElement('h5')
+        title.innerHTML = MONTHS[m.getMonth()] + " " + m.getFullYear() 
+        d.appendChild(title)
+
+        var t = document.createElement('table')
+        t.classList += 'table table-sm table-bordered'
+        var thead = t.createTHead()
+        thead.classList += 'h6 table-dark'
+        thead.innerHTML = "<td>Country</td><td>Features</td>"
+
+        data.top_countries.forEach(function(country){
+          var row = document.createElement('tr')
+          row.innerHTML = '<td>'+country[0]+'</td><td>'+numberWithCommas(country[1])+'</td>'
+
+          t.appendChild(row)
+        })
+
+        d.appendChild(t)
+
+        document.getElementById('top_countries').appendChild(d)
+
+      })
+
+      var tableBody = document.getElementById('top_month_table_body')
 
     })
 
-    var tableBody = document.getElementById('top_month_table_body')
-
-  })
-
-</script>
+  </script>
 
 </body>
 </html>

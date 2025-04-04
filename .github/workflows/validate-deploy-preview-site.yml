@@ -25,7 +25,7 @@ jobs:
   stage:
     environment:
       name: staging
-      url: http://youthmappers-usw2.s3-website.us-west-2.amazonaws.com/staging/pr/${{github.event.number}}/
+      url: d1tgv18374hiy.cloudfront.net/staging/pr/${{github.event.number}}/index.html
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
