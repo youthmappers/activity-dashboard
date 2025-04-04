@@ -2,21 +2,11 @@
   Main Map & Timeline
 */
 
-/* Navbar overrides */
-.navbar{
-	padding-top:0px;
-	padding-bottom:0px;
-}
-
-main{
-	margin-top: 50px;
-}
-
 #map{
 	position: fixed;
-	top: 48px;
+	top: 60px;
 	left: 0px;
-	height: calc(100vh - 100px);
+	height: calc(100vh - 110px);
 	width: 100%;
 }
 
@@ -59,11 +49,6 @@ stroke-width: 2;
 cursor: move;
 fill: none;
 pointer-events: all;
-}
-
-  
-li.nav-item{
-	margin-right: 10px;
 }
 
 ul#selected-chapters{
