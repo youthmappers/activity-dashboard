@@ -21,11 +21,10 @@ jobs:
           enforce_https: false
           ignore_missing_alt: true
 
-          
   stage:
     environment:
       name: staging
-      url: d1tgv18374hiy.cloudfront.net/staging/pr/${{github.event.number}}/index.html
+      url: https://d1tgv18374hiy.cloudfront.net/staging/pr/${{github.event.number}}/index.html
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
