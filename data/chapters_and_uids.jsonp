@@ -805,6 +805,13 @@ var chapters = [
     "university": "Universidad Nacional de San Antonio Abad del Cusco"
   },
   {
+    "chapter": "RMSTU YouthMappers",
+    "chapter_id": 1493,
+    "city": "Rangamati",
+    "country": "Bangladesh",
+    "university": "Rangamati Science and Technology University"
+  },
+  {
     "chapter": "Rowan GEO Club",
     "chapter_id": 1040,
     "city": "Glassboro",
