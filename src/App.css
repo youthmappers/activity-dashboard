@@ -1,0 +1,49 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 56px; /* Account for fixed header */
+  height: calc(100vh - 56px); /* Full height minus header */
+}
+
+.map-section {
+  flex: 1;
+  position: relative;
+  height: calc(100% - 60px); /* Adjust for much shorter timeline */
+}
+
+.timeline-section {
+  flex: none;
+  height: 60px; /* Much shorter timeline */
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(33, 37, 41, 0.9);
+}
+
+/* For mobile screens, make timeline smaller */
+@media (max-width: 768px) {
+  .map-section {
+    height: calc(100% - 45px);
+  }
+  
+  .timeline-section {
+    height: 45px; /* Very compact on mobile */
+  }
+}
+  }
+  
+  .timeline-section {
+    flex: none;
+    height: 30%;
+    max-width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
