@@ -13,24 +13,6 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const brushGroupRef = useRef(null)
 
   const parseDate = d3.timeParse('%Y-%m-%d')
-
-//   // Set initial time range based on actual data
-//   useEffect(() => {
-//     if (!timeRange) {
-//       d3.csv('/data/daily_activity.csv').then(data => {
-//         if (data && data.length > 0) {
-//           const dates = data.map(d => new Date(parseDate(d.day))).filter(d => !isNaN(d.getTime()))
-//           if (dates.length > 0) {
-//             const extent = d3.extent(dates)
-//             setTimeRange(extent)
-//           }
-//         }
-//       }).catch(() => {
-//         // Fallback to default range
-//         setTimeRange([new Date('2020-01-01'), new Date()])
-//       })
-//     }
-//   }, [timeRange])
   
   // Load real data from CSV
   useEffect(() => {
