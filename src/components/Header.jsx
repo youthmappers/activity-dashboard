@@ -1,52 +1,46 @@
-import { NavLink } from 'react-router-dom'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import React from 'react'
+import { NavLink, Link } from 'react-router-dom'
+import { Navbar, Nav, Container, Button } from 'react-bootstrap'
+import { useTheme } from '../contexts/ThemeContext'
 import './Header.css'
 
 function Header() {
+  const { darkMode, toggleTheme } = useTheme()
+
   return (
-    <Navbar bg="dark" variant="dark" expand="md" fixed="top">
+    <Navbar expand="lg" className="custom-navbar">
       <Container fluid>
-        <NavLink to="/" className="navbar-brand">
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img 
-            className="navbar-logo" 
-            width="40" 
-            src="/assets/img/ym_logo_transparent.png" 
-            alt="youthmappers-logo"
+            src="/assets/img/ym_logo_transparent_small.png" 
+            alt="YouthMappers Logo" 
+            height="40" 
+            className="me-2"
           />
-          YouthMappers Activity
-        </NavLink>
-        <Navbar.Toggle aria-controls="navbarCollapse" />
-        <Navbar.Collapse id="navbarCollapse">
-          <Nav className="me-auto mb-2 mb-md-0 p-1">
-            <Nav.Item>
-              <NavLink to="/" className={({ isActive }) => 
-                "nav-link" + (isActive ? " active" : "")
-              }>
-                Map
-              </NavLink>
-            </Nav.Item>
-            <Nav.Item>
-              <NavLink to="/numbers" className={({ isActive }) => 
-                "nav-link" + (isActive ? " active" : "")
-              }>
-                Numbers
-              </NavLink>
-            </Nav.Item>
-            <Nav.Item>
-              <NavLink to="/live" className={({ isActive }) => 
-                "nav-link" + (isActive ? " active" : "")
-              }>
-                Live Tracker
-              </NavLink>
-            </Nav.Item>
-            <Nav.Item>
-              <NavLink to="/about" className={({ isActive }) => 
-                "nav-link" + (isActive ? " active" : "")
-              }>
-                About
-              </NavLink>
-            </Nav.Item>
+          YouthMappers Activity Dashboard
+        </Navbar.Brand>
+        
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">Map</Nav.Link>
+            <Nav.Link as={Link} to="/numbers">Numbers</Nav.Link>
+            <Nav.Link as={Link} to="/live">Live</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
           </Nav>
+          
+          <div className="d-flex align-items-center">
+            <Button 
+              variant="outline-light" 
+              size="sm" 
+              onClick={toggleTheme}
+              className="theme-toggle-btn"
+              title={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </Button>
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>

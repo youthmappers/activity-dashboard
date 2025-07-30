@@ -12,3 +12,132 @@
 .navbar-brand:hover {
   color: rgba(255, 255, 255, 0.8);
 }
+
+.custom-navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-navbar .navbar-brand {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.theme-toggle-btn {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+/* Dark mode styles */
+:root[data-theme="dark"] {
+  --bs-body-bg: #1a202c;
+  --bs-body-color: #e2e8f0;
+}
+
+body.dark-mode {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+/* Light mode styles */
+:root[data-theme="light"] {
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+}
+
+/* Card adjustments for dark mode */
+body.dark-mode .card {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+body.dark-mode .alert-danger {
+  background-color: #fed7d7;
+  border-color: #feb2b2;
+  color: #742a2a;
+}
+
+/* Timeline adjustments for light mode */
+body:not(.dark-mode) .timeline-container {
+  background: #f8f9fa;
+}
+
+body:not(.dark-mode) .timeline-container .tick text {
+  fill: #495057;
+}
+
+body:not(.dark-mode) .timeline-container .domain,
+body:not(.dark-mode) .timeline-container .tick line {
+  stroke: #6c757d;
+}
+
+/* Dark mode navbar */
+body.dark-mode .custom-navbar {
+  background-color: #1a202c !important;
+  border-bottom: 1px solid #2d3748;
+}
+
+body.dark-mode .navbar-brand,
+body.dark-mode .navbar-brand:hover,
+body.dark-mode .navbar-brand:focus {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .nav-link {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .nav-link:focus {
+  color: #66a3ff !important;
+}
+
+body.dark-mode .navbar-toggler {
+  border-color: #4a5568;
+}
+
+body.dark-mode .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28226, 232, 240, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Light mode navbar */
+body:not(.dark-mode) .custom-navbar {
+  background-color: #343a40 !important;
+}
+
+body:not(.dark-mode) .navbar-brand,
+body:not(.dark-mode) .nav-link {
+  color: #ffffff !important;
+}
+
+body:not(.dark-mode) .theme-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+body:not(.dark-mode) .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}

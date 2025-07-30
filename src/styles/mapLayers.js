@@ -169,17 +169,15 @@ export const updateLayerFilters = (map, timeRange, selectedChapters) => {
     if (map.getLayer(layerId)) {
       let finalFilter = null
       
-      // Check if we have a valid time range (not full range)
+      // Check if we have a valid time range - remove the "full range" auto-detection
       let hasTimeFilter = false
       let startTime, endTime
-      if (timeRange && timeRange.length === 2) {
-        const isFullRange = Math.abs(timeRange[1].getTime() - timeRange[0].getTime()) > 300 * 24 * 60 * 60 * 1000
-        if (!isFullRange) {
-          hasTimeFilter = true
-          // Convert from milliseconds to seconds for comparison with feature data
-          startTime = Math.floor(timeRange[0].getTime() / 1000)
-          endTime = Math.floor(timeRange[1].getTime() / 1000)
-        }
+      if (timeRange && timeRange.length === 2 && timeRange[0] && timeRange[1]) {
+        // Always apply time filter if we have valid dates, regardless of range size
+        hasTimeFilter = true
+        // Convert from milliseconds to seconds for comparison with feature data
+        startTime = Math.floor(timeRange[0].getTime() / 1000)
+        endTime = Math.floor(timeRange[1].getTime() / 1000)
       }
       
       // Check if we have chapter filter

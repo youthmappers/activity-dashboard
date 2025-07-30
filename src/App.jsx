@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import MapComponent from './components/Map'
 import Timeline from './components/Timeline'
@@ -8,6 +8,7 @@ import Numbers from './components/Numbers'
 import LiveTracker from './components/LiveTracker'
 import './App.css'
 import * as d3 from 'd3'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 function App() {
   const [timeRange, setTimeRange] = useState(null) // Start with null until data loads
@@ -31,36 +32,40 @@ function App() {
       })
   }, [])
 
+  const handleChapterChange = (updatedChapters) => {
+    setSelectedChapters(updatedChapters)
+  }
+
   return (
-    <div className="app-container">
-      <Header />
-      <Routes>
-        <Route path="/" element={
-          <main className="main-content">
-            <div className="map-section">
-              <MapComponent 
-                ref={mapRef} 
-                timeRange={timeRange}
-                selectedChapters={selectedChapters}
-                onChapterChange={setSelectedChapters}
-                chapters={chapters}
-              />
-            </div>
-            <div className="timeline-section">
-              <Timeline 
-                timeRange={timeRange} 
-                setTimeRange={setTimeRange} 
-                mapRef={mapRef}
-                selectedChapters={selectedChapters}
-              />
-            </div>
-          </main>
-        } />
-        <Route path="/numbers" element={<Numbers />} />
-        <Route path="/live" element={<LiveTracker />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <Header />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={
+              <div className="map-page">
+                <MapComponent 
+                  ref={mapRef}
+                  timeRange={timeRange}
+                  selectedChapters={selectedChapters}
+                  onChapterChange={handleChapterChange}
+                  chapters={chapters}
+                />
+                <Timeline 
+                  timeRange={timeRange}
+                  setTimeRange={setTimeRange}
+                  mapRef={mapRef}
+                  selectedChapters={selectedChapters}
+                />
+              </div>
+            } />
+            <Route path="/numbers" element={<Numbers />} />
+            <Route path="/live" element={<LiveTracker />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }
 

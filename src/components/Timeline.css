@@ -12,10 +12,42 @@
   display: flex;
   flex-direction: column;
   outline: none; /* Remove default focus outline */
+  width: 100%;
+  height: 100%;
+  background: #2d3748;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+  opacity: 0;
+  animation: timelineSlideUp 0.8s ease-out 0.3s forwards;
+  transition: background-color 0.3s ease;
+}
+
+/* Light mode timeline */
+body:not(.dark-mode) .timeline-container {
+  background: #f8f9fa;
+}
+
+/* Dark mode timeline */
+body.dark-mode .timeline-container {
+  background: #2d3748;
+}
+
+@keyframes timelineSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .timeline-container:focus {
   box-shadow: inset 0 0 0 2px rgba(102, 163, 255, 0.5);
+  outline: 2px solid #66a3ff;
+  outline-offset: 2px;
 }
 
 .timeline-container.timeline-minimized {
@@ -59,6 +91,8 @@
   flex: 1;
   overflow: hidden;
   padding: 1px; /* Even more minimal padding */
+  width: 100%;
+  height: 100%;
 }
 
 .click-area {
@@ -67,39 +101,66 @@
 
 .timeline-background {
   pointer-events: all;
+  cursor: crosshair;
+}
+
+.domain, .tick line {
+  stroke: #999;
+  stroke-opacity: 0.5;
+}
+
+.timeline-container svg {
+  background: transparent; /* Let container background show through */
+}
+
+/* Dark mode axis styling */
+body.dark-mode .timeline-container .domain {
+  stroke: #718096;
+}
+
+body.dark-mode .timeline-container .tick line {
+  stroke: #718096;
+}
+
+body.dark-mode .timeline-container .tick text {
+  fill: #e2e8f0;
+  font-size: 10px;
+}
+
+/* Light mode axis styling */
+body:not(.dark-mode) .timeline-container .domain {
+  stroke: #6c757d;
+}
+
+body:not(.dark-mode) .timeline-container .tick line {
+  stroke: #6c757d;
+}
+
+body:not(.dark-mode) .timeline-container .tick text {
+  fill: #495057;
+  font-size: 10px;
 }
 
 .brush .selection {
-  fill: #66a3ff;
-  fill-opacity: 0.3;
+  fill: rgba(102, 163, 255, 0.3);
   stroke: #66a3ff;
-  stroke-width: 2px;
-  cursor: move;
-  pointer-events: all;
+  stroke-width: 1;
 }
 
 .brush .handle {
   fill: #66a3ff;
-  stroke: #4d8fff;
-  stroke-width: 1px;
-  cursor: ew-resize;
-  pointer-events: all;
 }
 
-.brush .overlay {
-  pointer-events: all;
-  cursor: crosshair;
+/* Ensure focus styles work */
+.timeline-container:focus {
+  outline: 2px solid #66a3ff;
+  outline-offset: 2px;
 }
 
 /* Make axis elements more compact */
 text {
   fill: #fff;
   font-size: 8px; /* Smaller text */
-}
-
-.domain, .tick line {
-  stroke: #999;
-  stroke-opacity: 0.5;
 }
 
 /* Responsive adjustments - make even more compact */

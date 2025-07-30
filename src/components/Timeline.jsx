@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react'
 import * as d3 from 'd3'
 import './Timeline.css'
+import { useTheme } from '../contexts/ThemeContext'
 
 function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const containerRef = useRef(null)
@@ -13,7 +14,8 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const brushGroupRef = useRef(null)
 
   const parseDate = d3.timeParse('%Y-%m-%d')
-  
+  const { darkMode } = useTheme()
+
   // Load real data from CSV
   useEffect(() => {
     if (!dataRef.current) {
@@ -168,8 +170,8 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
     // Only proceed if we have valid data
     if (!data || data.length === 0) return
     
-    // Setup dimensions - much tighter margins
-    const margin = { top: 2, right: 0, bottom: 15, left: 0 }
+    // Setup dimensions - back to minimal margins
+    const margin = { top: 2, right: 0, bottom: 15, left: 15 }
     const chartWidth = width - margin.left - margin.right
     const chartHeight = height - margin.top - margin.bottom
     
@@ -196,24 +198,29 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
       .domain([0, d3.max(data, d => d.value) || 100])
       .range([chartHeight, 0])
     
-    // Add X axis with minimal spacing
-    svg.append("g")
-      .attr("transform", `translate(0,${chartHeight})`)
+    // Add X axis with labels inside the chart area
+    const xAxis = svg.append("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0,${chartHeight - 15})`) // Move labels inside chart area
       .call(
         d3.axisBottom(x)
-          .ticks(chartWidth < 300 ? 3 : 5)
+          .ticks(d3.timeYear.every(1)) // Show ticks every year
+          .tickFormat(d3.timeFormat("%Y")) // Format as full year (e.g., "2020")
           .tickSizeOuter(0)
-          .tickSizeInner(2) // Smaller tick lines
+          .tickSizeInner(0) // No tick lines
       )
-      .call(g => g.selectAll(".domain").attr("stroke", "#999").attr("stroke-opacity", 0.5))
-      .call(g => g.selectAll(".tick line").attr("stroke", "#999").attr("stroke-opacity", 0.5))
-      .call(g => g.selectAll("text")
-        .style("font-size", "8px") // Smaller font
-        .style("fill", "#fff")
-        .attr("dy", "0.6em")) // Tighter positioning
     
-    // Add area chart
-    svg.append("path")
+    // Style the x-axis - hide domain line and style text
+    xAxis.selectAll(".domain").remove() // Remove the axis line completely
+    xAxis.selectAll(".tick line").remove() // Remove tick lines
+    xAxis.selectAll("text")
+      .style("font-size", "9px") // Small font for years
+      .style("fill", darkMode ? "#e2e8f0" : "#495057")
+      .style("opacity", 0.7)
+      .attr("dy", "0.3em")
+
+    // Add area chart with animation
+    const areaPath = svg.append("path")
       .datum(data)
       .attr("fill", "rgba(102, 163, 255, 0.2)")
       .attr("stroke", "#66a3ff")
@@ -225,12 +232,41 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
       )
       .style("pointer-events", "none") // Allow clicks to pass through
 
+    // Animate the area chart loading
+    const totalLength = areaPath.node().getTotalLength()
+    
+    areaPath
+      .attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+      .duration(1500)
+      .ease(d3.easeQuadOut)
+      .attr("stroke-dashoffset", 0)
+      .on("end", () => {
+        // After line animation completes, fade in the fill
+        areaPath
+          .transition()
+          .duration(800)
+          .attr("fill-opacity", 1)
+      })
+
+    // Start with transparent fill
+    areaPath.attr("fill-opacity", 0)
+
     // Create brush
     const brush = d3.brushX()
       .extent([[0, 0], [chartWidth, chartHeight]])
       .on("end", (event) => {
-        if (!event.selection) return
+        if (!event.selection) {
+          // Only reset to full range if brush was explicitly cleared
+          const fullRange = d3.extent(data, d => d.date)
+          setTimeRange(fullRange)
+          return
+        }
+        
         const [x0, x1] = event.selection.map(x.invert)
+        
+        // Always set the time range based on brush selection, regardless of size
         setTimeRange([x0, x1])
         
         if (mapRef.current && mapRef.current.getMap) {
@@ -257,20 +293,12 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
         
         // Click is outside brush - remove brush and set to full range
         if (currentSelection) {
-          // Clear the brush
+          // Clear the brush explicitly
           brushGroup.call(brush.move, null)
-          
-          // Set time range to full extent
-          const fullRange = d3.extent(data, d => d.date)
-          setTimeRange(fullRange)
-          
-          if (mapRef.current && mapRef.current.getMap) {
-            const map = mapRef.current.getMap()
-            console.log('Time range reset to full range:', fullRange)
-          }
+          // The brush end event will handle setting the full range
         } else {
           // No brush exists - create new brush centered on click
-          const defaultWidth = Math.min(chartWidth * 0.1, 100)
+          const defaultWidth = Math.min(chartWidth * 0.05, 50) // Made smaller default brush
           let newLeft = clickX - defaultWidth / 2
           let newRight = clickX + defaultWidth / 2
           

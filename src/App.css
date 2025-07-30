@@ -5,12 +5,31 @@
   width: 100%;
 }
 
-.main-content {
+.App {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
-  margin-top: 56px; /* Account for fixed header */
-  height: calc(100vh - 56px); /* Full height minus header */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-page {
+  height: calc(100vh - 56px); /* Subtract navbar height */
+  display: flex;
+  flex-direction: column;
+}
+
+.map-page .map-wrapper {
+  flex: 1; /* Map takes most of the space */
+}
+
+.map-page .timeline-container {
+  height: 80px; /* Fixed height for timeline */
+  flex-shrink: 0; /* Don't let it shrink */
 }
 
 .map-section {
@@ -37,13 +56,38 @@
     height: 45px; /* Very compact on mobile */
   }
 }
-  }
-  
-  .timeline-section {
-    flex: none;
-    height: 30%;
-    max-width: 100%;
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
+
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+  background-color: #1a202c !important;
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .card {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+body.dark-mode .alert-danger {
+  background-color: #fed7d7;
+  border-color: #feb2b2;
+  color: #742a2a;
+}
+
+body.dark-mode .bg-light {
+  background-color: #2d3748 !important;
+}
+
+body.dark-mode .text-dark {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .border {
+  border-color: #4a5568 !important;
 }
