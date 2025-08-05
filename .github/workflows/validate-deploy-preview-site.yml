@@ -59,3 +59,6 @@ jobs:
       
       - name: Copy Activity Dashboard website to S3 bucket
         run: aws --region us-west-2 s3 sync ./dist s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete
+
+      - name: Clear Cloudfront cache
+        run: aws cloudfront create-invalidation --distribution-id E6U9U7HMQT3MF --paths '/staging/pr/${{github.event.number}}/*'
