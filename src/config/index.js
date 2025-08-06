@@ -11,16 +11,69 @@
 
 // Base paths for different types of assets
 const ASSET_PATHS = {
-  data: '/data',        // Legacy data files and tiles
-  images: '/assets/img', // Image assets
-  css: '/assets/css',    // Stylesheets
-  js: '/assets/js',      // JavaScript assets
   public: '/public',     // New location for core data files
 }
 
 // Global variable to store activity data and ds value
 let activityData = null;
 let datasetDate = null;
+
+// App configuration (defined early to avoid circular dependencies)
+export const APP_CONFIG = {
+  name: 'YouthMappers Activity Dashboard',
+  version: '0.1.0',
+  baseUrl: import.meta.env.VITE_BASE_URL || '/',
+  
+  // CDN configuration
+  cdn: {
+    baseUrl: 'https://d1tgv18374hiy.cloudfront.net',
+    assetsPath: '/assets',
+    activityDashboardPath: '/activity-dashboard',
+    defaultDs: '2025-08-04', // fallback dataset date
+  },
+  
+  // Map configuration
+  map: {
+    defaultCenter: [0, 20], // longitude, latitude
+    defaultZoom: 2,
+    maxZoom: 18,
+    minZoom: 1,
+  },
+  
+  // Timeline configuration
+  timeline: {
+    defaultTimeRange: 365, // days
+    maxTimeRange: 1200, // days
+  },
+  
+  // Chart colors and themes
+  colors: {
+    primary: '#007bff',
+    secondary: '#6c757d',
+    success: '#28a745',
+    danger: '#dc3545',
+    warning: '#ffc107',
+    info: '#17a2b8',
+    light: '#f8f9fa',
+    dark: '#343a40',
+    // YouthMappers brand colors (adjust as needed)
+    brand: {
+      primary: '#FF6B35',
+      secondary: '#004E89',
+      accent: '#1A659E',
+    }
+  },
+  
+  // Animation and transition settings
+  animations: {
+    duration: {
+      fast: 200,
+      normal: 300,
+      slow: 500,
+    },
+    easing: 'ease-in-out',
+  },
+}
 
 /**
  * Fetch and cache activity data from public/activity.json
@@ -62,21 +115,16 @@ export const getDatasetDate = () => datasetDate;
 const generateDataFiles = (ds) => {
   // Base CloudFront URL for PMTiles with dynamic ds
   const cdnBaseUrl = ds 
-    ? `https://d1tgv18374hiy.cloudfront.net/activity-dashboard/ds=${ds}`
-    : `https://d1tgv18374hiy.cloudfront.net/activity-dashboard/ds=2025-08-04`; // fallback
+    ? `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityDashboardPath}/ds=${ds}`
+    : `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityDashboardPath}/ds=${APP_CONFIG.cdn.defaultDs}`; // fallback
 
   return {
     // Use activity.json from public folder for chapters (includes ds)
     activity: `${ASSET_PATHS.public}/activity.json`,
-    // Legacy chapters path for backwards compatibility
-    chapters: `${ASSET_PATHS.data}/chapters_and_uids.json`,
     // Core data files now in public folder
     dailyActivity: `${ASSET_PATHS.public}/daily_activity.csv`,
     monthlyActivityAllTime: `${ASSET_PATHS.public}/monthly_activity_all_time.json`,
-    // Remaining data files with ds-based paths (still in /data if needed)
-    monthlyActivityLastYear: `${ASSET_PATHS.data}/monthly_activity_last_year.json`,
-    monthlyActivityLast1200Days: `${ASSET_PATHS.data}/monthly_activity_last_1200_days.json`,
-    topEditedCountries: `${ASSET_PATHS.data}/top_edited_countries.json`,
+    topEditedCountries: `${ASSET_PATHS.public}/top_edited_countries.json`,
     // PMTiles now served from CloudFront CDN with dynamic ds
     tiles: {
       res4: `${cdnBaseUrl}/res4.pmtiles`,
@@ -142,61 +190,6 @@ export const IMAGES = {
   // Add other image categories as needed
 }
 
-// App configuration
-export const APP_CONFIG = {
-  name: 'YouthMappers Activity Dashboard',
-  version: '0.1.0',
-  baseUrl: import.meta.env.VITE_BASE_URL || '/',
-  
-  // CDN configuration
-  cdn: {
-    baseUrl: 'https://d1tgv18374hiy.cloudfront.net/activity-dashboard',
-    defaultDs: '2025-08-04', // fallback dataset date
-  },
-  
-  // Map configuration
-  map: {
-    defaultCenter: [0, 20], // longitude, latitude
-    defaultZoom: 2,
-    maxZoom: 18,
-    minZoom: 1,
-  },
-  
-  // Timeline configuration
-  timeline: {
-    defaultTimeRange: 365, // days
-    maxTimeRange: 1200, // days
-  },
-  
-  // Chart colors and themes
-  colors: {
-    primary: '#007bff',
-    secondary: '#6c757d',
-    success: '#28a745',
-    danger: '#dc3545',
-    warning: '#ffc107',
-    info: '#17a2b8',
-    light: '#f8f9fa',
-    dark: '#343a40',
-    // YouthMappers brand colors (adjust as needed)
-    brand: {
-      primary: '#FF6B35',
-      secondary: '#004E89',
-      accent: '#1A659E',
-    }
-  },
-  
-  // Animation and transition settings
-  animations: {
-    duration: {
-      fast: 200,
-      normal: 300,
-      slow: 500,
-    },
-    easing: 'ease-in-out',
-  },
-}
-
 // Environment-specific configuration
 export const ENV_CONFIG = {
   isDevelopment: import.meta.env.DEV,
@@ -234,7 +227,16 @@ export const getPublicUrl = (filename) => {
  */
 export const getCdnUrl = (filename, ds = null) => {
   const currentDs = ds || datasetDate || APP_CONFIG.cdn.defaultDs
-  return `${APP_CONFIG.cdn.baseUrl}/ds=${currentDs}/${filename}`
+  return `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityDashboardPath}/ds=${currentDs}/${filename}`
+}
+
+/**
+ * Get CDN URL for general assets (not activity dashboard specific)
+ * @param {string} filename - The filename to append to the assets URL
+ * @returns {string} Full CDN assets URL
+ */
+export const getCdnAssetUrl = (filename) => {
+  return `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.assetsPath}/${filename}`
 }
 
 /**
@@ -243,7 +245,7 @@ export const getCdnUrl = (filename, ds = null) => {
  */
 export const getCurrentCdnBase = () => {
   const currentDs = datasetDate || APP_CONFIG.cdn.defaultDs
-  return `${APP_CONFIG.cdn.baseUrl}/ds=${currentDs}`
+  return `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityDashboardPath}/ds=${currentDs}`
 }
 
 // Export all configurations as a single object for convenience
@@ -262,6 +264,7 @@ export const CONFIG = {
   fetchActivity: fetchActivityData,
   // URL utilities
   getCdnUrl: getCdnUrl,
+  getCdnAssetUrl: getCdnAssetUrl,
   getCurrentCdnBase: getCurrentCdnBase,
 }
 
