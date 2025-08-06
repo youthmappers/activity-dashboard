@@ -3,6 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap'
 import StatCard from './StatCard'
 import LineChart from './LineChart'
 import './Numbers.css'
+import { DATA_FILES } from '../config'
 
 function Numbers() {
   const [stats, setStats] = useState(null)
@@ -13,7 +14,11 @@ function Numbers() {
     const loadData = async () => {
       try {
         setLoading(true)
-        const response = await fetch('/data/monthly_activity_all_time.json')
+        console.log('Loading monthly activity data from:', DATA_FILES.monthlyActivityAllTime)
+        const response = await fetch(DATA_FILES.monthlyActivityAllTime)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`)
+        }
         const data = await response.json()
         
         // Parse dates and calculate statistics
