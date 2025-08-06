@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import { useTheme } from '../contexts/ThemeContext'
 import './Header.css'

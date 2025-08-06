@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import MapComponent from './components/Map'
 import Timeline from './components/Timeline'
@@ -7,8 +7,8 @@ import About from './components/About'
 import Numbers from './components/Numbers'
 import LiveTracker from './components/LiveTracker'
 import './App.css'
-import * as d3 from 'd3'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { DATA_FILES } from './config'
 
 function App() {
   const [timeRange, setTimeRange] = useState(null) // Start with null until data loads
@@ -18,7 +18,7 @@ function App() {
 
   // Load chapters data
   useEffect(() => {
-    fetch('/data/chapters_and_uids.json')
+    fetch(DATA_FILES.chapters)
       .then(response => response.json())
       .then(data => {
         // Filter out chapters with missing data
