@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import * as d3 from 'd3'
 import './Timeline.css'
 import { useTheme } from '../contexts/ThemeContext'
+import { DATA_FILES } from '../config'
 
 function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const containerRef = useRef(null)
@@ -19,7 +20,8 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   // Load real data from CSV
   useEffect(() => {
     if (!dataRef.current) {
-      d3.csv('/data/daily_activity.csv').then(data => {
+      d3.csv(DATA_FILES.dailyActivity).then(data => {
+        console.log('Loading daily activity data from:', DATA_FILES.dailyActivity)
         // Parse and process the data
         const processedData = data.map(d => ({
           date: new Date(parseDate(d.day)), // Assumes date column exists
@@ -30,11 +32,13 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
         processedData.sort((a, b) => a.date - b.date)
         
         dataRef.current = processedData
+        console.log(`Loaded ${processedData.length} data points for timeline`)
         
         // Trigger timeline creation after data loads
         createTimeline()
       }).catch(error => {
         console.error('Error loading daily activity data:', error)
+        console.log('Attempted to load from:', DATA_FILES.dailyActivity)
         // Fallback to sample data if CSV fails to load
         const now = new Date()
         const oneYearAgo = new Date(now)

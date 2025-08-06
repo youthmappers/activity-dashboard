@@ -5,6 +5,7 @@ import './Map.css'
 import { addAllLayers, updateLayerFilters, clearAllFilters } from '../styles/mapLayers'
 import ChapterSearch from './ChapterSearch'
 import { useTheme } from '../contexts/ThemeContext'
+import { DATA_FILES } from '../config'
 
 const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange, chapters }, ref) => {
   const mapContainer = useRef(null)
@@ -34,22 +35,22 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
       "url": "https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=lKNWNcFzZ8CaRdTSSYvy",
     })
 
-    // Add tilesets
+    // Add tilesets using dynamic CDN URLs
     map.current.addSource('r8agg', {
       type: "vector",
-      url: "pmtiles://data/res8.pmtiles"
+      url: `pmtiles://${DATA_FILES.tiles.res8}`
     })
     map.current.addSource('r8agg_bboxes', {
       type: "vector",
-      url: "pmtiles://data/res8_bboxes.pmtiles"
+      url: `pmtiles://${DATA_FILES.tiles.res8Bboxes}`
     })
     map.current.addSource('r6agg', {
       type: "vector",
-      url: "pmtiles://data/res6.pmtiles"
+      url: `pmtiles://${DATA_FILES.tiles.res6}`
     })
     map.current.addSource('r4agg', {
       type: "vector",
-      url: "pmtiles://data/res4.pmtiles"
+      url: `pmtiles://${DATA_FILES.tiles.res4}`
     })
 
     // Add all layers from the module

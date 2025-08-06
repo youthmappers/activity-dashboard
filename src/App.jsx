@@ -8,32 +8,63 @@ import Numbers from './components/Numbers'
 import LiveTracker from './components/LiveTracker'
 import './App.css'
 import { ThemeProvider } from './contexts/ThemeContext'
-import { DATA_FILES } from './config'
+import { initializeConfig, getChaptersData, getDatasetDate } from './config'
 
 function App() {
   const [timeRange, setTimeRange] = useState(null) // Start with null until data loads
   const [selectedChapters, setSelectedChapters] = useState([])
   const [chapters, setChapters] = useState([])
+  const [isConfigLoaded, setIsConfigLoaded] = useState(false)
+  const [datasetDate, setDatasetDate] = useState(null)
   const mapRef = useRef(null)
 
-  // Load chapters data
+  // Initialize configuration and load chapters data
   useEffect(() => {
-    fetch(DATA_FILES.chapters)
-      .then(response => response.json())
-      .then(data => {
+    const loadData = async () => {
+      try {
+        console.log('Initializing configuration...')
+        const activityData = await initializeConfig()
+        
+        // Get chapters from the activity data
+        const chaptersData = getChaptersData()
+        
         // Filter out chapters with missing data
-        const validChapters = data.filter(chapter => 
+        const validChapters = chaptersData.filter(chapter => 
           chapter.chapter && chapter.chapter_id && chapter.country
         )
+        
         setChapters(validChapters)
-      })
-      .catch(error => {
-        console.error('Error loading chapters:', error)
-      })
+        setDatasetDate(getDatasetDate())
+        setIsConfigLoaded(true)
+        
+        console.log(`Loaded ${validChapters.length} chapters for dataset: ${getDatasetDate()}`)
+      } catch (error) {
+        console.error('Error initializing configuration:', error)
+        setIsConfigLoaded(true) // Still mark as loaded to prevent infinite loading
+      }
+    }
+
+    loadData()
   }, [])
 
   const handleChapterChange = (updatedChapters) => {
     setSelectedChapters(updatedChapters)
+  }
+
+  // Show loading state until config is loaded
+  if (!isConfigLoaded) {
+    return (
+      <ThemeProvider>
+        <div className="App">
+          <Header />
+          <main className="main-content">
+            <div className="loading-container" style={{ padding: '2rem', textAlign: 'center' }}>
+              <p>Loading configuration...</p>
+            </div>
+          </main>
+        </div>
+      </ThemeProvider>
+    )
   }
 
   return (
