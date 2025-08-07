@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './ChapterSearch.css'
 
-function ChapterSearch({ selectedChapters, onChapterChange, chapters }) {
+function ChapterSearch({ selectedChapters, onChapterChange, chapters, mode = 'overlay' }) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredChapters, setFilteredChapters] = useState([])
@@ -64,7 +64,7 @@ function ChapterSearch({ selectedChapters, onChapterChange, chapters }) {
   }
 
   return (
-    <div className="chapter-search" ref={dropdownRef}>
+    <div className={`chapter-search-component ${mode === 'page' ? 'chapter-search-page' : 'chapter-search-overlay'}`} ref={dropdownRef}>
       <div 
         className="search-toggle" 
         onClick={() => setIsOpen(!isOpen)}

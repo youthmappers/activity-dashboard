@@ -11,7 +11,7 @@
 
 // Base paths for different types of assets
 const ASSET_PATHS = {
-  public: '/public',     // New location for core data files
+  public: '',     // In Vite, public assets are served from root
 }
 
 // Global variable to store activity data and ds value

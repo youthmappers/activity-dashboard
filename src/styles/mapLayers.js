@@ -117,11 +117,26 @@ export const r8AggBboxesLayer = {
   'source-layer': 'daily',
   'minzoom': 6,
   'paint': {
-    'line-color': 'orange',
-    'line-width': 1
+    'line-color': '#ff6b35',
+    'line-width': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      6, 0.5,
+      10, 1,
+      15, 2
+    ],
+    'line-opacity': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      6, 0.3,
+      10, 0.6,
+      15, 0.8
+    ]
   },
   'layout': {
-    'visibility': 'none'
+    'visibility': 'visible'
   }
 }
 

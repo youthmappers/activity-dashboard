@@ -1,9 +1,25 @@
-.chapter-search {
+/* Base component styles */
+.chapter-search-component {
+  position: relative;
+  width: 100%;
+}
+
+/* Map overlay styles - compact for map */
+.chapter-search-overlay {
   position: absolute;
   top: 10px;
   left: 10px;
   z-index: 2000; /* Higher than timeline z-index */
-  min-width: 250px;
+  min-width: 200px;
+  max-width: 220px;
+}
+
+/* Page component styles - wider and no positioning */
+.chapter-search-page {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  z-index: 1;
 }
 
 .search-toggle {
@@ -20,12 +36,24 @@
   transition: background-color 0.2s;
 }
 
+/* Compact search toggle for map overlay */
+.chapter-search-overlay .search-toggle {
+  padding: 6px 10px;
+  font-size: 13px;
+  gap: 6px;
+}
+
 .search-toggle:hover {
   background: rgba(255, 255, 255, 1);
 }
 
 .search-icon {
   font-size: 16px;
+}
+
+/* Smaller search icon for map overlay */
+.chapter-search-overlay .search-icon {
+  font-size: 14px;
 }
 
 .search-text {

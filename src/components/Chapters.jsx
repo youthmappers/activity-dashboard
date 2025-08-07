@@ -106,6 +106,7 @@ function Chapters({ selectedChapters: sharedSelectedChapters, onChapterChange: o
                 selectedChapters={sharedSelectedChapters || []}
                 onChapterChange={onSharedChapterChange}
                 chapters={chapters}
+                mode="page"
               />
               {sharedSelectedChapters && sharedSelectedChapters.length > 0 && (
                 <div className="mt-3">
@@ -126,9 +127,6 @@ function Chapters({ selectedChapters: sharedSelectedChapters, onChapterChange: o
           <Col>
             <Card>
               <Card.Body>
-                <Card.Title>
-                  {selectedChapterDetails.length === 1 ? 'Selected Chapter' : 'Selected Chapters'}
-                </Card.Title>
                 {selectedChapterDetails.map((chapter, index) => (
                   <div key={chapter.chapter_id} className={index > 0 ? 'mt-3 pt-3 border-top' : ''}>
                     <h5>{chapter.chapter}</h5>

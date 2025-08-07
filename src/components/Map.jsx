@@ -4,6 +4,8 @@ import { Protocol } from 'pmtiles'
 import './Map.css'
 import { addAllLayers, updateLayerFilters, clearAllFilters } from '../styles/mapLayers'
 import ChapterSearch from './ChapterSearch'
+import GlobeControl from './GlobeControl.jsx'
+import BboxControl from './BboxControl.jsx'
 import { useTheme } from '../contexts/ThemeContext'
 import { DATA_FILES } from '../config'
 
@@ -85,6 +87,12 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
 
     // Add navigation control
     map.current.addControl(new maplibregl.NavigationControl())
+    
+    // Add globe toggle control
+    map.current.addControl(new GlobeControl(), 'top-right')
+    
+    // Add bounding boxes toggle control
+    map.current.addControl(new BboxControl(), 'top-right')
 
     // Cleanup on unmount
     return () => {
@@ -109,6 +117,7 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
         selectedChapters={selectedChapters || []}
         onChapterChange={onChapterChange}
         chapters={chapters}
+        mode="overlay"
       />
     </div>
   )

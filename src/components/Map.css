@@ -8,3 +8,19 @@
   width: 100%;
   height: 100%;
 }
+
+/* Globe control styling */
+.maplibregl-ctrl-group .maplibregl-ctrl-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure globe control button has consistent sizing with other controls */
+.maplibregl-ctrl-group button {
+  width: 29px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
