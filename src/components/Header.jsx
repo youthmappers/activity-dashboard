@@ -27,6 +27,7 @@ function Header() {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Map</Nav.Link>
             <Nav.Link as={Link} to="/numbers">Numbers</Nav.Link>
+            <Nav.Link as={Link} to="/chapters">Chapters</Nav.Link>
             {/* <Nav.Link as={Link} to="/live">Live</Nav.Link> */}
             <Nav.Link as={Link} to="/about">About</Nav.Link>
           </Nav>

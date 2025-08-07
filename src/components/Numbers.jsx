@@ -160,7 +160,7 @@ function Numbers() {
       <Row className="mb-4">
         <Col>
           <h1 className="display-4">YouthMappers by the Numbers</h1>
-          <p className="lead">Key statistics about YouthMappers contributions to OpenStreetMap</p>
+          <p className="lead">More than a decade of contributions to OpenStreetMap</p>
         </Col>
       </Row>
       

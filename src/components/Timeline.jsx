@@ -20,33 +20,26 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   // Load real data from CSV
   useEffect(() => {
     if (!dataRef.current) {
-      d3.csv(DATA_FILES.dailyActivity).then(data => {
-        console.log('Loading daily activity data from:', DATA_FILES.dailyActivity)
-        // Parse and process the data
-        const processedData = data.map(d => ({
-          date: new Date(parseDate(d.day)), // Assumes date column exists
-          value: +d.chapters_rolling_avg
-        })).filter(d => !isNaN(d.date.getTime())) // Remove invalid dates
+      // Load weekly chapter activity data instead of daily activity
+      d3.csv('/weekly_chapter_activity.csv').then(data => {
+        console.log('Loading weekly chapter activity data from: /weekly_chapter_activity.csv')
         
-        // Sort by date
-        processedData.sort((a, b) => a.date - b.date)
+        // Store raw data for filtering
+        window.rawWeeklyData = data
         
-        dataRef.current = processedData
-        console.log(`Loaded ${processedData.length} data points for timeline`)
-        
-        // Trigger timeline creation after data loads
-        createTimeline()
+        // Process data with initial selected chapters
+        processAndCreateTimeline(data, selectedChapters)
       }).catch(error => {
-        console.error('Error loading daily activity data:', error)
-        console.log('Attempted to load from:', DATA_FILES.dailyActivity)
+        console.error('Error loading weekly chapter activity data:', error)
+        console.log('Attempted to load from: /weekly_chapter_activity.csv')
         // Fallback to sample data if CSV fails to load
         const now = new Date()
         const oneYearAgo = new Date(now)
         oneYearAgo.setFullYear(now.getFullYear() - 1)
         
-        dataRef.current = Array.from({ length: 365 }, (_, i) => {
+        dataRef.current = Array.from({ length: 52 }, (_, i) => { // 52 weeks instead of 365 days
           const date = new Date(oneYearAgo)
-          date.setDate(date.getDate() + i)
+          date.setDate(date.getDate() + (i * 7)) // Weekly intervals
           return {
             date,
             value: Math.random() * 100
@@ -56,7 +49,91 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
         createTimeline()
       })
     }
-  }, [])
+  }, []) // Only run once on mount
+
+  // Re-process data when selected chapters change
+  useEffect(() => {
+    console.log('Timeline: selectedChapters changed:', selectedChapters)
+    if (window.rawWeeklyData) {
+      console.log('Timeline: Re-processing data for new chapter selection...')
+      processAndCreateTimeline(window.rawWeeklyData, selectedChapters)
+    }
+  }, [selectedChapters]) // Run when chapters change
+
+  // Combined function to process data and create timeline
+  const processAndCreateTimeline = (data, chapters) => {
+    console.log('Timeline: processAndCreateTimeline called with chapters:', chapters)
+    console.log('Timeline: Raw data length:', data?.length)
+    
+    // Filter data by selected chapters if any are selected
+    let filteredData = data
+    if (chapters && chapters.length > 0) {
+      const chapterIds = new Set(chapters.map(c => c.toString()))
+      console.log('Timeline: Chapter IDs to filter by:', Array.from(chapterIds))
+      
+      filteredData = data.filter(d => chapterIds.has(d.chapter_id.toString()))
+      console.log(`Timeline: Filtered data length: ${filteredData.length} (from ${data.length} total)`)
+    } else {
+      console.log('Timeline: Using all chapters for timeline data')
+    }
+    
+    // Group by week and sum across selected chapters
+    const weeklyAggregates = d3.rollup(
+      filteredData,
+      (weekData) => ({
+        all_feats: d3.sum(weekData, d => +d.all_feats || 0),
+        buildings: d3.sum(weekData, d => +d.buildings || 0),
+        highways: d3.sum(weekData, d => +d.highways || 0),
+        amenities: d3.sum(weekData, d => +d.amenities || 0),
+        other: d3.sum(weekData, d => +d.other || 0),
+        mappers: d3.sum(weekData, d => +d.mappers || 0),
+        chapters: new Set(weekData.map(d => d.chapter_id)).size // Count unique chapters
+      }),
+      d => d.week // Group by week
+    )
+    
+    // Convert to array and process the data
+    const processedData = Array.from(weeklyAggregates, ([week, stats]) => ({
+      date: new Date(week),
+      all_feats: stats.all_feats,
+      buildings: stats.buildings,
+      highways: stats.highways,
+      amenities: stats.amenities,
+      other: stats.other,
+      mappers: stats.mappers,
+      chapters: stats.chapters
+    })).filter(d => !isNaN(d.date.getTime())) // Remove invalid dates
+    
+    // Sort by date
+    processedData.sort((a, b) => a.date - b.date)
+    
+    // Calculate 4-week rolling average of total edits
+    const rollingAverageData = processedData.map((d, i) => {
+      // Get the window of 4 weeks (current week + 3 previous weeks)
+      const windowStart = Math.max(0, i - 3)
+      const window = processedData.slice(windowStart, i + 1)
+      
+      // Calculate average of all_feats over the window
+      const avgFeats = window.reduce((sum, w) => sum + w.all_feats, 0) / window.length
+      
+      return {
+        ...d,
+        value: avgFeats // Use 4-week rolling average as the timeline metric
+      }
+    })
+    
+    dataRef.current = rollingAverageData
+    const chapterText = chapters && chapters.length > 0 ? ` for ${chapters.length} selected chapters` : ''
+    console.log(`Timeline: Processed ${rollingAverageData.length} weekly data points with 4-week rolling average${chapterText}`)
+    
+    // Force timeline re-creation
+    if (contentRef.current) {
+      d3.select(contentRef.current).selectAll("svg").remove()
+    }
+    
+    // Create/update the timeline
+    createTimeline()
+  }
 
   // Keyboard navigation
   useEffect(() => {

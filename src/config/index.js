@@ -178,18 +178,6 @@ export const getChapterById = (chapterId) => {
   return chapters.find(chapter => chapter.chapter_id === chapterId) || null;
 };
 
-// Image assets
-export const IMAGES = {
-  dashboards: {
-    africa: `${ASSET_PATHS.images}/africa-dashboard.png`,
-    asia: `${ASSET_PATHS.images}/asia-dashboard.png`,
-    centralAmerica: `${ASSET_PATHS.images}/central-america-dashboard.png`,
-    northAmerica: `${ASSET_PATHS.images}/north-america-dashboard.png`,
-    screenshot: `${ASSET_PATHS.images}/dashboard_screenshot.png`,
-  },
-  // Add other image categories as needed
-}
-
 // Environment-specific configuration
 export const ENV_CONFIG = {
   isDevelopment: import.meta.env.DEV,
@@ -207,17 +195,6 @@ export const getAssetUrl = (path) => {
   return `${baseUrl}${assetPath}`
 }
 
-export const getDataUrl = (filename) => {
-  return getAssetUrl(`${ASSET_PATHS.data}/${filename}`)
-}
-
-export const getImageUrl = (filename) => {
-  return getAssetUrl(`${ASSET_PATHS.images}/${filename}`)
-}
-
-export const getPublicUrl = (filename) => {
-  return getAssetUrl(`${ASSET_PATHS.public}/${filename}`)
-}
 
 /**
  * Generate CDN URL for tiles and other CDN assets
@@ -240,6 +217,14 @@ export const getCdnAssetUrl = (filename) => {
 }
 
 /**
+ * Get the CDN base URL (without any path or ds parameter)
+ * @returns {string} CDN base URL
+ */
+export const getCdnBaseUrl = () => {
+  return APP_CONFIG.cdn.baseUrl
+}
+
+/**
  * Get the current CDN base URL with the loaded ds value
  * @returns {string} CDN base URL with current ds
  */
@@ -253,7 +238,6 @@ export const CONFIG = {
   app: APP_CONFIG,
   env: ENV_CONFIG,
   data: DATA_FILES,
-  images: IMAGES,
   colors: APP_CONFIG.colors,
   animations: APP_CONFIG.animations,
   // Configuration functions
@@ -265,6 +249,7 @@ export const CONFIG = {
   // URL utilities
   getCdnUrl: getCdnUrl,
   getCdnAssetUrl: getCdnAssetUrl,
+  getCdnBaseUrl: getCdnBaseUrl,
   getCurrentCdnBase: getCurrentCdnBase,
 }
 

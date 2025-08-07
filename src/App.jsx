@@ -5,6 +5,7 @@ import MapComponent from './components/Map'
 import Timeline from './components/Timeline'
 import About from './components/About'
 import Numbers from './components/Numbers'
+import Chapters from './components/Chapters'
 import LiveTracker from './components/LiveTracker'
 import './App.css'
 import { ThemeProvider } from './contexts/ThemeContext'
@@ -48,8 +49,14 @@ function App() {
   }, [])
 
   const handleChapterChange = (updatedChapters) => {
+    console.log('App: handleChapterChange called with:', updatedChapters)
     setSelectedChapters(updatedChapters)
   }
+
+  // Debug effect to log selectedChapters changes
+  useEffect(() => {
+    console.log('App: selectedChapters state changed:', selectedChapters)
+  }, [selectedChapters])
 
   // Show loading state until config is loaded
   if (!isConfigLoaded) {
@@ -91,6 +98,7 @@ function App() {
               </div>
             } />
             <Route path="/numbers" element={<Numbers />} />
+            <Route path="/chapters" element={<Chapters />} />
             <Route path="/live" element={<LiveTracker />} />
             <Route path="/about" element={<About />} />
           </Routes>

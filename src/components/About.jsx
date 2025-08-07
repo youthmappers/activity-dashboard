@@ -1,8 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Image, Card } from 'react-bootstrap'
-import { getCdnAssetUrl } from '../config'
+import { getCdnAssetUrl, getCdnBaseUrl, getChaptersData } from '../config'
 
 function About() {
+  const [chapterStats, setChapterStats] = useState({
+    totalChapters: 0,
+    totalCountries: 0,
+    totalMappers: 'thousands of'
+  })
+
+  useEffect(() => {
+    const calculateStats = () => {
+      const chapters = getChaptersData()
+      
+      if (chapters && chapters.length > 0) {
+        // Count total chapters
+        const totalChapters = chapters.length
+        
+        // Count unique countries (excluding null/empty countries)
+        const countries = new Set()
+        chapters.forEach(chapter => {
+          if (chapter.country && chapter.country.trim() !== '') {
+            countries.add(chapter.country)
+          }
+        })
+        const totalCountries = countries.size
+        
+        setChapterStats({
+          totalChapters,
+          totalCountries,
+          totalMappers: 'thousands of'
+        })
+      }
+    }
+
+    // Calculate stats when component mounts
+    calculateStats()
+  }, [])
+
   return (
     <Container className="mt-5 pt-3">
       {/* Main Introduction Section */}
@@ -12,9 +47,10 @@ function About() {
           <p>
             This dashboard quantifies the OpenStreetMap editing activity by mappers 
             associated with YouthMappers chapters around the globe. There are over{' '}
-            <strong>400</strong> chapters in more than <strong>75</strong> countries 
+            <strong>{chapterStats.totalChapters}</strong> chapters in more than{' '}
+            <strong>{chapterStats.totalCountries}</strong> countries 
             around the world. This dashboard shows edits from{' '}
-            <strong>thousands</strong> of mappers in these chapters.
+            <strong>{chapterStats.totalMappers}</strong> mappers in these chapters.
           </p>
           
           <h4 className="pt-2">Don't see your edits or your chapter?</h4>
@@ -122,13 +158,11 @@ function About() {
           <h3 id="analysis-example">Can I download the data for use in my own analysis?</h3>
           <p>
             All of the data that powers the map on this website is available as GeoParquet here:{' '}
-            <code>s3://youthmappers-usw2/activity/daily_rollup.parquet</code>
+            <code>{getCdnBaseUrl()}/activity/daily_rollup.parquet</code>
           </p>
           
           <p>
-            You can download it here:{' '}
-            <code>https://youthmappers-usw2.s3.us-west-2.amazonaws.com/activity/daily_rollup.parquet</code>{' '}
-            and read it with an analysis tool like GeoPandas.
+            You can download it and read it with an analysis tool like GeoPandas.
           </p>
     
           <p>
@@ -142,7 +176,7 @@ function About() {
 {`SELECT 
   sum(buildings.new), sum(buildings.edited)
 FROM 
-  read_parquet('s3://youthmappers-usw2/activity/daily_rollup.parquet');`}
+  read_parquet('${getCdnBaseUrl()}/activity/daily_rollup.parquet');`}
               </pre>
             </Card.Body>
           </Card>
