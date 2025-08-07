@@ -2,7 +2,12 @@ import React, { useMemo } from 'react'
 import { Row, Col, Card } from 'react-bootstrap'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts'
 
-function ChapterStats({ weeklyData, chapter }) {
+function ChapterStats({ weeklyData, chapter, chapters }) {
+  // Determine if we're showing single or multiple chapters
+  const isMultipleChapters = chapters && chapters.length > 1
+  const displayTitle = isMultipleChapters 
+    ? `Combined Statistics (${chapters.length} chapters)` 
+    : chapter?.chapter || 'Chapter Statistics'
   // Calculate summary statistics
   const summaryStats = useMemo(() => {
     if (!weeklyData || weeklyData.length === 0) return null
@@ -63,6 +68,18 @@ function ChapterStats({ weeklyData, chapter }) {
 
   return (
     <>
+      {/* Section Title */}
+      <Row className="mb-4">
+        <Col>
+          <h2>{displayTitle}</h2>
+          {isMultipleChapters && (
+            <p className="text-muted">
+              Combined statistics for {chapters.map(c => c.chapter).join(', ')}
+            </p>
+          )}
+        </Col>
+      </Row>
+
       {/* Summary Statistics Cards */}
       <Row className="mb-4">
         <Col md={3}>

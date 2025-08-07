@@ -14,7 +14,6 @@ function Numbers() {
     const loadData = async () => {
       try {
         setLoading(true)
-        console.log('Loading monthly activity data from:', DATA_FILES.monthlyActivityAllTime)
         const response = await fetch(DATA_FILES.monthlyActivityAllTime)
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status}`)
@@ -163,7 +162,7 @@ function Numbers() {
           <p className="lead">More than a decade of contributions to OpenStreetMap</p>
         </Col>
       </Row>
-      
+
       <Row className="g-4">
         <Col md={6} lg={4}>
           <StatCard

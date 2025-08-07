@@ -36,12 +36,15 @@ function ChapterSearch({ selectedChapters, onChapterChange, chapters }) {
   }, [])
 
   const handleChapterToggle = (chapterId) => {
-    console.log('ChapterSearch: Toggling chapter ID:', chapterId, 'type:', typeof chapterId)
-    const newSelected = selectedChapters.includes(chapterId)
-      ? selectedChapters.filter(id => id !== chapterId)
+    // Handle both string and number IDs for comparison
+    const isCurrentlySelected = selectedChapters.some(id => 
+      id == chapterId // Use loose equality to handle string/number conversion
+    )
+    
+    const newSelected = isCurrentlySelected
+      ? selectedChapters.filter(id => id != chapterId) // Use loose equality
       : [...selectedChapters, chapterId]
     
-    console.log('ChapterSearch: New selected chapters:', newSelected)
     onChapterChange(newSelected)
   }
 
@@ -56,7 +59,7 @@ function ChapterSearch({ selectedChapters, onChapterChange, chapters }) {
   // Get selected chapter objects for display
   const getSelectedChapterObjects = () => {
     return selectedChapters.map(id => 
-      chapters.find(chapter => chapter.chapter_id === id)
+      chapters.find(chapter => chapter.chapter_id == id) // Use loose equality
     ).filter(Boolean)
   }
 
@@ -139,7 +142,8 @@ function ChapterSearch({ selectedChapters, onChapterChange, chapters }) {
               <div className="no-results">No chapters found</div>
             ) : (
               filteredChapters.map(chapter => {
-                const isSelected = selectedChapters.includes(chapter.chapter_id)
+                // Use loose equality to handle string/number comparison
+                const isSelected = selectedChapters.some(id => id == chapter.chapter_id)
                 return (
                   <div
                     key={chapter.chapter_id}

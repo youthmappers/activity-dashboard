@@ -78,6 +78,9 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
     map.current.on('style.load', () => {
       addSourcesAndLayers()
       mapInitialized.current = true
+      
+      // Apply initial filters after map and layers are loaded
+      updateLayerFilters(map.current, timeRange, selectedChapters)
     })
 
     // Add navigation control
@@ -96,9 +99,6 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
   useEffect(() => {
     if (!map.current || !mapInitialized.current) return
     
-    console.log('Filters updated - Time range:', timeRange, 'Chapters:', selectedChapters?.length || 0)
-    
-    // Always apply the filters - let the filter function handle the logic
     updateLayerFilters(map.current, timeRange, selectedChapters)
   }, [timeRange, selectedChapters])
 

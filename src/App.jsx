@@ -13,7 +13,7 @@ import { initializeConfig, getChaptersData, getDatasetDate } from './config'
 
 function App() {
   const [timeRange, setTimeRange] = useState(null) // Start with null until data loads
-  const [selectedChapters, setSelectedChapters] = useState([])
+  const [sharedChapterSelection, setSharedChapterSelection] = useState([]) // Shared between Map and Chapters
   const [chapters, setChapters] = useState([])
   const [isConfigLoaded, setIsConfigLoaded] = useState(false)
   const [datasetDate, setDatasetDate] = useState(null)
@@ -23,7 +23,6 @@ function App() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        console.log('Initializing configuration...')
         const activityData = await initializeConfig()
         
         // Get chapters from the activity data
@@ -37,8 +36,6 @@ function App() {
         setChapters(validChapters)
         setDatasetDate(getDatasetDate())
         setIsConfigLoaded(true)
-        
-        console.log(`Loaded ${validChapters.length} chapters for dataset: ${getDatasetDate()}`)
       } catch (error) {
         console.error('Error initializing configuration:', error)
         setIsConfigLoaded(true) // Still mark as loaded to prevent infinite loading
@@ -48,15 +45,9 @@ function App() {
     loadData()
   }, [])
 
-  const handleChapterChange = (updatedChapters) => {
-    console.log('App: handleChapterChange called with:', updatedChapters)
-    setSelectedChapters(updatedChapters)
+  const handleSharedChapterChange = (updatedChapters) => {
+    setSharedChapterSelection(updatedChapters)
   }
-
-  // Debug effect to log selectedChapters changes
-  useEffect(() => {
-    console.log('App: selectedChapters state changed:', selectedChapters)
-  }, [selectedChapters])
 
   // Show loading state until config is loaded
   if (!isConfigLoaded) {
@@ -85,20 +76,26 @@ function App() {
                 <MapComponent 
                   ref={mapRef}
                   timeRange={timeRange}
-                  selectedChapters={selectedChapters}
-                  onChapterChange={handleChapterChange}
+                  selectedChapters={sharedChapterSelection}
+                  onChapterChange={handleSharedChapterChange}
                   chapters={chapters}
                 />
                 <Timeline 
                   timeRange={timeRange}
                   setTimeRange={setTimeRange}
                   mapRef={mapRef}
-                  selectedChapters={selectedChapters}
+                  selectedChapters={sharedChapterSelection}
                 />
               </div>
             } />
+            <Route path="/chapters" element={
+              <Chapters 
+                selectedChapters={sharedChapterSelection}
+                onChapterChange={handleSharedChapterChange}
+                chapters={chapters}
+              />
+            } />
             <Route path="/numbers" element={<Numbers />} />
-            <Route path="/chapters" element={<Chapters />} />
             <Route path="/live" element={<LiveTracker />} />
             <Route path="/about" element={<About />} />
           </Routes>

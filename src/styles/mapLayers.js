@@ -183,13 +183,16 @@ export const updateLayerFilters = (map, timeRange, selectedChapters) => {
       // Check if we have chapter filter
       const hasChapterFilter = selectedChapters && selectedChapters.length > 0
       
+      // Convert chapter IDs to numbers to match map data format
+      const chapterIds = hasChapterFilter ? selectedChapters.map(id => parseInt(id)) : []
+      
       // Build the appropriate filter
       if (hasTimeFilter && hasChapterFilter) {
         finalFilter = [
           'all',
           ['>=', ['get', 'timestamp'], startTime],
           ['<=', ['get', 'timestamp'], endTime],
-          ['in', ['get', 'chapter_id'], ['literal', selectedChapters]]
+          ['in', ['get', 'chapter_id'], ['literal', chapterIds]]
         ]
       } else if (hasTimeFilter) {
         finalFilter = [
@@ -198,7 +201,7 @@ export const updateLayerFilters = (map, timeRange, selectedChapters) => {
           ['<=', ['get', 'timestamp'], endTime]
         ]
       } else if (hasChapterFilter) {
-        finalFilter = ['in', ['get', 'chapter_id'], ['literal', selectedChapters]]
+        finalFilter = ['in', ['get', 'chapter_id'], ['literal', chapterIds]]
       }
       
       // Apply the filter
@@ -216,13 +219,4 @@ export const clearAllFilters = (map) => {
       map.setFilter(layerId, null)
     }
   })
-}
-
-// Update the existing functions to use the new combined filter function
-export const updateLayerTimeFilters = (map, timeRange) => {
-  updateLayerFilters(map, timeRange, null)
-}
-
-export const clearTimeFilters = (map) => {
-  clearAllFilters(map)
 }

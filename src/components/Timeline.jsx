@@ -53,28 +53,18 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
 
   // Re-process data when selected chapters change
   useEffect(() => {
-    console.log('Timeline: selectedChapters changed:', selectedChapters)
     if (window.rawWeeklyData) {
-      console.log('Timeline: Re-processing data for new chapter selection...')
       processAndCreateTimeline(window.rawWeeklyData, selectedChapters)
     }
   }, [selectedChapters]) // Run when chapters change
 
   // Combined function to process data and create timeline
   const processAndCreateTimeline = (data, chapters) => {
-    console.log('Timeline: processAndCreateTimeline called with chapters:', chapters)
-    console.log('Timeline: Raw data length:', data?.length)
-    
     // Filter data by selected chapters if any are selected
     let filteredData = data
     if (chapters && chapters.length > 0) {
       const chapterIds = new Set(chapters.map(c => c.toString()))
-      console.log('Timeline: Chapter IDs to filter by:', Array.from(chapterIds))
-      
       filteredData = data.filter(d => chapterIds.has(d.chapter_id.toString()))
-      console.log(`Timeline: Filtered data length: ${filteredData.length} (from ${data.length} total)`)
-    } else {
-      console.log('Timeline: Using all chapters for timeline data')
     }
     
     // Group by week and sum across selected chapters
