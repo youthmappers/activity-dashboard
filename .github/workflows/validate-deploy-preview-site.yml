@@ -11,24 +11,45 @@ permissions:
   id-token: write
 
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: anishathalye/proof-html@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          directory: '.'
-          enforce_https: false
-          ignore_missing_alt: true
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build React app
+        run: npm run build
+        env:
+          VITE_BASE_URL: /staging/pr/${{github.event.number}}/
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+          retention-days: 7
 
   stage:
+    needs: build
     environment:
       name: staging
       url: https://d1tgv18374hiy.cloudfront.net/staging/pr/${{github.event.number}}/index.html
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: ./dist
     
       - name: Fetch AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -36,5 +57,8 @@ jobs:
           role-to-assume: arn:aws:iam::812718984223:role/YouthMappersGithubAssumeRole
           aws-region: us-east-1
       
-      - name: Copy Activity Dashbaord website to S3 bucket
-        run: rm -rf .git .github CNAME README.md && aws --region us-west-2 s3 sync . s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete
+      - name: Copy Activity Dashboard website to S3 bucket
+        run: aws --region us-west-2 s3 sync ./dist s3://youthmappers-usw2/staging/pr/${{github.event.number}} --delete
+
+      - name: Clear Cloudfront cache
+        run: aws cloudfront create-invalidation --distribution-id E6U9U7HMQT3MF --paths '/staging/pr/${{github.event.number}}/*'
