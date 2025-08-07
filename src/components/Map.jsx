@@ -119,38 +119,10 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
       map.current.addImage('ym_logo', ymlogo.data)
     })();
 
-    // console.log(ymlogo)
-
-
-    // // Try to load logo and add it if successful, but don't block layer creation
-    // map.current.loadImage(getStaticCdnUrl('ym_logo_transparent_small.png'), (error, image) => {
-    //   console.log('here')
-    //   if (error) {
-    //     console.warn('Failed to load YouthMappers logo:', error)
-    //   } else {
-    //     console.log('Successfully loaded YouthMappers logo')
-    //     if (!map.current.hasImage('ym_logo')) {
-    //       map.current.addImage('ym_logo', image.data)
-    //       console.log('Added ym_logo image to map')
-    //     }
-    //   }
-    // })
-
+    
     // Add all layers immediately (logo will show up when ready, or layer will fall back gracefully)
     addAllLayers(map.current, 'Village labels')
 
-    // // Handle cases where image is requested before it's loaded
-    // map.current.on('styleimagemissing', (e) => {
-    //   if (e.id === 'ym_logo') {
-    //     console.log('Image ym_logo was requested but not found, attempting to load...')
-    //     map.current.loadImage(getStaticCdnUrl('ym_logo_transparent_small.png'), (error, image) => {
-    //       if (!error && image && !map.current.hasImage('ym_logo')) {
-    //         map.current.addImage('ym_logo', image)
-    //         console.log('Loaded ym_logo on demand')
-    //       }
-    //     })
-    //   }
-    // })
   }
 
   useEffect(() => {
