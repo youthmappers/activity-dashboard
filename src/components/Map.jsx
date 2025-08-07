@@ -40,19 +40,19 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
     // Add tilesets using dynamic CDN URLs
     map.current.addSource('r8agg', {
       type: "vector",
-      url: `pmtiles://${DATA_FILES.tiles.res8}`
+      url: `pmtiles://${DATA_FILES.tiles.res8()}`
     })
     map.current.addSource('r8agg_bboxes', {
       type: "vector",
-      url: `pmtiles://${DATA_FILES.tiles.res8Bboxes}`
+      url: `pmtiles://${DATA_FILES.tiles.res8Bboxes()}`
     })
     map.current.addSource('r6agg', {
       type: "vector",
-      url: `pmtiles://${DATA_FILES.tiles.res6}`
+      url: `pmtiles://${DATA_FILES.tiles.res6()}`
     })
     map.current.addSource('r4agg', {
       type: "vector",
-      url: `pmtiles://${DATA_FILES.tiles.res4}`
+      url: `pmtiles://${DATA_FILES.tiles.res4()}`
     })
 
     // Add all layers from the module

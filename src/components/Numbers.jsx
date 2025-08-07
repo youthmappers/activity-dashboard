@@ -14,7 +14,7 @@ function Numbers() {
     const loadData = async () => {
       try {
         setLoading(true)
-        const response = await fetch(DATA_FILES.monthlyActivityAllTime)
+        const response = await fetch(DATA_FILES.monthlyActivityAllTime())
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status}`)
         }

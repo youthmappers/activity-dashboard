@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import * as d3 from 'd3'
 import './Timeline.css'
 import { useTheme } from '../contexts/ThemeContext'
-import { DATA_FILES } from '../config'
+import { getLocalAssetUrl } from '../config'
 
 function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const containerRef = useRef(null)
@@ -21,7 +21,7 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   useEffect(() => {
     if (!dataRef.current) {
       // Load weekly chapter activity data instead of daily activity
-      d3.csv('/weekly_chapter_activity.csv').then(data => {
+      d3.csv(getLocalAssetUrl('/weekly_chapter_activity.csv')).then(data => {
         console.log('Loading weekly chapter activity data from: /weekly_chapter_activity.csv')
         
         // Store raw data for filtering
