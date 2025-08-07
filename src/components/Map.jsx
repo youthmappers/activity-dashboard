@@ -7,7 +7,7 @@ import ChapterSearch from './ChapterSearch'
 import GlobeControl from './GlobeControl.jsx'
 import BboxControl from './BboxControl.jsx'
 import { useTheme } from '../contexts/ThemeContext'
-import { DATA_FILES } from '../config'
+import { CONFIG } from '../config'
 
 const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange, chapters }, ref) => {
   const mapContainer = useRef(null)
