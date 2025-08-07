@@ -49,16 +49,20 @@ class BboxControl {
 
   _updateIcon() {
     // Use CSS to style the button with appropriate icon
+    this._button.innerHTML = '◻' // Always use square outline
+    
     if (this._isVisible) {
-      this._button.innerHTML = '📦' // Box icon when visible
       this._button.title = 'Hide Bounding Boxes'
+      // Dark square when visible
+      this._button.style.color = '#333'
     } else {
-      this._button.innerHTML = '📋' // Clipboard/outline icon when hidden
       this._button.title = 'Show Bounding Boxes'
+      // Light square when hidden
+      this._button.style.color = '#ccc'
     }
     
     // Style the button to match MapLibre controls
-    this._button.style.fontSize = '14px'
+    this._button.style.fontSize = '20px'
     this._button.style.lineHeight = '1'
     this._button.style.background = 'none'
     this._button.style.border = 'none'

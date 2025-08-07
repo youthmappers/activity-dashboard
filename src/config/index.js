@@ -85,7 +85,7 @@ export const fetchActivityData = async () => {
   }
 
   try {
-    const response = await fetch(`${ASSET_PATHS.public}/activity.json`);
+    const response = await fetch('/activity.json');
     if (!response.ok) {
       throw new Error(`Failed to fetch activity data: ${response.status}`);
     }
@@ -120,11 +120,11 @@ const generateDataFiles = (ds) => {
 
   return {
     // Use activity.json from public folder for chapters (includes ds)
-    activity: `${ASSET_PATHS.public}/activity.json`,
+    activity: '/activity.json',
     // Core data files now in public folder
-    dailyActivity: `${ASSET_PATHS.public}/daily_activity.csv`,
-    monthlyActivityAllTime: `${ASSET_PATHS.public}/monthly_activity_all_time.json`,
-    topEditedCountries: `${ASSET_PATHS.public}/top_edited_countries.json`,
+    dailyActivity: '/daily_activity.csv',
+    monthlyActivityAllTime: '/monthly_activity_all_time.json',
+    topEditedCountries: '/top_edited_countries.json',
     // PMTiles now served from CloudFront CDN with dynamic ds
     tiles: {
       res4: `${cdnBaseUrl}/res4.pmtiles`,
