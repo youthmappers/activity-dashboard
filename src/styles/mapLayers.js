@@ -136,7 +136,7 @@ export const r8AggBboxesLayer = {
     ]
   },
   'layout': {
-    'visibility': 'visible'
+    'visibility': 'none'
   }
 }
 
@@ -150,7 +150,10 @@ export const centroidsLayer = {
   'layout': {
     'text-field': ['get', 'all_feats'],
     'text-size': 15,
-    // 'icon-image': 'ym_logo' // Uncomment when logo is added
+    // 'icon-image': 'ym_logo', // Commented out until image loading is fixed
+    // 'icon-size': 0.3,
+    // 'text-offset': [0, 1.5],
+    // 'text-anchor': 'top'
   },
   'paint': {
     'text-opacity': 1,

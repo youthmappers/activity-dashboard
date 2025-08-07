@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, Image, Card } from 'react-bootstrap'
-import { getCdnAssetUrl, getCdnBaseUrl, getChaptersData } from '../config'
+import { getStaticCdnUrl, getChaptersData, APP_CONFIG } from '../config'
 
 function About() {
   const [chapterStats, setChapterStats] = useState({
@@ -63,7 +63,7 @@ function About() {
         <Col lg={4} className="text-end">
           <Image 
             fluid 
-            src={getCdnAssetUrl('dashboard_screenshot.png')} 
+            src={getStaticCdnUrl('dashboard_screenshot.png')} 
             alt="Screenshot of the YouthMappers Activity Tracker dashboard"
           />
         </Col>
@@ -91,7 +91,7 @@ function About() {
         <Col lg={4} className="text-end">
           <Image 
             fluid 
-            src={getCdnAssetUrl('pokhara_bboxes.png')} 
+            src={getStaticCdnUrl('pokhara_bboxes.png')} 
             alt="Map showing bounding boxes in Pokhara"
           />
         </Col>
@@ -111,7 +111,7 @@ function About() {
         <Col>
           <Image 
             fluid 
-            src={getCdnAssetUrl('terrain.jpg')} 
+            src={getStaticCdnUrl('terrain.jpg')} 
             alt="A terrain visualization image"
             className="w-100"
           />
@@ -158,7 +158,7 @@ function About() {
           <h3 id="analysis-example">Can I download the data for use in my own analysis?</h3>
           <p>
             All of the data that powers the map on this website is available as GeoParquet here:{' '}
-            <code>{getCdnBaseUrl()}/activity/daily_rollup.parquet</code>
+            <code>{APP_CONFIG.cdn.baseUrl}/activity/daily_rollup.parquet</code>
           </p>
           
           <p>
@@ -176,7 +176,7 @@ function About() {
 {`SELECT 
   sum(buildings.new), sum(buildings.edited)
 FROM 
-  read_parquet('${getCdnBaseUrl()}/activity/daily_rollup.parquet');`}
+  read_parquet('${APP_CONFIG.cdn.baseUrl}/activity/daily_rollup.parquet');`}
               </pre>
             </Card.Body>
           </Card>
@@ -227,7 +227,7 @@ FROM
           <Image 
             fluid 
             width="400" 
-            src={getCdnAssetUrl('osm_teams/osm_teams_org_page.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_org_page.png')} 
             alt="Screenshot of the OSM Teams organization page"
           />
         </Col>
@@ -271,7 +271,7 @@ FROM
           <p>If you are not already logged in, OSM Teams will ask you to sign in.</p>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.001.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.001.png')} 
             alt="Step 1: Click 'Sign In' on OSM Teams"
           />
         </Col>
@@ -280,7 +280,7 @@ FROM
           <p>OSM Teams uses your OpenStreetMap account.</p>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.002.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.002.png')} 
             alt="Step 2: Click 'Login with OSM' on OSM Teams"
           />
         </Col>
@@ -289,7 +289,7 @@ FROM
           <p>Enter your OpenStreetMap username and password</p>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.003.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.003.png')} 
             alt="Step 3: Sign into OpenStreetMap"
           />
         </Col>
@@ -300,7 +300,7 @@ FROM
           <h5>4. Grant Access to your OpenStreetMap account</h5>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.004.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.004.png')} 
             alt="Step 4: Grant Access to your OpenStreetMap account"
           />
         </Col>
@@ -308,7 +308,7 @@ FROM
           <h5>5. Click "Allow Access"</h5>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png')} 
             alt="Step 5: Allow OSM Teams Access to your OpenStreetMap Account"
           />
         </Col>
@@ -316,7 +316,7 @@ FROM
           <h5>6. Success!</h5>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.006.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.006.png')} 
             alt="Step 6: Success message displayed after completing the OSM Teams login process"
           />
         </Col>
@@ -337,7 +337,7 @@ FROM
           <h5>Edit Profile Page</h5>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/edit_profile_hires_2.png')} 
+            src={getStaticCdnUrl('osm_teams/edit_profile_hires_2.png')} 
             alt="Edit profile page screenshot"
           />
           <p>
@@ -354,7 +354,7 @@ FROM
           <h5>Complete your profile</h5>
           <Image 
             fluid 
-            src={getCdnAssetUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.007.png')} 
+            src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.007.png')} 
             alt="Step showing the completion of the OSM Teams profile setup"
           />
           <p>

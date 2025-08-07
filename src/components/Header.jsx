@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import { useTheme } from '../contexts/ThemeContext'
-import { getCdnAssetUrl } from '../config'
+import { getStaticCdnUrl } from '../config'
 import './Header.css'
 
 function Header() {
@@ -13,7 +13,7 @@ function Header() {
       <Container fluid>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img 
-            src={getCdnAssetUrl('ym_logo_transparent_small.png')}
+            src={getStaticCdnUrl('ym_logo_transparent_small.png')}
             alt="YouthMappers Logo" 
             height="40" 
             className="me-2"
