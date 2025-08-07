@@ -124,7 +124,7 @@ function ChapterStats({ weeklyData, chapter, chapters }) {
               <Card.Title className="mb-0">Weekly Activity Over Time</Card.Title>
             </Card.Header>
             <Card.Body>
-              <ResponsiveContainer width="100%" height={400}>
+              <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
@@ -144,14 +144,6 @@ function ChapterStats({ weeklyData, chapter, chapters }) {
                     stroke="#8884d8" 
                     strokeWidth={2}
                     name="Total Features"
-                    dot={{ r: 3 }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="mappers" 
-                    stroke="#82ca9d" 
-                    strokeWidth={2}
-                    name="Active Mappers"
                     dot={{ r: 3 }}
                   />
                 </LineChart>
@@ -235,48 +227,24 @@ function ChapterStats({ weeklyData, chapter, chapters }) {
                   <div className="text-center p-3">
                     <h4 className="text-primary">{summaryStats.buildings.toLocaleString()}</h4>
                     <p className="mb-0">Buildings</p>
-                    <small className="text-muted">
-                      {summaryStats.all_feats > 0 ? 
-                        `${((summaryStats.buildings / summaryStats.all_feats) * 100).toFixed(1)}%` : 
-                        '0%'
-                      }
-                    </small>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="text-center p-3">
                     <h4 className="text-success">{summaryStats.highways.toLocaleString()}</h4>
                     <p className="mb-0">Highways</p>
-                    <small className="text-muted">
-                      {summaryStats.all_feats > 0 ? 
-                        `${((summaryStats.highways / summaryStats.all_feats) * 100).toFixed(1)}%` : 
-                        '0%'
-                      }
-                    </small>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="text-center p-3">
                     <h4 className="text-warning">{summaryStats.amenities.toLocaleString()}</h4>
                     <p className="mb-0">Amenities</p>
-                    <small className="text-muted">
-                      {summaryStats.all_feats > 0 ? 
-                        `${((summaryStats.amenities / summaryStats.all_feats) * 100).toFixed(1)}%` : 
-                        '0%'
-                      }
-                    </small>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="text-center p-3">
                     <h4 className="text-info">{summaryStats.other.toLocaleString()}</h4>
                     <p className="mb-0">Other Features</p>
-                    <small className="text-muted">
-                      {summaryStats.all_feats > 0 ? 
-                        `${((summaryStats.other / summaryStats.all_feats) * 100).toFixed(1)}%` : 
-                        '0%'
-                      }
-                    </small>
                   </div>
                 </Col>
               </Row>
