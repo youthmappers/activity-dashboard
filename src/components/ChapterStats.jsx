@@ -12,31 +12,52 @@ function ChapterStats({ weeklyData, chapter, chapters }) {
   const summaryStats = useMemo(() => {
     if (!weeklyData || weeklyData.length === 0) return null
 
+    // For multiple chapters, we need to count unique weeks with any activity
+    // For single chapter, we can use the simpler approach
+    let totalActiveWeeks
+    
+    if (isMultipleChapters) {
+      // Group by week and check if any chapter had activity that week
+      const weeklyTotals = weeklyData.reduce((acc, week) => {
+        const weekKey = week.week.toISOString().split('T')[0] // Use date as key
+        if (!acc[weekKey]) {
+          acc[weekKey] = 0
+        }
+        acc[weekKey] += week.all_feats
+        return acc
+      }, {})
+      
+      // Count weeks where total activity > 0
+      totalActiveWeeks = Object.values(weeklyTotals).filter(total => total > 0).length
+    } else {
+      // For single chapter, count weeks where this chapter had activity
+      totalActiveWeeks = weeklyData.filter(week => week.all_feats > 0).length
+    }
+
     const totals = weeklyData.reduce((acc, week) => ({
       all_feats: acc.all_feats + week.all_feats,
       buildings: acc.buildings + week.buildings,
       highways: acc.highways + week.highways,
       amenities: acc.amenities + week.amenities,
       other: acc.other + week.other,
-      maxMappers: Math.max(acc.maxMappers, week.mappers),
-      totalWeeks: acc.totalWeeks + (week.all_feats > 0 ? 1 : 0)
+      maxMappers: Math.max(acc.maxMappers, week.mappers)
     }), {
       all_feats: 0,
       buildings: 0,
       highways: 0,
       amenities: 0,
       other: 0,
-      maxMappers: 0,
-      totalWeeks: 0
+      maxMappers: 0
     })
 
-    const avgWeeklyActivity = totals.totalWeeks > 0 ? Math.round(totals.all_feats / totals.totalWeeks) : 0
+    const avgWeeklyActivity = totalActiveWeeks > 0 ? Math.round(totals.all_feats / totalActiveWeeks) : 0
 
     return {
       ...totals,
+      totalWeeks: totalActiveWeeks,
       avgWeeklyActivity
     }
-  }, [weeklyData])
+  }, [weeklyData, isMultipleChapters])
 
   // Prepare data for charts
   const chartData = useMemo(() => {
