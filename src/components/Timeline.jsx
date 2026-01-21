@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import * as d3 from 'd3'
 import './Timeline.css'
 import { useTheme } from '../contexts/ThemeContext'
-import { getLocalAssetUrl } from '../config'
+import { DATA_FILES } from '../config'
 
 function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const containerRef = useRef(null)
@@ -21,17 +21,27 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   useEffect(() => {
     if (!dataRef.current) {
       // Load weekly chapter activity data instead of daily activity
-      d3.csv(getLocalAssetUrl('/weekly_chapter_activity.csv')).then(data => {
-        console.log('Loading weekly chapter activity data from: /weekly_chapter_activity.csv')
+      const weeklyActivityUrl = DATA_FILES.weeklyChapterActivity()
+      fetch(weeklyActivityUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch weekly chapter activity data: ${response.status}`)
+          }
+          return response.text()
+        })
+        .then(csvText => {
+          const data = d3.csvParse(csvText)
+          console.log(`Loading weekly chapter activity data from: ${weeklyActivityUrl}`)
         
         // Store raw data for filtering
         window.rawWeeklyData = data
         
         // Process data with initial selected chapters
         processAndCreateTimeline(data, selectedChapters)
-      }).catch(error => {
+        })
+        .catch(error => {
         console.error('Error loading weekly chapter activity data:', error)
-        console.log('Attempted to load from: /weekly_chapter_activity.csv')
+        console.log(`Attempted to load from: ${weeklyActivityUrl}`)
         // Fallback to sample data if CSV fails to load
         const now = new Date()
         const oneYearAgo = new Date(now)

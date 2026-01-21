@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap'
-import { getChaptersData, getChapterById, getLocalAssetUrl } from '../config'
+import { getChaptersData, getChapterById, DATA_FILES } from '../config'
 import ChapterSearch from './ChapterSearch'
 import ChapterStats from './ChapterStats'
 
@@ -41,7 +41,11 @@ function Chapters({ selectedChapters: sharedSelectedChapters, onChapterChange: o
 
   const loadWeeklyActivityData = async (chapterIds) => {
     try {
-      const response = await fetch(getLocalAssetUrl('/weekly_chapter_activity.csv'))
+      const weeklyActivityUrl = DATA_FILES.weeklyChapterActivity()
+      const response = await fetch(weeklyActivityUrl)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch weekly activity data: ${response.status}`)
+      }
       const csvText = await response.text()
       
       // Parse CSV data
