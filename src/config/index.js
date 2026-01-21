@@ -24,6 +24,7 @@ export const APP_CONFIG = {
     baseUrl: 'https://d1tgv18374hiy.cloudfront.net',
     assetsPath: '/assets',
     activityDashboardPath: '/activity-dashboard',
+    activityJsonPath: '/activity-dashboard/activity.json',
     defaultDs: '2025-08-04', // fallback dataset date
   },
   
@@ -121,7 +122,7 @@ export const fetchActivityData = async () => {
   }
 
   try {
-    const response = await fetch(getLocalAssetUrl('/activity.json'));
+    const response = await fetch(`${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityJsonPath}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch activity data: ${response.status}`);
     }
@@ -180,10 +181,10 @@ export const getChapterById = (chapterId) => {
 
 export const DATA_FILES = {
   // Local public assets
-  activity: () => getLocalAssetUrl('/activity.json'),
-  weeklyChapterActivity: () => getLocalAssetUrl('/weekly_chapter_activity.csv'),
-  monthlyActivityAllTime: () => getLocalAssetUrl('/monthly_activity_all_time.json'),
-  topEditedCountries: () => getLocalAssetUrl('/top_edited_countries.json'),
+  activity: () => `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityJsonPath}`,
+  weeklyChapterActivity: () => getLatestAssetUrl('weekly_chapter_activity.csv'),
+  monthlyActivityAllTime: () => getLatestAssetUrl('monthly_activity_all_time.json'),
+  topEditedCountries: () => getLatestAssetUrl('top_edited_countries.json'),
   
   // Latest CDN assets (PMTiles with current ds)
   tiles: {
