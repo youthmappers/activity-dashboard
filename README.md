@@ -1,18 +1,24 @@
 YouthMappers Activity Dashboard
 ===
 
-This repository contains the static files behind [activity.youthmappers.org](https://activity.youthmappers.org), deployed via Github Pages.
+A React + Vite web application that powers [activity.youthmappers.org](https://activity.youthmappers.org). The dashboard renders interactive maps, charts, and timelines from weekly YouthMappers activity outputs published to S3.
 
-The main map is powered by [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) with by [PMTiles](https://docs.protomaps.com/pmtiles/) created with [tippecanoe](https://github.com/felt/tippecanoe). 
+### Tech overview
+- **Frontend**: React, Vite, React Router, Bootstrap.
+- **Mapping**: MapLibre GL JS + PMTiles (built by tippecanoe in the data pipeline).
+- **Charts**: D3 + Recharts.
 
-### Local Development
-Since this page requires PMTiles, you'll need a local webserver that supports http-range lookup and CORS. [http-server](https://github.com/http-party/http-server) works great (`brew install http-server`): 
+### Data sources
+Dashboard data (PMTiles + JSON/CSV/Parquet) is generated weekly by the YouthMappers changesets pipeline and published to S3. This repo consumes those published artifacts at runtime.
 
+### Local development
 ```bash
-http-server --cors
+npm install
+npm run dev
 ```
 
-### Data files
-The files under the `data` directory are built from scripts and queries in the [activity-dashboard-backend](https://github.com/youthmappers/activity-dashboard-backend) repository.
-
-[![Deploy static content to Pages](https://github.com/youthmappers/activity-dashboard/actions/workflows/static.yml/badge.svg)](https://github.com/youthmappers/activity-dashboard/actions/workflows/static.yml)
+### Build
+```bash
+npm run build
+npm run preview
+```
