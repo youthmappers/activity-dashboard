@@ -13,6 +13,15 @@
 let activityData = null;
 let datasetDate = null;
 
+const parseActivityJson = (text) => {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    const sanitized = text.replace(/\bNaN\b/g, 'null');
+    return JSON.parse(sanitized);
+  }
+};
+
 // App configuration
 export const APP_CONFIG = {
   name: 'YouthMappers Activity Dashboard',
@@ -25,7 +34,7 @@ export const APP_CONFIG = {
     assetsPath: '/assets',
     activityDashboardPath: '/activity-dashboard',
     activityJsonPath: '/activity-dashboard/activity.json',
-    defaultDs: '2025-08-04', // fallback dataset date
+    defaultDs: '2025-08-04', // Deprecated: avoid using fallback ds
   },
   
   // Map configuration
@@ -104,7 +113,10 @@ export const getStaticCdnUrl = (filename) => {
  * @returns {string} Full CDN URL with ds path
  */
 export const getLatestAssetUrl = (filename, ds = null) => {
-  const currentDs = ds || datasetDate || APP_CONFIG.cdn.defaultDs
+  const currentDs = ds || datasetDate
+  if (!currentDs) {
+    throw new Error(`Dataset date (ds) is missing. Cannot resolve ${filename}.`)
+  }
   return `${APP_CONFIG.cdn.baseUrl}${APP_CONFIG.cdn.activityDashboardPath}/ds=${currentDs}/${filename}`
 }
 
@@ -126,14 +138,15 @@ export const fetchActivityData = async () => {
     if (!response.ok) {
       throw new Error(`Failed to fetch activity data: ${response.status}`);
     }
-    activityData = await response.json();
-    datasetDate = activityData.ds;
+    const rawText = await response.text();
+    activityData = parseActivityJson(rawText);
+    datasetDate = activityData?.ds || null;
     return activityData;
   } catch (error) {
     console.error('Error fetching activity data:', error);
-    // Fallback to a default date if fetch fails
-    datasetDate = APP_CONFIG.cdn.defaultDs;
-    activityData = { chapters: [], ds: datasetDate };
+    // Leave datasetDate unset so callers fail loudly when ds is missing
+    datasetDate = null;
+    activityData = { chapters: [], ds: null };
     return activityData;
   }
 };

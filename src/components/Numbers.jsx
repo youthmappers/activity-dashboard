@@ -43,8 +43,14 @@ function Numbers() {
         const chartData = []
         
         data.forEach(row => {
-          // Parse the date from Unix timestamp (in seconds)
-          const date = new Date(row.month * 1000)
+          // Parse the date (supports epoch ms, epoch sec, or ISO string)
+          let date
+          if (typeof row.month === 'number') {
+            const isSeconds = row.month < 1e12
+            date = new Date(isSeconds ? row.month * 1000 : row.month)
+          } else {
+            date = new Date(row.month)
+          }
           
           if (!date || isNaN(date.getTime())) return
           

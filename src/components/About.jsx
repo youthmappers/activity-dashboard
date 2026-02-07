@@ -53,7 +53,7 @@ function About() {
             <strong>{chapterStats.totalMappers}</strong> mappers in these chapters.
           </p>
           
-          <h4 className="pt-2">Don't see your edits or your chapter?</h4>
+          <h4 className="pt-2">Don&apos;t see your edits or your chapter?</h4>
           <p>
             We can only track edits by mappers that are registered or listed in an 
             official YouthMappers chapter on OSM Teams.{' '}
@@ -134,7 +134,7 @@ function About() {
 
           <p>
             Did you know that the entire editing history of OpenStreetMap is available in a 
-            queryable database part of Amazon's{' '}
+            queryable database part of Amazon&apos;s{' '}
             <a href="https://registry.opendata.aws/osm/" target="_blank" rel="noopener noreferrer">
               Open Data Program
             </a>
@@ -267,7 +267,7 @@ FROM
       {/* Auth Flow Steps */}
       <Row className="mb-4">
         <Col md={4}>
-          <h5>1. Click "Sign In"</h5>
+          <h5>1. Click &quot;Sign In&quot;</h5>
           <p>If you are not already logged in, OSM Teams will ask you to sign in.</p>
           <Image 
             fluid 
@@ -276,7 +276,7 @@ FROM
           />
         </Col>
         <Col md={4}>
-          <h5>2. Click "Login with OSM"</h5>
+          <h5>2. Click &quot;Login with OSM&quot;</h5>
           <p>OSM Teams uses your OpenStreetMap account.</p>
           <Image 
             fluid 
@@ -305,7 +305,7 @@ FROM
           />
         </Col>
         <Col md={4}>
-          <h5>5. Click "Allow Access"</h5>
+          <h5>5. Click &quot;Allow Access&quot;</h5>
           <Image 
             fluid 
             src={getStaticCdnUrl('osm_teams/osm_teams_auth_flow/osm_teams_auth_flow.005.png')} 
@@ -363,7 +363,7 @@ FROM
             <br /><br />
             <em>
               Only after you consent to your data being used in YouthMappers research 
-              can you click "Submit" to complete your profile.
+              can you click &quot;Submit&quot; to complete your profile.
             </em>
           </p>
         </Col>

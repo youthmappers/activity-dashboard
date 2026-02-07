@@ -1,5 +1,3 @@
-import maplibregl from 'maplibre-gl'
-
 class GlobeControl {
   constructor() {
     this._isGlobe = false
