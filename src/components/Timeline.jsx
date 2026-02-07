@@ -4,7 +4,7 @@ import './Timeline.css'
 import { useTheme } from '../contexts/ThemeContext'
 import { DATA_FILES } from '../config'
 
-function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
+function Timeline({ setTimeRange, selectedChapters }) {
   const containerRef = useRef(null)
   const contentRef = useRef(null)
   const brushRef = useRef(null)
@@ -14,7 +14,6 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
   const xScaleRef = useRef(null)
   const brushGroupRef = useRef(null)
 
-  const parseDate = d3.timeParse('%Y-%m-%d')
   const { darkMode } = useTheme()
 
   // Load real data from CSV
@@ -168,15 +167,15 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
           newRight = newLeft + brushWidth
           break
           
-        case 'ArrowUp':
+        case 'ArrowUp': {
           event.preventDefault()
           // Extend brush forward in time (expand end)
           const extendAmount = brushWidth * 0.1
           newLeft = currentSelection[0]
           newRight = Math.min(currentSelection[1] + extendAmount, totalRange)
           break
-          
-        case 'ArrowDown':
+        }
+        case 'ArrowDown': {
           event.preventDefault()
           // Contract brush from the end (shrink from future)
           const contractAmount = brushWidth * 0.1
@@ -186,18 +185,16 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
             newRight = currentSelection[1] - contractAmount
           }
           break
-
-        case 'Escape':
+        }
+        case 'Escape': {
           event.preventDefault()
           // Clear brush and reset to full range
           brushGroupRef.current.call(brushRef.current.move, null)
           const fullRange = d3.extent(data, d => d.date)
           setTimeRange(fullRange)
-          if (mapRef.current && mapRef.current.getMap) {
-            const map = mapRef.current.getMap()
-            console.log('Time range reset to full range via keyboard:', fullRange)
-          }
+          console.log('Time range reset to full range via keyboard:', fullRange)
           return
+        }
           
         default:
           return
@@ -220,7 +217,7 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
         container.removeEventListener('keydown', handleKeyDown)
       }
     }
-  }, [setTimeRange, mapRef])
+  }, [setTimeRange])
 
   // Create or update timeline visualization
   const createTimeline = useCallback(() => {
@@ -350,14 +347,11 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
         // Always set the time range based on brush selection, regardless of size
         setTimeRange([x0, x1])
         
-        if (mapRef.current && mapRef.current.getMap) {
-          const map = mapRef.current.getMap()
-          console.log('Time range updated:', [x0, x1])
-        }
+        console.log('Time range updated:', [x0, x1])
       })
     
     // Add our custom clickable area FIRST (before brush)
-    const clickArea = svg.append("rect")
+    svg.append("rect")
       .attr("class", "timeline-background")
       .attr("width", chartWidth)
       .attr("height", chartHeight)
@@ -452,7 +446,7 @@ function Timeline({ timeRange, setTimeRange, mapRef, selectedChapters }) {
 
     // Save brush reference
     brushRef.current = brush
-  }, [setTimeRange, mapRef])
+  }, [setTimeRange])
 
   // Initial setup and window resize handling
   useEffect(() => {

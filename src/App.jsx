@@ -1,29 +1,29 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import MapComponent from './components/Map'
 import Timeline from './components/Timeline'
-import About from './components/About'
-import Numbers from './components/Numbers'
-import Chapters from './components/Chapters'
-import LiveTracker from './components/LiveTracker'
 import './App.css'
 import { ThemeProvider } from './contexts/ThemeContext'
-import { initializeConfig, getChaptersData, getDatasetDate } from './config'
+import { initializeConfig, getChaptersData } from './config'
+
+const About = lazy(() => import('./components/About'))
+const Numbers = lazy(() => import('./components/Numbers'))
+const Chapters = lazy(() => import('./components/Chapters'))
+const LiveTracker = lazy(() => import('./components/LiveTracker'))
 
 function App() {
   const [timeRange, setTimeRange] = useState(null) // Start with null until data loads
   const [sharedChapterSelection, setSharedChapterSelection] = useState([]) // Shared between Map and Chapters
   const [chapters, setChapters] = useState([])
   const [isConfigLoaded, setIsConfigLoaded] = useState(false)
-  const [datasetDate, setDatasetDate] = useState(null)
   const mapRef = useRef(null)
 
   // Initialize configuration and load chapters data
   useEffect(() => {
     const loadData = async () => {
       try {
-        const activityData = await initializeConfig()
+        await initializeConfig()
         
         // Get chapters from the activity data
         const chaptersData = getChaptersData()
@@ -34,7 +34,6 @@ function App() {
         )
         
         setChapters(validChapters)
-        setDatasetDate(getDatasetDate())
         setIsConfigLoaded(true)
       } catch (error) {
         console.error('Error initializing configuration:', error)
@@ -70,35 +69,37 @@ function App() {
       <div className="App">
         <Header />
         <main className="main-content">
-          <Routes>
-            <Route path="/" element={
-              <div className="map-page">
-                <MapComponent 
-                  ref={mapRef}
-                  timeRange={timeRange}
+          <Suspense fallback={<div className="loading-container">Loading...</div>}>
+            <Routes>
+              <Route path="/" element={
+                <div className="map-page">
+                  <MapComponent 
+                    ref={mapRef}
+                    timeRange={timeRange}
+                    selectedChapters={sharedChapterSelection}
+                    onChapterChange={handleSharedChapterChange}
+                    chapters={chapters}
+                  />
+                  <Timeline 
+                    timeRange={timeRange}
+                    setTimeRange={setTimeRange}
+                    mapRef={mapRef}
+                    selectedChapters={sharedChapterSelection}
+                  />
+                </div>
+              } />
+              <Route path="/chapters" element={
+                <Chapters 
                   selectedChapters={sharedChapterSelection}
                   onChapterChange={handleSharedChapterChange}
                   chapters={chapters}
                 />
-                <Timeline 
-                  timeRange={timeRange}
-                  setTimeRange={setTimeRange}
-                  mapRef={mapRef}
-                  selectedChapters={sharedChapterSelection}
-                />
-              </div>
-            } />
-            <Route path="/chapters" element={
-              <Chapters 
-                selectedChapters={sharedChapterSelection}
-                onChapterChange={handleSharedChapterChange}
-                chapters={chapters}
-              />
-            } />
-            <Route path="/numbers" element={<Numbers />} />
-            <Route path="/live" element={<LiveTracker />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
+              } />
+              <Route path="/numbers" element={<Numbers />} />
+              <Route path="/live" element={<LiveTracker />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </ThemeProvider>

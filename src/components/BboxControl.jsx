@@ -1,5 +1,3 @@
-import maplibregl from 'maplibre-gl'
-
 class BboxControl {
   constructor() {
     this._isVisible = true // Start with bboxes visible since we set them to visible by default

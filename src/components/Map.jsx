@@ -2,14 +2,17 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import maplibregl from 'maplibre-gl'
 import { Protocol } from 'pmtiles'
 import './Map.css'
-import { addAllLayers, updateLayerFilters, clearAllFilters } from '../styles/mapLayers'
+import { addAllLayers, updateLayerFilters } from '../styles/mapLayers'
 import ChapterSearch from './ChapterSearch'
 import GlobeControl from './GlobeControl.jsx'
 import BboxControl from './BboxControl.jsx'
 import { useTheme } from '../contexts/ThemeContext'
 import { CONFIG, DATA_FILES, getStaticCdnUrl } from '../config'
 
-const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange, chapters }, ref) => {
+const MapComponent = forwardRef(function MapComponent(
+  { timeRange, selectedChapters, onChapterChange, chapters },
+  ref
+) {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const { darkMode } = useTheme()
@@ -191,5 +194,7 @@ const MapComponent = forwardRef(({ timeRange, selectedChapters, onChapterChange,
     </div>
   )
 })
+
+MapComponent.displayName = 'MapComponent'
 
 export default MapComponent
