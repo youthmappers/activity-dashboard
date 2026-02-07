@@ -42,7 +42,7 @@ jobs:
     needs: build
     environment:
       name: staging
-      url: https://d1tgv18374hiy.cloudfront.net/staging/pr/${{github.event.number}}/index.html
+      url: https://youthmappers.yetigeolabs.com/staging/pr/${{github.event.number}}/index.html
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifacts

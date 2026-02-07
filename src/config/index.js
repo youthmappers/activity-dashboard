@@ -30,7 +30,7 @@ export const APP_CONFIG = {
   
   // CDN configuration
   cdn: {
-    baseUrl: 'https://d1tgv18374hiy.cloudfront.net',
+    baseUrl: 'https://youthmappers.yetigeolabs.com',
     assetsPath: '/assets',
     activityDashboardPath: '/activity-dashboard',
     activityJsonPath: '/activity-dashboard/activity.json',
